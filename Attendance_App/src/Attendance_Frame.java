@@ -15,6 +15,9 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JMenu;
 
 public class Attendance_Frame extends JFrame {
 
@@ -52,10 +55,10 @@ public class Attendance_Frame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblCapcAttendance = new JLabel("CAPC Attendance Sheet");
-		lblCapcAttendance.setBounds(337, 16, 330, 38);
-		lblCapcAttendance.setFont(new Font("Cambria", Font.PLAIN, 30));
-		contentPane.add(lblCapcAttendance);
+		JLabel lblCpcaAttendance = new JLabel("CPCA Attendance Sheet");
+		lblCpcaAttendance.setBounds(337, 25, 330, 38);
+		lblCpcaAttendance.setFont(new Font("Cambria", Font.PLAIN, 30));
+		contentPane.add(lblCpcaAttendance);
 		
 		JLabel lblFirstName = new JLabel("First Name:");
 		lblFirstName.setBounds(17, 399, 79, 30);
@@ -129,10 +132,23 @@ public class Attendance_Frame extends JFrame {
 		contentPane.add(lblInfoMessage);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(18, 63, 974, 278);
+		scrollPane.setBounds(17, 75, 974, 278);
 		contentPane.add(scrollPane);
 		
 		outputTable = new JTable();
 		scrollPane.setViewportView(outputTable);
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(0, 0, 1010, 22);
+		contentPane.add(menuBar);
+		
+		JMenu mnFile = new JMenu("File");
+		menuBar.add(mnFile);
+		
+		JMenuItem mntmSave = new JMenuItem("Save");
+		mnFile.add(mntmSave);
+		
+		JMenuItem mntmExit = new JMenuItem("Exit");
+		mnFile.add(mntmExit);
 	}
 }
