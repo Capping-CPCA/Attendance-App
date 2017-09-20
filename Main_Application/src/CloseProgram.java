@@ -18,6 +18,8 @@ public class CloseProgram {
         Label label = new Label();
         label.setText("Are you sure you wish to exit the program?");
 
+        window.setOnCloseRequest(e -> e.consume());
+
         Button closeButton = new Button("Exit Program");
         closeButton.setOnAction(e -> System.exit(0));
 
