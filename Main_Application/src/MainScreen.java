@@ -1,24 +1,17 @@
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MainScreen extends Application {
     Stage window;
     Scene mainMenu;
-    TableView<Product> table;
+    TableView<Person> table;
 
 
     public static void main(String[] args) {
@@ -41,25 +34,25 @@ public class MainScreen extends Application {
 
         Label lblWelcome = new Label("Welcome to the application!");
 
+        //First name column
+        TableColumn<Person, String> firstName = new TableColumn<>("first");
+        firstName.setMinWidth(200);
+        firstName.setCellValueFactory(new PropertyValueFactory<>("first"));
 
-        //Name column
-        TableColumn<Product, String> nameColumn = new TableColumn<>("Name");
-        nameColumn.setMinWidth(200);
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        //Last name column
+        TableColumn<Person, String> lastName = new TableColumn<>("last");
+        lastName.setMinWidth(200);
+        lastName.setCellValueFactory(new PropertyValueFactory<>("last"));
 
-        //Price column
-        TableColumn<Product, Double> priceColumn = new TableColumn<>("Price");
-        priceColumn.setMinWidth(100);
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        //Age column
+        TableColumn<Person, String> age = new TableColumn<>("age");
+        age.setMinWidth(200);
+        age.setCellValueFactory(new PropertyValueFactory<>("age"));
 
-        //Quantity column
-        TableColumn<Product, String> quantityColumn = new TableColumn<>("Quantity");
-        quantityColumn.setMinWidth(100);
-        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         table = new TableView<>();
-        table.setItems(getProduct());
-        table.getColumns().addAll(nameColumn, priceColumn, quantityColumn);
+        table.setItems(getPeople());
+        table.getColumns().addAll(firstName,lastName,age);
 
         //New Attendee button
         Button btnNewAttendee = new Button("Enter New Attendee");
@@ -86,14 +79,13 @@ public class MainScreen extends Application {
     }
 
     //Get all of the products
-    public ObservableList<Product> getProduct(){
-        ObservableList<Product> products = FXCollections.observableArrayList();
-        products.add(new Product("Laptop", 859.00, 20));
-        products.add(new Product("Bouncy Ball", 2.49, 198));
-        products.add(new Product("Toilet", 99.00, 74));
-        products.add(new Product("The Notebook DVD", 19.99, 12));
-        products.add(new Product("Corn", 1.49, 856));
-        return products;
+    public ObservableList<Person> getPeople(){
+        ObservableList<Person> people = FXCollections.observableArrayList();
+        people.add(new Person("john", "smith", "M", "white", 21,5,"12601", false));
+        people.add(new Person("jane", "smith", "F", "black", 22,5,"12602", false));
+        people.add(new Person("alfred", "hitchcock", "M", "other", 70,70,"12601", false));
+
+        return people;
     }
 
 }
