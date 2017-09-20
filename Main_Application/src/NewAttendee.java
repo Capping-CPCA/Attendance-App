@@ -1,12 +1,11 @@
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class NewAttendee {
-
-
 
     public static void display(){
         Stage window = new Stage();
@@ -28,7 +27,15 @@ public class NewAttendee {
                                 "the bottom of the screen.");
         });
 
+        //Cancel button
+        Button btnCancel = new Button("Cancel Entry");
+        //TODO: confirm user wants to discard his/her work
+        btnCancel.setOnAction(e -> window.close());
 
+        //layout
+        GridPane.setConstraints(btnCancel, 0,0);
+
+        grid.getChildren().addAll(btnCancel);
 
         Scene scene = new Scene(grid, 500, 500);
         window.setScene(scene);
