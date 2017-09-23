@@ -80,12 +80,15 @@ public class NewAttendee {
         GridPane.setConstraints(btnSubmit, 1, 4);
         GridPane.setConstraints(btnCancel, 2,4);
 
-        grid.getChildren().addAll(lblFirst, tfFirst,
+        grid.getChildren().addAll(
+          lblFirst, tfFirst,
           lblLast, tfLast,
           lblRace, chobRace,
           lblNumChildren, tfNumChildren,
           lblZipcode, tfZipcode,
-          btnSubmit, btnCancel);
+          btnSubmit,
+          btnCancel
+        );
 
         Scene scene = new Scene(grid, 500, 500);
         window.setScene(scene);
