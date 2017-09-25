@@ -1,3 +1,9 @@
 .metadata
 Attendance_App/.*
 Attendance_App/bin
+*.iml
+.idea/*
+*/.idea/*
+out/*
+*/out/*
+*.xml

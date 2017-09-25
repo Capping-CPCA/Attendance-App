@@ -1,0 +1,4 @@
+We're going to need an api and micro-service that interacts with our java 
+application so that we can pull attendance and other information.
+
+We still need to know what tech and other things we'll be using for it.
