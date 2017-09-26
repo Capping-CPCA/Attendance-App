@@ -115,6 +115,7 @@ public class Attendance_Frame extends JFrame {
 		
 				
 		JComboBox raceComboBox = new JComboBox();
+
 		raceComboBox.setBounds(55, 398, 200, 27);
 		raceComboBox.setModel(new DefaultComboBoxModel(new String[] {"White", "African-American", "Hispanic", "Asian", "Other"}));
 		contentPane.add(raceComboBox);
@@ -124,14 +125,14 @@ public class Attendance_Frame extends JFrame {
 		contentPane.add(pleaseSpecifyRaceTF);
 		pleaseSpecifyRaceTF.setColumns(10);
 		
-//		pleaseSpecifyRaceTF.setVisible(false);
+		pleaseSpecifyRaceTF.setVisible(false);
 		
 		JLabel lblSpecifyOtherRace = new JLabel("Please Specify:");
 		lblSpecifyOtherRace.setBounds(267, 402, 79, 18);
 		lblSpecifyOtherRace.setFont(new Font("Lucida Grande", Font.ITALIC, 10));
 		contentPane.add(lblSpecifyOtherRace);
 		
-//		lblSpecifyOtherRace.setVisible(false);
+		lblSpecifyOtherRace.setVisible(false);
 		
 		JLabel lblInfoMessage = new JLabel("Please fill out the information below:");
 		lblInfoMessage.setBounds(17, 269, 305, 22);
@@ -172,6 +173,7 @@ public class Attendance_Frame extends JFrame {
 		contentPane.add(lblSex);
 		
 		JComboBox sexComboBox = new JComboBox();
+
 		sexComboBox.setModel(new DefaultComboBoxModel(new String[] {"Male", "Female", "Other"}));
 		sexComboBox.setBounds(55, 367, 200, 27);
 		contentPane.add(sexComboBox);
@@ -181,7 +183,7 @@ public class Attendance_Frame extends JFrame {
 		lblPleaseSpecifySex.setBounds(267, 372, 101, 16);
 		contentPane.add(lblPleaseSpecifySex);
 		
-//		lblPleaseSpecifySex.setVisible(false);
+		lblPleaseSpecifySex.setVisible(false);
 
 		
 		JLabel lblAge = new JLabel("Age:");
@@ -198,7 +200,7 @@ public class Attendance_Frame extends JFrame {
 		contentPane.add(pleaseSpecifySexTF);
 		pleaseSpecifySexTF.setColumns(10);
 		
-//		pleaseSpecifySexTF.setVisible(false);
+		pleaseSpecifySexTF.setVisible(false);
 		
 		JLabel lblNumberOfKids = new JLabel("Number Of Kids 18 Or Under:");
 		lblNumberOfKids.setBounds(17, 461, 200, 16);
@@ -223,40 +225,67 @@ public class Attendance_Frame extends JFrame {
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.setBounds(874, 584, 117, 29);
 		
-//		if(sexComboBox.getSelectedItem().equals("Other")){
-//			lblPleaseSpecifySex.setVisible(true);
-//			pleaseSpecifySexTF.setVisible(true);
-//			pleaseSpecifySexTF.getText();
-//		} else {
-//			sexComboBox.getSelectedItem();
-//		}
-//		
-//		if(raceComboBox.getSelectedItem().equals("Other")){
-//			lblSpecifyOtherRace.setVisible(true);
-//			pleaseSpecifyRaceTF.setVisible(true);
-//			pleaseSpecifyRaceTF.getText();
-//		} else {
-//			raceComboBox.getSelectedItem();
-//		}
-//		
-//		if(rdbtnNewToProgramYes.isSelected()) {
-//			rdbtnNewToProgramYes.getName();
-//		} else {
-//			rdbtnNewToProgramNo.getName();
-//		}
 
+		sexComboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(sexComboBox.getSelectedItem().equals("Other")){
+					lblPleaseSpecifySex.setVisible(true);
+					pleaseSpecifySexTF.setVisible(true);
+				} else {
+					lblPleaseSpecifySex.setVisible(false);
+					pleaseSpecifySexTF.setVisible(false);
+
+				}
+			}
+				
+		});
+		
+		raceComboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(raceComboBox.getSelectedItem().equals("Other")){
+					lblSpecifyOtherRace.setVisible(true);
+					pleaseSpecifyRaceTF.setVisible(true);
+				} else {
+					lblSpecifyOtherRace.setVisible(false);
+					pleaseSpecifyRaceTF.setVisible(false);
+				}
+			}
+		});
+		
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel table = (DefaultTableModel)outputTable.getModel();
+				String yesOrNo;
+				String sex;
+				String race;
+				
+				if(sexComboBox.getSelectedItem().equals("Other")){
+					sex = pleaseSpecifySexTF.getText();
+				} else {
+					sex = sexComboBox.getSelectedItem().toString();
+				}
+				
+				if(raceComboBox.getSelectedItem().equals("Other")){
+					race = pleaseSpecifyRaceTF.getText();
+				} else {
+					race = raceComboBox.getSelectedItem().toString();
+				}
+				
+				if(rdbtnNewToProgramYes.isSelected()){
+					yesOrNo = "Yes";
+				}else{
+					yesOrNo = "No";
+				}
+				
 				table.addRow(new Object[] {
 						fNameTF.getText(),
 						lNameTF.getText(),
-						sexComboBox.getSelectedItem(),
-						raceComboBox.getSelectedItem(),
+						sex,
+						race,
 						ageTF.getText(),
 						numberOfKidsTF.getText(),
 						zipcodeTF.getText(),
-//						newProgramButtonGroup.getSelection().getActionCommand(),
+						yesOrNo,
 						todayDateTF.getText()	
 				});
 			
