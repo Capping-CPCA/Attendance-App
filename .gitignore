@@ -7,3 +7,5 @@ Attendance_App/bin
 out/*
 */out/*
 *.xml
+/javaApplication
+.*
