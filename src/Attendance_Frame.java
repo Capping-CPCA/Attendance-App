@@ -15,25 +15,37 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 import javax.swing.ButtonGroup;
+import javax.swing.text.MaskFormatter;
+import javax.swing.JFormattedTextField;
 
 public class Attendance_Frame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField fNameTF;
 	private JTextField lNameTF;
-	private JTextField zipcodeTF;
+	
+	MaskFormatter zipcode = createFormatter("#####");
+	JFormattedTextField zipCodeFTF = new JFormattedTextField();
+
+	
 	private JTextField pleaseSpecifyRaceTF;
 	private JTable outputTable;
 	private JTextField ageTF;
 	private JTextField pleaseSpecifySexTF;
 	private JTextField numberOfKidsTF;
-	private JTextField todayDateTF;
+	
+	
+	MaskFormatter date = createFormatter("##/##/####");
+	JFormattedTextField dateFTF = new JFormattedTextField();
+	
 	private final ButtonGroup newProgramButtonGroup = new ButtonGroup();
 
 	/**
@@ -51,7 +63,18 @@ public class Attendance_Frame extends JFrame {
 			}
 		});
 	}
-
+	
+	public MaskFormatter createFormatter(String s) {
+	     MaskFormatter formatter = null;
+	     try {
+	          formatter = new MaskFormatter(s);
+	         } 
+	     catch (java.text.ParseException exc) {
+		          System.err.println("formatter is bad: " + exc.getMessage());
+		          System.exit(-1);
+		      }
+	      return formatter;
+	}//createFormatter
 	/**
 	 * Create the frame.
 	 */
@@ -63,7 +86,19 @@ public class Attendance_Frame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblCpcaAttendance = new JLabel("CPCA Attendance Sheet");
+		zipcode.setPlaceholderCharacter('#');
+		zipcode.setValidCharacters("0123456789");
+		zipCodeFTF.setBounds(77, 489, 177, 22);
+		zipcode.install(zipCodeFTF);
+		contentPane.add(zipCodeFTF);
+		
+		date.setPlaceholderCharacter('D');
+	    date.setValidCharacters("0123456789");
+		dateFTF.setBounds(112, 589, 143, 21);
+		date.install(dateFTF);
+		contentPane.add(dateFTF);
+		
+		JLabel lblCpcaAttendance = new JLabel("PEP Attendance Sheet");
 		lblCpcaAttendance.setBounds(337, 25, 330, 38);
 		lblCpcaAttendance.setFont(new Font("Cambria", Font.PLAIN, 30));
 		contentPane.add(lblCpcaAttendance);
@@ -107,11 +142,6 @@ public class Attendance_Frame extends JFrame {
 		lNameTF.setBounds(91, 333, 164, 30);
 		contentPane.add(lNameTF);
 		lNameTF.setColumns(10);
-		
-		zipcodeTF = new JTextField();
-		zipcodeTF.setBounds(77, 487, 178, 26);
-		contentPane.add(zipcodeTF);
-		zipcodeTF.setColumns(10);
 		
 				
 		JComboBox raceComboBox = new JComboBox();
@@ -215,12 +245,6 @@ public class Attendance_Frame extends JFrame {
 		lblTodaysDate.setBounds(17, 589, 101, 16);
 		contentPane.add(lblTodaysDate);
 		
-		todayDateTF = new JTextField();
-		todayDateTF.setBounds(111, 584, 144, 26);
-		contentPane.add(todayDateTF);
-		todayDateTF.setColumns(10);
-		
-		
 		
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.setBounds(874, 584, 117, 29);
@@ -284,14 +308,16 @@ public class Attendance_Frame extends JFrame {
 						race,
 						ageTF.getText(),
 						numberOfKidsTF.getText(),
-						zipcodeTF.getText(),
+						zipCodeFTF.getText(),
 						yesOrNo,
-						todayDateTF.getText()	
+						dateFTF.getText()	
 				});
 			
 			}
 		});
 		
 		contentPane.add(btnSubmit);
+		
+
 	}
 }
