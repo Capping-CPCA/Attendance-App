@@ -25,6 +25,8 @@ import javax.swing.JMenu;
 import javax.swing.ButtonGroup;
 import javax.swing.text.MaskFormatter;
 import javax.swing.JFormattedTextField;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class Attendance_Frame extends JFrame {
 
@@ -91,7 +93,7 @@ public class Attendance_Frame extends JFrame {
 		
 //		zipcode.setPlaceholderCharacter('#');
 //		zipcode.setValidCharacters("0123456789");
-		zipCodeFTF.setBounds(78, 523, 177, 22);
+		zipCodeFTF.setBounds(77, 544, 178, 22);
 //		zipcode.install(zipCodeFTF);
 		contentPane.add(zipCodeFTF);
 		
@@ -115,11 +117,11 @@ public class Attendance_Frame extends JFrame {
 		contentPane.add(lblLastName);
 		
 		JLabel lblZipcode = new JLabel("Zipcode:");
-		lblZipcode.setBounds(17, 523, 61, 22);
+		lblZipcode.setBounds(17, 544, 61, 22);
 		contentPane.add(lblZipcode);
 		
 		JLabel lblRace = new JLabel("Race:");
-		lblRace.setBounds(17, 433, 61, 22);
+		lblRace.setBounds(17, 458, 61, 22);
 		contentPane.add(lblRace);
 		
 		fNameTF = new JTextField();
@@ -132,29 +134,54 @@ public class Attendance_Frame extends JFrame {
 		contentPane.add(lNameTF);
 		lNameTF.setColumns(10);
 		
-				
+		JLabel lblClass = new JLabel("Class:");
+		lblClass.setBounds(17, 402, 61, 16);
+		contentPane.add(lblClass);
+		
+		JComboBox classDayComboBox = new JComboBox();
+		classDayComboBox.setModel(new DefaultComboBoxModel(new String[] {"Day", "Monday", "Tuesday", "Wednesday", "Thursday"}));
+		classDayComboBox.setBounds(54, 398, 117, 27);
+		contentPane.add(classDayComboBox);
+		
+		JComboBox classTimeComboBox = new JComboBox();
+		classTimeComboBox.setModel(new DefaultComboBoxModel(new String[] {"Start Time", "10:00am", "11:00am", "11:30am", "12:30am", "1:00pm", "1:30pm", "2:00pm", "4:30pm", "6:00pm"}));
+		classTimeComboBox.setBounds(176, 398, 117, 27);
+		contentPane.add(classTimeComboBox);
+		
+		JComboBox classLocationComboBox = new JComboBox();
+		classLocationComboBox.setModel(new DefaultComboBoxModel(new String[] {"Location", "Poughkeepsie", "Florence Manor", "Fishkill", "ITAP", "Cornerstone", "Meadow Run", "Fox Run"}));
+		classLocationComboBox.setBounds(305, 398, 203, 27);
+		contentPane.add(classLocationComboBox);
+		
+		JComboBox classLanguageComboBox = new JComboBox();
+		classLanguageComboBox.setModel(new DefaultComboBoxModel(new String[] {"Language", "English", "Spanish"}));
+		classLanguageComboBox.setBounds(520, 398, 129, 27);
+		contentPane.add(classLanguageComboBox);
+		
+		
 		JComboBox raceComboBox = new JComboBox();
 
-		raceComboBox.setBounds(55, 432, 200, 27);
+		raceComboBox.setBounds(54, 453, 200, 27);
 		raceComboBox.setModel(new DefaultComboBoxModel(new String[] {"", "White", "African-American", "Hispanic", "Asian", "Other"}));
 		contentPane.add(raceComboBox);
 		
 		pleaseSpecifyRaceTF = new JTextField();
-		pleaseSpecifyRaceTF.setBounds(352, 433, 156, 22);
+		pleaseSpecifyRaceTF.setBounds(352, 454, 156, 22);
 		contentPane.add(pleaseSpecifyRaceTF);
 		pleaseSpecifyRaceTF.setColumns(10);
 		
 		pleaseSpecifyRaceTF.setVisible(false);
 		
 		JLabel lblSpecifyOtherRace = new JLabel("Please Specify:");
-		lblSpecifyOtherRace.setBounds(267, 436, 79, 18);
+		lblSpecifyOtherRace.setBounds(264, 457, 79, 18);
 		lblSpecifyOtherRace.setFont(new Font("Lucida Grande", Font.ITALIC, 10));
 		contentPane.add(lblSpecifyOtherRace);
 		
 		lblSpecifyOtherRace.setVisible(false);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(17, 74, 885, 182);
+	
+		scrollPane.setBounds(6, 74, 1006, 182);
 		contentPane.add(scrollPane);
 		
 		outputTable = new JTable();
@@ -165,7 +192,8 @@ public class Attendance_Frame extends JFrame {
 					{null, null, null, null, null, null},
 				},
 				new String[] {
-					"FirstName", "LastName", "Sex", "Race", "Age","#18AndUnder", "Zipcode","New?", "Date"
+					"First", "Last", "Date", "Day", "Time", 
+					"Location", "Language","Sex", "Race", "Age","18&Under", "Zipcode","New"
 				}
 			));
 	
@@ -184,45 +212,45 @@ public class Attendance_Frame extends JFrame {
 		mnFile.add(mntmExit);
 		
 		JLabel lblSex = new JLabel("Sex:");
-		lblSex.setBounds(17, 405, 61, 16);
+		lblSex.setBounds(17, 430, 61, 16);
 		contentPane.add(lblSex);
 		
 		JComboBox sexComboBox = new JComboBox();
 
 		sexComboBox.setModel(new DefaultComboBoxModel(new String[] {"", "Male", "Female", "Other"}));
-		sexComboBox.setBounds(55, 401, 200, 27);
+		sexComboBox.setBounds(54, 426, 200, 27);
 		contentPane.add(sexComboBox);
 		
 		JLabel lblPleaseSpecifySex = new JLabel("Please Specify:");
 		lblPleaseSpecifySex.setFont(new Font("Lucida Grande", Font.ITALIC, 10));
-		lblPleaseSpecifySex.setBounds(267, 408, 101, 16);
+		lblPleaseSpecifySex.setBounds(264, 431, 101, 16);
 		contentPane.add(lblPleaseSpecifySex);
 		
 		lblPleaseSpecifySex.setVisible(false);
 
 		
 		JLabel lblAge = new JLabel("Age:");
-		lblAge.setBounds(17, 467, 61, 16);
+		lblAge.setBounds(17, 488, 61, 16);
 		contentPane.add(lblAge);
 		
 		ageTF = new JTextField();
-		ageTF.setBounds(55, 462, 41, 26);
+		ageTF.setBounds(55, 483, 41, 26);
 		contentPane.add(ageTF);
 		ageTF.setColumns(10);
 		
 		pleaseSpecifySexTF = new JTextField();
-		pleaseSpecifySexTF.setBounds(352, 399, 156, 28);
+		pleaseSpecifySexTF.setBounds(352, 424, 156, 28);
 		contentPane.add(pleaseSpecifySexTF);
 		pleaseSpecifySexTF.setColumns(10);
 		
 		pleaseSpecifySexTF.setVisible(false);
 		
 		JLabel lblNumberOfKids = new JLabel("Number Of Kids 18 Or Under:");
-		lblNumberOfKids.setBounds(17, 495, 200, 16);
+		lblNumberOfKids.setBounds(17, 516, 200, 16);
 		contentPane.add(lblNumberOfKids);
 		
 		numberOfKidsTF = new JTextField();
-		numberOfKidsTF.setBounds(205, 490, 50, 26);
+		numberOfKidsTF.setBounds(204, 511, 50, 26);
 		contentPane.add(numberOfKidsTF);
 		numberOfKidsTF.setColumns(10);
 		
@@ -232,7 +260,7 @@ public class Attendance_Frame extends JFrame {
 		
 		
 		JButton btnSubmit = new JButton("Submit");
-		btnSubmit.setBounds(893, 521, 117, 29);
+		btnSubmit.setBounds(893, 542, 117, 29);
 		
 		JRadioButton rdbtnAreYouNew = new JRadioButton("This is my first class.");
 
@@ -245,9 +273,6 @@ public class Attendance_Frame extends JFrame {
 		firstClassButtonGroup.add(rdbtnNotFirstClass);
 		rdbtnNotFirstClass.setBounds(182, 268, 200, 23);
 		contentPane.add(rdbtnNotFirstClass);
-
-		JButton btnEditTable = new JButton("Edit Table");
-		JButton btnDoneEditing = new JButton("Done Editing");
 	
 		
 		//set everything to false until a button is chosen
@@ -268,18 +293,15 @@ public class Attendance_Frame extends JFrame {
 		lblNumberOfKids.setVisible(false);
 		lblZipcode.setVisible(false);
 		lblDate.setVisible(false);
+		lblClass.setVisible(false);
 		
 		sexComboBox.setVisible(false);
 		raceComboBox.setVisible(false);
-		
-		btnDoneEditing.setVisible(false);
+		classDayComboBox.setVisible(false);
+		classTimeComboBox.setVisible(false);
+		classLocationComboBox.setVisible(false);
+		classLanguageComboBox.setVisible(false);
 
-		btnEditTable.setBounds(914, 70, 91, 29);
-		contentPane.add(btnEditTable);
-		
-		btnDoneEditing.setBounds(901, 98, 117, 29);
-		contentPane.add(btnDoneEditing);
-		
 		rdbtnAreYouNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(rdbtnAreYouNew.isSelected()){
@@ -298,10 +320,14 @@ public class Attendance_Frame extends JFrame {
 					lblNumberOfKids.setVisible(true);
 					lblZipcode.setVisible(true);
 					lblDate.setVisible(true);
+					lblClass.setVisible(true);
 					
 					sexComboBox.setVisible(true);
 					raceComboBox.setVisible(true);
-					
+					classDayComboBox.setVisible(true);
+					classTimeComboBox.setVisible(true);
+					classLocationComboBox.setVisible(true);
+					classLanguageComboBox.setVisible(true);
 				}
 			}
 		});
@@ -327,9 +353,15 @@ public class Attendance_Frame extends JFrame {
 				lblNumberOfKids.setVisible(false);
 				lblZipcode.setVisible(false);
 				lblDate.setVisible(true);
+				lblClass.setVisible(true);
 				
 				sexComboBox.setVisible(false);
 				raceComboBox.setVisible(false);
+				classDayComboBox.setVisible(true);
+				classTimeComboBox.setVisible(true);
+				classLocationComboBox.setVisible(true);
+				classLanguageComboBox.setVisible(true);
+
 				
 				//need to figure out still 
 //				zipcode.uninstall();
@@ -369,6 +401,7 @@ public class Attendance_Frame extends JFrame {
 				DefaultTableModel table = (DefaultTableModel)outputTable.getModel();
 				String yesOrNo;
 				String sex;
+				String classroom;
 				String race;
 				
 				if(sexComboBox.getSelectedItem().equals("Other")){
@@ -392,13 +425,17 @@ public class Attendance_Frame extends JFrame {
 				table.addRow(new Object[] {
 						fNameTF.getText(),
 						lNameTF.getText(),
+						dateFTF.getText(),
+						classDayComboBox.getSelectedItem(),
+						classTimeComboBox.getSelectedItem(),
+						classLocationComboBox.getSelectedItem(),
+						classLanguageComboBox.getSelectedItem(),
 						sex,
 						race,
 						ageTF.getText(),
 						numberOfKidsTF.getText(),
 						zipCodeFTF.getText(),
-						yesOrNo,
-						dateFTF.getText()	
+						yesOrNo
 				});
 			
 				//clear all textFields after submit
@@ -412,28 +449,46 @@ public class Attendance_Frame extends JFrame {
 				pleaseSpecifyRaceTF.setText("");
 				sexComboBox.setSelectedIndex(0);
 				raceComboBox.setSelectedIndex(0);
-			
+				classDayComboBox.setSelectedIndex(0);
+				classTimeComboBox.setSelectedIndex(0);
+				classLocationComboBox.setSelectedIndex(0);
+				classLanguageComboBox.setSelectedIndex(0);
+				
 			}
 		});
 		
-
-		btnEditTable.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				btnDoneEditing.setVisible(true);
+		scrollPane.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
 				for(int x = 0; x < outputTable.getRowCount() - 1; x++) {
 					int z = outputTable.getColumnCount();
 					outputTable.isCellEditable(x, z);
 				}
 			}
-		});
-		
-		btnDoneEditing.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			@Override
+			public void focusLost(FocusEvent e) {
 				outputTable.setEnabled(false);
 			}
 		});
 		
+
+//		btnEditTable.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				btnDoneEditing.setVisible(true);
+//			
+//			}
+//		});
+//		
+//		btnDoneEditing.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				outputTable.setEnabled(false);
+//			}
+//		});
+		
 		contentPane.add(btnSubmit);
+		
+
+	
 	
 	}
 }
