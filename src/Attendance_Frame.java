@@ -1,7 +1,6 @@
 package javaApplication;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -29,25 +28,17 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
 public class Attendance_Frame extends JFrame {
-
 	private JPanel contentPane;
 	private JTextField fNameTF;
 	private JTextField lNameTF;
-	
-//	MaskFormatter zipcode = createFormatter("#####");
 	JFormattedTextField zipCodeFTF = new JFormattedTextField();
-
-	
 	private JTextField pleaseSpecifyRaceTF;
 	private JTable outputTable;
 	private JTextField ageTF;
 	private JTextField pleaseSpecifySexTF;
 	private JTextField numberOfKidsTF;
-	
-	
 	MaskFormatter date = createFormatter("##/##/####");
 	JFormattedTextField dateFTF = new JFormattedTextField();
-	
 	private final ButtonGroup newProgramButtonGroup = new ButtonGroup();
 	private final ButtonGroup firstClassButtonGroup = new ButtonGroup();
 
@@ -67,6 +58,9 @@ public class Attendance_Frame extends JFrame {
 		});
 	}
 	
+	/**
+	 * Use to create mask for date, zipcode, ect.
+	 */
 	public MaskFormatter createFormatter(String s) {
 	     MaskFormatter formatter = null;
 	     try {
@@ -77,13 +71,12 @@ public class Attendance_Frame extends JFrame {
 		          System.exit(-1);
 		      }
 	      return formatter;
-	}//createFormatter
+	}
 	
 	/**
 	 * Create the frame.
 	 */
 	public Attendance_Frame() {
-	
      	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1018, 651);
 		contentPane = new JPanel();
@@ -91,10 +84,7 @@ public class Attendance_Frame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-//		zipcode.setPlaceholderCharacter('#');
-//		zipcode.setValidCharacters("0123456789");
 		zipCodeFTF.setBounds(77, 544, 178, 22);
-//		zipcode.install(zipCodeFTF);
 		contentPane.add(zipCodeFTF);
 		
 		date.setPlaceholderCharacter('D');
@@ -158,9 +148,7 @@ public class Attendance_Frame extends JFrame {
 		classLanguageComboBox.setBounds(520, 398, 129, 27);
 		contentPane.add(classLanguageComboBox);
 		
-		
 		JComboBox raceComboBox = new JComboBox();
-
 		raceComboBox.setBounds(54, 453, 200, 27);
 		raceComboBox.setModel(new DefaultComboBoxModel(new String[] {"", "White", "African-American", "Hispanic", "Asian", "Other"}));
 		contentPane.add(raceComboBox);
@@ -169,24 +157,20 @@ public class Attendance_Frame extends JFrame {
 		pleaseSpecifyRaceTF.setBounds(352, 454, 156, 22);
 		contentPane.add(pleaseSpecifyRaceTF);
 		pleaseSpecifyRaceTF.setColumns(10);
-		
 		pleaseSpecifyRaceTF.setVisible(false);
 		
 		JLabel lblSpecifyOtherRace = new JLabel("Please Specify:");
 		lblSpecifyOtherRace.setBounds(264, 457, 79, 18);
 		lblSpecifyOtherRace.setFont(new Font("Lucida Grande", Font.ITALIC, 10));
 		contentPane.add(lblSpecifyOtherRace);
-		
 		lblSpecifyOtherRace.setVisible(false);
 		
 		JScrollPane scrollPane = new JScrollPane();
-	
 		scrollPane.setBounds(6, 74, 1006, 182);
 		contentPane.add(scrollPane);
 		
 		outputTable = new JTable();
 		scrollPane.setViewportView(outputTable);
-		
 		outputTable.setModel(new DefaultTableModel(
 				new Object[][] {
 					{null, null, null, null, null, null},
@@ -196,7 +180,6 @@ public class Attendance_Frame extends JFrame {
 					"Location", "Language","Sex", "Race", "Age","18&Under", "Zipcode","New"
 				}
 			));
-	
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 1010, 22);
@@ -216,7 +199,6 @@ public class Attendance_Frame extends JFrame {
 		contentPane.add(lblSex);
 		
 		JComboBox sexComboBox = new JComboBox();
-
 		sexComboBox.setModel(new DefaultComboBoxModel(new String[] {"", "Male", "Female", "Other"}));
 		sexComboBox.setBounds(54, 426, 200, 27);
 		contentPane.add(sexComboBox);
@@ -225,9 +207,7 @@ public class Attendance_Frame extends JFrame {
 		lblPleaseSpecifySex.setFont(new Font("Lucida Grande", Font.ITALIC, 10));
 		lblPleaseSpecifySex.setBounds(264, 431, 101, 16);
 		contentPane.add(lblPleaseSpecifySex);
-		
 		lblPleaseSpecifySex.setVisible(false);
-
 		
 		JLabel lblAge = new JLabel("Age:");
 		lblAge.setBounds(17, 488, 61, 16);
@@ -242,7 +222,6 @@ public class Attendance_Frame extends JFrame {
 		pleaseSpecifySexTF.setBounds(352, 424, 156, 28);
 		contentPane.add(pleaseSpecifySexTF);
 		pleaseSpecifySexTF.setColumns(10);
-		
 		pleaseSpecifySexTF.setVisible(false);
 		
 		JLabel lblNumberOfKids = new JLabel("Number Of Kids 18 Or Under:");
@@ -258,24 +237,21 @@ public class Attendance_Frame extends JFrame {
 		lblDate.setBounds(17, 371, 101, 16);
 		contentPane.add(lblDate);
 		
-		
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.setBounds(893, 542, 117, 29);
+		contentPane.add(btnSubmit);
 		
 		JRadioButton rdbtnAreYouNew = new JRadioButton("This is my first class.");
-
 		firstClassButtonGroup.add(rdbtnAreYouNew);
 		rdbtnAreYouNew.setBounds(17, 268, 167, 23);
 		contentPane.add(rdbtnAreYouNew);
 		
 		JRadioButton rdbtnNotFirstClass = new JRadioButton("This is not my first class.");
-	
 		firstClassButtonGroup.add(rdbtnNotFirstClass);
 		rdbtnNotFirstClass.setBounds(182, 268, 200, 23);
 		contentPane.add(rdbtnNotFirstClass);
 	
-		
-		//set everything to false until a button is chosen
+		//Set everything to invisible until an initial radio button is chosen
 		fNameTF.setVisible(false);
 		lNameTF.setVisible(false);
 		zipCodeFTF.setVisible(false);
@@ -302,6 +278,7 @@ public class Attendance_Frame extends JFrame {
 		classLocationComboBox.setVisible(false);
 		classLanguageComboBox.setVisible(false);
 
+		//If new participant - display all information
 		rdbtnAreYouNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(rdbtnAreYouNew.isSelected()){
@@ -332,6 +309,7 @@ public class Attendance_Frame extends JFrame {
 			}
 		});
 		
+		//If not new participant - display lName, fName, date, and classroom information
 		rdbtnNotFirstClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				fNameTF.setVisible(true);
@@ -360,14 +338,11 @@ public class Attendance_Frame extends JFrame {
 				classDayComboBox.setVisible(true);
 				classTimeComboBox.setVisible(true);
 				classLocationComboBox.setVisible(true);
-				classLanguageComboBox.setVisible(true);
-
-				
-				//need to figure out still 
-//				zipcode.uninstall();
+				classLanguageComboBox.setVisible(true);				
 			}
 		});
 
+		//If "Other" option is chosen from Sex Combobox, display the Other textfield
 		sexComboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(sexComboBox.getSelectedItem().equals("Other")){
@@ -382,6 +357,7 @@ public class Attendance_Frame extends JFrame {
 				
 		});
 		
+		//If "Other" option is chosen from Race combobox, display the Other textfield
 		raceComboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(raceComboBox.getSelectedItem().equals("Other")){
@@ -394,16 +370,21 @@ public class Attendance_Frame extends JFrame {
 			}
 		});
 		
+		//Add newly created strings/direct input as a new row in JTable
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
 				DefaultTableModel table = (DefaultTableModel)outputTable.getModel();
 				String yesOrNo;
 				String sex;
 				String classroom;
 				String race;
+				String fName;
+				String lName;
 				
+				//Auto-capitalization of first and last name
+				fName = fNameTF.getText().substring(0, 1).toUpperCase() + fNameTF.getText().substring(1, fNameTF.getText().length());
+				lName = lNameTF.getText().substring(0, 1).toUpperCase() + lNameTF.getText().substring(1, lNameTF.getText().length());
+
 				if(sexComboBox.getSelectedItem().equals("Other")){
 					sex = pleaseSpecifySexTF.getText();
 				} else {
@@ -423,8 +404,8 @@ public class Attendance_Frame extends JFrame {
 				}
 				
 				table.addRow(new Object[] {
-						fNameTF.getText(),
-						lNameTF.getText(),
+						fName,
+						lName,
 						dateFTF.getText(),
 						classDayComboBox.getSelectedItem(),
 						classTimeComboBox.getSelectedItem(),
@@ -438,7 +419,7 @@ public class Attendance_Frame extends JFrame {
 						yesOrNo
 				});
 			
-				//clear all textFields after submit
+				//Clear all textFields after submit for the next participant
 				fNameTF.setText("");
 				lNameTF.setText("");
 				zipCodeFTF.setText("");
@@ -457,6 +438,7 @@ public class Attendance_Frame extends JFrame {
 			}
 		});
 		
+		//Make the JTable editable if in focus
 		scrollPane.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
@@ -469,26 +451,6 @@ public class Attendance_Frame extends JFrame {
 			public void focusLost(FocusEvent e) {
 				outputTable.setEnabled(false);
 			}
-		});
-		
-
-//		btnEditTable.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				btnDoneEditing.setVisible(true);
-//			
-//			}
-//		});
-//		
-//		btnDoneEditing.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				outputTable.setEnabled(false);
-//			}
-//		});
-		
-		contentPane.add(btnSubmit);
-		
-
-	
-	
+		});	
 	}
 }
