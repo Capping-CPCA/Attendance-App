@@ -1,5 +1,6 @@
 package javaApplication;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -37,6 +38,19 @@ public class Attendance_Frame extends JFrame {
 	private JTextField ageTF;
 	private JTextField pleaseSpecifySexTF;
 	private JTextField numberOfKidsTF;
+	
+	private JLabel lblFirstName;
+	private JLabel lblLastName;
+	private JLabel lblZipcode;
+	private JLabel lblRace;
+	private JLabel lblClass;
+	private JLabel lblSpecifyOtherRace;
+	private JLabel lblSex;
+	private JLabel lblPleaseSpecifySex;
+	private JLabel lblAge;
+	private JLabel lblNumberOfKids;
+	private JLabel lblDate;
+	
 	MaskFormatter date = createFormatter("##/##/####");
 	JFormattedTextField dateFTF = new JFormattedTextField();
 	private final ButtonGroup newProgramButtonGroup = new ButtonGroup();
@@ -98,19 +112,19 @@ public class Attendance_Frame extends JFrame {
 		lblCpcaAttendance.setFont(new Font("Cambria", Font.PLAIN, 30));
 		contentPane.add(lblCpcaAttendance);
 		
-		JLabel lblFirstName = new JLabel("First Name:");
+		lblFirstName = new JLabel("First Name:");
 		lblFirstName.setBounds(17, 303, 79, 30);
 		contentPane.add(lblFirstName);
 		
-		JLabel lblLastName = new JLabel("Last Name:");
+		lblLastName = new JLabel("Last Name:");
 		lblLastName.setBounds(17, 337, 79, 22);
 		contentPane.add(lblLastName);
 		
-		JLabel lblZipcode = new JLabel("Zipcode:");
+		lblZipcode = new JLabel("Zipcode:");
 		lblZipcode.setBounds(17, 544, 61, 22);
 		contentPane.add(lblZipcode);
 		
-		JLabel lblRace = new JLabel("Race:");
+		lblRace = new JLabel("Race:");
 		lblRace.setBounds(17, 458, 61, 22);
 		contentPane.add(lblRace);
 		
@@ -124,7 +138,7 @@ public class Attendance_Frame extends JFrame {
 		contentPane.add(lNameTF);
 		lNameTF.setColumns(10);
 		
-		JLabel lblClass = new JLabel("Class:");
+		lblClass = new JLabel("Class:");
 		lblClass.setBounds(17, 402, 61, 16);
 		contentPane.add(lblClass);
 		
@@ -159,7 +173,7 @@ public class Attendance_Frame extends JFrame {
 		pleaseSpecifyRaceTF.setColumns(10);
 		pleaseSpecifyRaceTF.setVisible(false);
 		
-		JLabel lblSpecifyOtherRace = new JLabel("Please Specify:");
+		lblSpecifyOtherRace = new JLabel("Please Specify:");
 		lblSpecifyOtherRace.setBounds(264, 457, 79, 18);
 		lblSpecifyOtherRace.setFont(new Font("Lucida Grande", Font.ITALIC, 10));
 		contentPane.add(lblSpecifyOtherRace);
@@ -194,7 +208,7 @@ public class Attendance_Frame extends JFrame {
 		JMenuItem mntmExit = new JMenuItem("Exit");
 		mnFile.add(mntmExit);
 		
-		JLabel lblSex = new JLabel("Sex:");
+		lblSex = new JLabel("Sex:");
 		lblSex.setBounds(17, 430, 61, 16);
 		contentPane.add(lblSex);
 		
@@ -203,13 +217,13 @@ public class Attendance_Frame extends JFrame {
 		sexComboBox.setBounds(54, 426, 200, 27);
 		contentPane.add(sexComboBox);
 		
-		JLabel lblPleaseSpecifySex = new JLabel("Please Specify:");
+		lblPleaseSpecifySex = new JLabel("Please Specify:");
 		lblPleaseSpecifySex.setFont(new Font("Lucida Grande", Font.ITALIC, 10));
 		lblPleaseSpecifySex.setBounds(264, 431, 101, 16);
 		contentPane.add(lblPleaseSpecifySex);
 		lblPleaseSpecifySex.setVisible(false);
 		
-		JLabel lblAge = new JLabel("Age:");
+		lblAge = new JLabel("Age:");
 		lblAge.setBounds(17, 488, 34, 16);
 		contentPane.add(lblAge);
 		
@@ -224,7 +238,7 @@ public class Attendance_Frame extends JFrame {
 		pleaseSpecifySexTF.setColumns(10);
 		pleaseSpecifySexTF.setVisible(false);
 		
-		JLabel lblNumberOfKids = new JLabel("Number Of Kids 18 Or Under:");
+		lblNumberOfKids = new JLabel("Number Of Kids 18 Or Under:");
 		lblNumberOfKids.setBounds(17, 516, 178, 16);
 		contentPane.add(lblNumberOfKids);
 		
@@ -233,7 +247,7 @@ public class Attendance_Frame extends JFrame {
 		contentPane.add(numberOfKidsTF);
 		numberOfKidsTF.setColumns(10);
 		
-		JLabel lblDate = new JLabel("Today's Date:");
+		lblDate = new JLabel("Today's Date:");
 		lblDate.setBounds(17, 371, 101, 16);
 		contentPane.add(lblDate);
 		
@@ -460,7 +474,7 @@ public class Attendance_Frame extends JFrame {
 		boolean returnValue = true;
 		if(fNameTF.getText().isEmpty()){
 			returnValue = false;
-			
+			lblFirstName.setForeground(Color.RED);
 		} else {
 			if(!validateStringField(fNameTF)){
 				returnValue = false;
