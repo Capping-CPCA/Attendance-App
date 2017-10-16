@@ -17,6 +17,8 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JMenuBar;
@@ -30,6 +32,9 @@ import java.awt.event.FocusEvent;
 
 public class Attendance_Frame extends JFrame {
 	private JPanel contentPane;
+	//This hash map is used later on in data validation
+	//The key is the text field, and the value is the label that corresponds to that field
+	private HashMap<JTextField, JLabel> fieldLabelMap;
 	private JTextField fNameTF;
 	private JTextField lNameTF;
 	JFormattedTextField zipCodeFTF = new JFormattedTextField();
@@ -387,6 +392,9 @@ public class Attendance_Frame extends JFrame {
 		//Add newly created strings/direct input as a new row in JTable
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(!validateData()){
+					return;
+				}
 				DefaultTableModel table = (DefaultTableModel)outputTable.getModel();
 				String yesOrNo;
 				String sex;
@@ -466,21 +474,26 @@ public class Attendance_Frame extends JFrame {
 				outputTable.setEnabled(false);
 			}
 		});
+		//Add text fields and labels into hash map
+		fieldLabelMap.put(fNameTF, lblFirstName);
+		
 	}
 	
 	//Validate the data fields throughout the application
 	//If anything isn't correct, highlight things in red and return false boolean
 	public boolean validateData(){
 		boolean returnValue = true;
+		
 		if(fNameTF.getText().isEmpty()){
 			returnValue = false;
 			lblFirstName.setForeground(Color.RED);
 		} else {
 			if(!validateStringField(fNameTF)){
 				returnValue = false;
+				lblFirstName.setForeground(Color.RED);
 			}
 		}
-		return true;
+		return returnValue;
 	}
 	
 	//Checks if field has any integers
