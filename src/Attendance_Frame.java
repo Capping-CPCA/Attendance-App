@@ -210,7 +210,7 @@ public class Attendance_Frame extends JFrame {
 		lblPleaseSpecifySex.setVisible(false);
 		
 		JLabel lblAge = new JLabel("Age:");
-		lblAge.setBounds(17, 488, 61, 16);
+		lblAge.setBounds(17, 488, 34, 16);
 		contentPane.add(lblAge);
 		
 		ageTF = new JTextField();
@@ -225,7 +225,7 @@ public class Attendance_Frame extends JFrame {
 		pleaseSpecifySexTF.setVisible(false);
 		
 		JLabel lblNumberOfKids = new JLabel("Number Of Kids 18 Or Under:");
-		lblNumberOfKids.setBounds(17, 516, 200, 16);
+		lblNumberOfKids.setBounds(17, 516, 178, 16);
 		contentPane.add(lblNumberOfKids);
 		
 		numberOfKidsTF = new JTextField();
@@ -451,6 +451,32 @@ public class Attendance_Frame extends JFrame {
 			public void focusLost(FocusEvent e) {
 				outputTable.setEnabled(false);
 			}
-		});	
+		});
+	}
+	
+	//Validate the data fields throughout the application
+	//If anything isn't correct, highlight things in red and return false boolean
+	public boolean validateData(){
+		boolean returnValue = true;
+		if(fNameTF.getText().isEmpty()){
+			returnValue = false;
+			
+		} else {
+			if(!validateStringField(fNameTF)){
+				returnValue = false;
+			}
+		}
+		return true;
+	}
+	
+	//Checks if field has any integers
+	public boolean validateStringField(JTextField field){
+		String fieldString = field.getText();
+		for(int i = 0; i < fieldString.length(); i++){
+			if(Character.isDigit(fieldString.charAt(i))){
+				return false;
+			}
+		}
+		return true;
 	}
 }
