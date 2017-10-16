@@ -78,7 +78,7 @@ public class Attendance_Frame extends JFrame {
 	 */
 	public Attendance_Frame() {
      	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1018, 651);
+		setBounds(100, 100, 1033, 651);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
