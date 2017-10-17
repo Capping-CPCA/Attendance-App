@@ -34,7 +34,7 @@ public class Attendance_Frame extends JFrame {
 	private JPanel contentPane;
 	//This hash map is used later on in data validation
 	//The key is the text field, and the value is the label that corresponds to that field
-	private HashMap<JTextField, JLabel> fieldLabelMap;
+	private HashMap<Object, JLabel> fieldLabelMap = new HashMap<Object, JLabel>();
 	private JTextField fNameTF;
 	private JTextField lNameTF;
 	JFormattedTextField zipCodeFTF = new JFormattedTextField();
@@ -169,7 +169,7 @@ public class Attendance_Frame extends JFrame {
 		
 		JComboBox raceComboBox = new JComboBox();
 		raceComboBox.setBounds(54, 453, 200, 27);
-		raceComboBox.setModel(new DefaultComboBoxModel(new String[] {"", "White", "African-American", "Hispanic", "Asian", "Other"}));
+		raceComboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose Race", "White", "African-American", "Hispanic", "Asian", "Other"}));
 		contentPane.add(raceComboBox);
 		
 		pleaseSpecifyRaceTF = new JTextField();
@@ -218,7 +218,7 @@ public class Attendance_Frame extends JFrame {
 		contentPane.add(lblSex);
 		
 		JComboBox sexComboBox = new JComboBox();
-		sexComboBox.setModel(new DefaultComboBoxModel(new String[] {"", "Male", "Female", "Other"}));
+		sexComboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose Sex", "Male", "Female", "Other"}));
 		sexComboBox.setBounds(54, 426, 200, 27);
 		contentPane.add(sexComboBox);
 		
@@ -296,6 +296,16 @@ public class Attendance_Frame extends JFrame {
 		classTimeComboBox.setVisible(false);
 		classLocationComboBox.setVisible(false);
 		classLanguageComboBox.setVisible(false);
+		
+		//Add text fields and labels into hash map
+		fieldLabelMap.put(fNameTF, lblFirstName);
+		fieldLabelMap.put(lNameTF, lblLastName);
+		fieldLabelMap.put(classDayComboBox, lblClass);
+		fieldLabelMap.put(classTimeComboBox, lblClass);
+		fieldLabelMap.put(classLocationComboBox, lblClass);
+		fieldLabelMap.put(sexComboBox, lblSex);
+		fieldLabelMap.put(raceComboBox, lblRace);
+		fieldLabelMap.put(ageTF, lblAge);
 
 		//If new participant - display all information
 		rdbtnAreYouNew.addActionListener(new ActionListener() {
@@ -474,23 +484,37 @@ public class Attendance_Frame extends JFrame {
 				outputTable.setEnabled(false);
 			}
 		});
-		//Add text fields and labels into hash map
-		fieldLabelMap.put(fNameTF, lblFirstName);
-		
 	}
 	
 	//Validate the data fields throughout the application
 	//If anything isn't correct, highlight things in red and return false boolean
 	public boolean validateData(){
 		boolean returnValue = true;
-		
-		if(fNameTF.getText().isEmpty()){
-			returnValue = false;
-			lblFirstName.setForeground(Color.RED);
-		} else {
-			if(!validateStringField(fNameTF)){
-				returnValue = false;
-				lblFirstName.setForeground(Color.RED);
+		for(Object key : fieldLabelMap.keySet()){
+			JLabel label = fieldLabelMap.get(key);
+			if(key.getClass().equals(JTextField.class)){
+				JTextField textField = (JTextField) key;
+				if(textField.isVisible()){
+					if(textField.getText().isEmpty()){
+						label.setForeground(Color.RED);
+						returnValue = false;
+					} else {
+						if(!validateStringField(textField)){
+							returnValue = false;
+							label.setForeground(Color.RED);
+						}
+					}
+				}
+			}
+			if(key.getClass().equals(JComboBox.class)){
+				JComboBox comboBox = (JComboBox) key;
+				if(comboBox.isVisible()){
+					String defaultStr = comboBox.getItemAt(0).toString();
+					if(comboBox.getSelectedItem().toString().equals(defaultStr)){
+						label.setForeground(Color.RED);
+						returnValue = false;
+					}
+				}
 			}
 		}
 		return returnValue;
