@@ -55,6 +55,7 @@ public class Attendance_Frame extends JFrame {
 	private JLabel lblAge;
 	private JLabel lblNumberOfKids;
 	private JLabel lblDate;
+	private JLabel lblZip;
 	
 	MaskFormatter date = createFormatter("##/##/####");
 	JFormattedTextField dateFTF = new JFormattedTextField();
@@ -303,9 +304,15 @@ public class Attendance_Frame extends JFrame {
 		fieldLabelMap.put(classDayComboBox, lblClass);
 		fieldLabelMap.put(classTimeComboBox, lblClass);
 		fieldLabelMap.put(classLocationComboBox, lblClass);
+		fieldLabelMap.put(classLanguageComboBox, lblClass);
 		fieldLabelMap.put(sexComboBox, lblSex);
 		fieldLabelMap.put(raceComboBox, lblRace);
 		fieldLabelMap.put(ageTF, lblAge);
+		fieldLabelMap.put(numberOfKidsTF, lblNumberOfKids);
+		fieldLabelMap.put(pleaseSpecifySexTF, lblPleaseSpecifySex);
+		fieldLabelMap.put(pleaseSpecifyRaceTF, lblSpecifyOtherRace);
+		fieldLabelMap.put(dateFTF, lblDate);
+		fieldLabelMap.put(zipCodeFTF, lblZipcode);
 
 		//If new participant - display all information
 		rdbtnAreYouNew.addActionListener(new ActionListener() {
@@ -402,6 +409,7 @@ public class Attendance_Frame extends JFrame {
 		//Add newly created strings/direct input as a new row in JTable
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				clearColors();
 				if(!validateData()){
 					return;
 				}
@@ -492,6 +500,8 @@ public class Attendance_Frame extends JFrame {
 		boolean returnValue = true;
 		for(Object key : fieldLabelMap.keySet()){
 			JLabel label = fieldLabelMap.get(key);
+			
+			//Checks all text fields to see if they meet specific criteria
 			if(key.getClass().equals(JTextField.class)){
 				JTextField textField = (JTextField) key;
 				if(textField.isVisible()){
@@ -506,6 +516,8 @@ public class Attendance_Frame extends JFrame {
 					}
 				}
 			}
+			
+			//Checks all combo box's to see if they meet specific criteria
 			if(key.getClass().equals(JComboBox.class)){
 				JComboBox comboBox = (JComboBox) key;
 				if(comboBox.isVisible()){
@@ -515,6 +527,25 @@ public class Attendance_Frame extends JFrame {
 						returnValue = false;
 					}
 				}
+			}
+			
+			//Add additional specific formatted text fields here
+			if(dateFTF.getText().contains("D") || dateFTF.getText().isEmpty()){
+				lblDate.setForeground(Color.RED);
+				returnValue = false;
+			}
+			
+			if(zipCodeFTF.getText().isEmpty()){
+				lblZipcode.setForeground(Color.RED);
+				returnValue = false;
+			}
+			
+			if(!ageTF.getText().isEmpty()){
+				lblAge.setForeground(Color.BLACK);
+			}
+			
+			if(!numberOfKidsTF.getText().isEmpty()){
+				lblNumberOfKids.setForeground(Color.BLACK);
 			}
 		}
 		return returnValue;
@@ -529,5 +560,12 @@ public class Attendance_Frame extends JFrame {
 			}
 		}
 		return true;
+	}
+	
+	public void clearColors(){
+		for(Object key : fieldLabelMap.keySet()){
+			JLabel label = fieldLabelMap.get(key);
+			label.setForeground(Color.BLACK);
+		}
 	}
 }
