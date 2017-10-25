@@ -462,21 +462,7 @@ public class Attendance_Frame extends JFrame {
 				});
 			
 				//Clear all textFields after submit for the next participant
-				fNameTF.setText("");
-				lNameTF.setText("");
-				zipCodeFTF.setText("");
-				ageTF.setText("");
-				numberOfKidsTF.setText("");
-				dateFTF.setText("");
-				pleaseSpecifySexTF.setText("");
-				pleaseSpecifyRaceTF.setText("");
-				sexComboBox.setSelectedIndex(0);
-				raceComboBox.setSelectedIndex(0);
-				classDayComboBox.setSelectedIndex(0);
-				classTimeComboBox.setSelectedIndex(0);
-				classLocationComboBox.setSelectedIndex(0);
-				classLanguageComboBox.setSelectedIndex(0);
-				
+				clearFields();				
 			}
 		});
 		
@@ -632,5 +618,28 @@ public class Attendance_Frame extends JFrame {
 		//These two are not in the hash map
 		lblAge.setForeground(Color.BLACK);
 		lblNumberOfKids.setForeground(Color.BLACK);
+	}
+	
+	public void clearFields(){
+		//Clear all textFields after submit for the next participant
+		for(Object key : fieldLabelMap.keySet()){
+			JLabel label = fieldLabelMap.get(key);
+			
+			//Checks all text fields to see if they meet specific criteria
+			if(key.getClass().equals(JTextField.class)){
+				JTextField textField = (JTextField) key;
+				textField.setText("");
+			}
+			
+			//Checks all combo box's to see if they meet specific criteria
+			if(key.getClass().equals(JComboBox.class)){
+				JComboBox comboBox = (JComboBox) key;
+				comboBox.setSelectedIndex(0);
+			}
+		}
+		dateFTF.setText("");
+		zipCodeFTF.setText("");
+		ageTF.setText("");
+		numberOfKidsTF.setText("");
 	}
 }
