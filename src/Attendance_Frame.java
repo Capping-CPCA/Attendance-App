@@ -29,6 +29,14 @@ import javax.swing.text.MaskFormatter;
 import javax.swing.JFormattedTextField;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+//You need to add external Jars to your build path for these excel packages
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class Attendance_Frame extends JFrame {
 	private JPanel contentPane;
@@ -213,6 +221,70 @@ public class Attendance_Frame extends JFrame {
 		menuBar.add(mnFile);
 		
 		JMenuItem mntmSave = new JMenuItem("Save");
+		
+		//Save to excel file
+		mntmSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				XSSFWorkbook workbook = new XSSFWorkbook();
+		        XSSFSheet sheet = workbook.createSheet("Attendance");
+		        
+		        //Created header for excel sheet
+		        Row headerRow = sheet.createRow(0);
+		        //First Name
+		        Cell firstNameCell = headerRow.createCell(0);
+		        firstNameCell.setCellValue("First Name");
+		        //Last Name
+		        Cell lastNameCell = headerRow.createCell(1);
+		        lastNameCell.setCellValue("Last Name");
+		        //Date
+		        Cell dateCell = headerRow.createCell(2);
+		        dateCell.setCellValue("Date");
+		        //Day
+		        Cell dayCell = headerRow.createCell(3);
+		        dayCell.setCellValue("Day");
+		        //Time
+		        Cell timeCell = headerRow.createCell(4);
+		        timeCell.setCellValue("Time");
+		        //Location
+		        Cell locationCell = headerRow.createCell(5);
+		        locationCell.setCellValue("Location");
+		        //Language
+		        Cell languageCell = headerRow.createCell(6);
+		        languageCell.setCellValue("Language");
+		        //Sex
+		        Cell sexCell = headerRow.createCell(7);
+		        sexCell.setCellValue("Sex");
+		        //Race
+		        Cell raceCell = headerRow.createCell(8);
+		        raceCell.setCellValue("Race");
+		        //Age
+		        Cell ageCell = headerRow.createCell(9);
+		        ageCell.setCellValue("Age");
+		        //18&Under
+		        Cell ageUnderCell = headerRow.createCell(10);
+		        ageUnderCell.setCellValue("18 & Under");
+		        //Zip
+		        Cell zipCodeCell = headerRow.createCell(11);
+		        zipCodeCell.setCellValue("Zipcode");
+		        //New
+		        Cell newCell = headerRow.createCell(12);
+		        newCell.setCellValue("New");
+		        
+		        
+		        //TODO: Logic for writing to columns here under the header
+//		        int excelRowCount = 1;
+//		        int tableRowCount = 1;
+//		        while(tableRowCount <= outputTable.getRowCount()){
+//		        	int tableColumnCount = 0;
+//		        }
+		        
+		        try (FileOutputStream outputStream = new FileOutputStream("Attendance_Test.xlsx")) {
+		            workbook.write(outputStream);
+		        } catch (IOException e){
+		        	System.out.println("IOException: " + e.getMessage());
+		        }
+			}
+		});
 		mnFile.add(mntmSave);
 		
 		JMenuItem mntmExit = new JMenuItem("Exit");
@@ -408,10 +480,8 @@ public class Attendance_Frame extends JFrame {
 				} else {
 					lblPleaseSpecifySex.setVisible(false);
 					pleaseSpecifySexTF.setVisible(false);
-
 				}
-			}
-				
+			}				
 		});
 		
 		//If "Other" option is chosen from Race combobox, display the Other textfield
@@ -493,8 +563,7 @@ public class Attendance_Frame extends JFrame {
 							classLocationComboBox.getSelectedItem(),
 							classLanguageComboBox.getSelectedItem()
 					});
-				}
-			
+				}			
 				//Clear all textFields after submit for the next participant
 				clearFields();				
 			}
@@ -575,7 +644,6 @@ public class Attendance_Frame extends JFrame {
 				returnValue = false;
 			}
 		} else {
-			int count = 0;
 			for(Object key : fieldLabelMap2.keySet()){
 				JLabel label = fieldLabelMap2.get(key);
 				//Checks all text fields to see if they meet specific criteria
@@ -592,8 +660,7 @@ public class Attendance_Frame extends JFrame {
 							}
 						}
 					}
-				}
-				
+				}				
 				//Checks all combo box's to see if they meet specific criteria
 				if(key.getClass().equals(JComboBox.class)){
 					JComboBox comboBox = (JComboBox) key;
