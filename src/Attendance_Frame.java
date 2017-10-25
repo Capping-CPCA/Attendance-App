@@ -272,11 +272,23 @@ public class Attendance_Frame extends JFrame {
 		        
 		        
 		        //TODO: Logic for writing to columns here under the header
-//		        int excelRowCount = 1;
-//		        int tableRowCount = 1;
-//		        while(tableRowCount <= outputTable.getRowCount()){
-//		        	int tableColumnCount = 0;
-//		        }
+		        int excelRowCount = 1;
+		        int tableRowCount = 1;
+		        while(tableRowCount < outputTable.getRowCount()){
+		        	int tableColumnCount = 0;
+		        	int excelColumnCount = 0;
+		        	Row tempRow = sheet.createRow(excelRowCount);
+		        	while(tableColumnCount < outputTable.getColumnCount()){
+		        		Cell tempCell = tempRow.createCell(excelColumnCount);
+		        		if(outputTable.getValueAt(tableRowCount, tableColumnCount) != null){
+		        			tempCell.setCellValue(outputTable.getValueAt(tableRowCount, tableColumnCount).toString());
+		        		}
+		        		tableColumnCount++;
+		        		excelColumnCount++;
+		        	}
+		        	tableRowCount++;
+		        	excelRowCount++;
+		        }
 		        
 		        try (FileOutputStream outputStream = new FileOutputStream("Attendance_Test.xlsx")) {
 		            workbook.write(outputStream);
@@ -500,6 +512,8 @@ public class Attendance_Frame extends JFrame {
 		//Add newly created strings/direct input as a new row in JTable
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println(outputTable.getColumnCount());
+				System.out.println(outputTable.getRowCount());
 				if(!rdbtnAreYouNew.isSelected() && !rdbtnNotFirstClass.isSelected()){
 					return;
 				}
@@ -565,7 +579,8 @@ public class Attendance_Frame extends JFrame {
 					});
 				}			
 				//Clear all textFields after submit for the next participant
-				clearFields();				
+				clearFields();
+				System.out.println(outputTable.getValueAt(1, 0).toString());
 			}
 		});
 		
