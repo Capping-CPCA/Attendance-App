@@ -1,5 +1,6 @@
 package javaApplication;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,6 +17,8 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JMenuBar;
@@ -29,6 +32,10 @@ import java.awt.event.FocusEvent;
 
 public class Attendance_Frame extends JFrame {
 	private JPanel contentPane;
+	//This hash map is used later on in data validation
+	//The key is the text field, and the value is the label that corresponds to that field
+	private HashMap<Object, JLabel> fieldLabelMap = new HashMap<Object, JLabel>();
+	private HashMap<Object, JLabel> fieldLabelMap2 = new HashMap<Object, JLabel>();
 	private JTextField fNameTF;
 	private JTextField lNameTF;
 	JFormattedTextField zipCodeFTF = new JFormattedTextField();
@@ -37,6 +44,23 @@ public class Attendance_Frame extends JFrame {
 	private JTextField ageTF;
 	private JTextField pleaseSpecifySexTF;
 	private JTextField numberOfKidsTF;
+	
+	private JLabel lblFirstName;
+	private JLabel lblLastName;
+	private JLabel lblZipcode;
+	private JLabel lblRace;
+	private JLabel lblClass;
+	private JLabel lblSpecifyOtherRace;
+	private JLabel lblSex;
+	private JLabel lblPleaseSpecifySex;
+	private JLabel lblAge;
+	private JLabel lblNumberOfKids;
+	private JLabel lblDate;
+	private JLabel lblZip;
+	
+	private JRadioButton rdbtnAreYouNew;
+	private JRadioButton rdbtnNotFirstClass;
+	
 	MaskFormatter date = createFormatter("##/##/####");
 	JFormattedTextField dateFTF = new JFormattedTextField();
 	private final ButtonGroup newProgramButtonGroup = new ButtonGroup();
@@ -98,19 +122,19 @@ public class Attendance_Frame extends JFrame {
 		lblCpcaAttendance.setFont(new Font("Cambria", Font.PLAIN, 30));
 		contentPane.add(lblCpcaAttendance);
 		
-		JLabel lblFirstName = new JLabel("First Name:");
+		lblFirstName = new JLabel("First Name:");
 		lblFirstName.setBounds(17, 303, 79, 30);
 		contentPane.add(lblFirstName);
 		
-		JLabel lblLastName = new JLabel("Last Name:");
+		lblLastName = new JLabel("Last Name:");
 		lblLastName.setBounds(17, 337, 79, 22);
 		contentPane.add(lblLastName);
 		
-		JLabel lblZipcode = new JLabel("Zipcode:");
+		lblZipcode = new JLabel("Zipcode:");
 		lblZipcode.setBounds(17, 544, 61, 22);
 		contentPane.add(lblZipcode);
 		
-		JLabel lblRace = new JLabel("Race:");
+		lblRace = new JLabel("Race:");
 		lblRace.setBounds(17, 458, 61, 22);
 		contentPane.add(lblRace);
 		
@@ -124,7 +148,7 @@ public class Attendance_Frame extends JFrame {
 		contentPane.add(lNameTF);
 		lNameTF.setColumns(10);
 		
-		JLabel lblClass = new JLabel("Class:");
+		lblClass = new JLabel("Class:");
 		lblClass.setBounds(17, 402, 61, 16);
 		contentPane.add(lblClass);
 		
@@ -150,7 +174,7 @@ public class Attendance_Frame extends JFrame {
 		
 		JComboBox raceComboBox = new JComboBox();
 		raceComboBox.setBounds(54, 453, 200, 27);
-		raceComboBox.setModel(new DefaultComboBoxModel(new String[] {"", "White", "African-American", "Hispanic", "Asian", "Other"}));
+		raceComboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose Race", "White", "African-American", "Hispanic", "Asian", "Other"}));
 		contentPane.add(raceComboBox);
 		
 		pleaseSpecifyRaceTF = new JTextField();
@@ -159,7 +183,7 @@ public class Attendance_Frame extends JFrame {
 		pleaseSpecifyRaceTF.setColumns(10);
 		pleaseSpecifyRaceTF.setVisible(false);
 		
-		JLabel lblSpecifyOtherRace = new JLabel("Please Specify:");
+		lblSpecifyOtherRace = new JLabel("Please Specify:");
 		lblSpecifyOtherRace.setBounds(264, 457, 79, 18);
 		lblSpecifyOtherRace.setFont(new Font("Lucida Grande", Font.ITALIC, 10));
 		contentPane.add(lblSpecifyOtherRace);
@@ -194,23 +218,23 @@ public class Attendance_Frame extends JFrame {
 		JMenuItem mntmExit = new JMenuItem("Exit");
 		mnFile.add(mntmExit);
 		
-		JLabel lblSex = new JLabel("Sex:");
+		lblSex = new JLabel("Sex:");
 		lblSex.setBounds(17, 430, 61, 16);
 		contentPane.add(lblSex);
 		
 		JComboBox sexComboBox = new JComboBox();
-		sexComboBox.setModel(new DefaultComboBoxModel(new String[] {"", "Male", "Female", "Other"}));
+		sexComboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose Sex", "Male", "Female", "Other"}));
 		sexComboBox.setBounds(54, 426, 200, 27);
 		contentPane.add(sexComboBox);
 		
-		JLabel lblPleaseSpecifySex = new JLabel("Please Specify:");
+		lblPleaseSpecifySex = new JLabel("Please Specify:");
 		lblPleaseSpecifySex.setFont(new Font("Lucida Grande", Font.ITALIC, 10));
 		lblPleaseSpecifySex.setBounds(264, 431, 101, 16);
 		contentPane.add(lblPleaseSpecifySex);
 		lblPleaseSpecifySex.setVisible(false);
 		
-		JLabel lblAge = new JLabel("Age:");
-		lblAge.setBounds(17, 488, 61, 16);
+		lblAge = new JLabel("Age:");
+		lblAge.setBounds(17, 488, 34, 16);
 		contentPane.add(lblAge);
 		
 		ageTF = new JTextField();
@@ -224,8 +248,8 @@ public class Attendance_Frame extends JFrame {
 		pleaseSpecifySexTF.setColumns(10);
 		pleaseSpecifySexTF.setVisible(false);
 		
-		JLabel lblNumberOfKids = new JLabel("Number Of Kids 18 Or Under:");
-		lblNumberOfKids.setBounds(17, 516, 200, 16);
+		lblNumberOfKids = new JLabel("Number Of Kids 18 Or Under:");
+		lblNumberOfKids.setBounds(17, 516, 178, 16);
 		contentPane.add(lblNumberOfKids);
 		
 		numberOfKidsTF = new JTextField();
@@ -233,7 +257,7 @@ public class Attendance_Frame extends JFrame {
 		contentPane.add(numberOfKidsTF);
 		numberOfKidsTF.setColumns(10);
 		
-		JLabel lblDate = new JLabel("Today's Date:");
+		lblDate = new JLabel("Today's Date:");
 		lblDate.setBounds(17, 371, 101, 16);
 		contentPane.add(lblDate);
 		
@@ -241,12 +265,12 @@ public class Attendance_Frame extends JFrame {
 		btnSubmit.setBounds(893, 542, 117, 29);
 		contentPane.add(btnSubmit);
 		
-		JRadioButton rdbtnAreYouNew = new JRadioButton("This is my first class.");
+		rdbtnAreYouNew = new JRadioButton("This is my first class.");
 		firstClassButtonGroup.add(rdbtnAreYouNew);
 		rdbtnAreYouNew.setBounds(17, 268, 167, 23);
 		contentPane.add(rdbtnAreYouNew);
 		
-		JRadioButton rdbtnNotFirstClass = new JRadioButton("This is not my first class.");
+		rdbtnNotFirstClass = new JRadioButton("This is not my first class.");
 		firstClassButtonGroup.add(rdbtnNotFirstClass);
 		rdbtnNotFirstClass.setBounds(182, 268, 200, 23);
 		contentPane.add(rdbtnNotFirstClass);
@@ -277,6 +301,27 @@ public class Attendance_Frame extends JFrame {
 		classTimeComboBox.setVisible(false);
 		classLocationComboBox.setVisible(false);
 		classLanguageComboBox.setVisible(false);
+		
+		//Add text fields and labels into two hash maps, the first one holds all fields, the second one only holds half of them	
+		fieldLabelMap.put(fNameTF, lblFirstName);
+		fieldLabelMap.put(lNameTF, lblLastName);
+		fieldLabelMap.put(classDayComboBox, lblClass);
+		fieldLabelMap.put(classTimeComboBox, lblClass);
+		fieldLabelMap.put(classLocationComboBox, lblClass);
+		fieldLabelMap.put(classLanguageComboBox, lblClass);
+		fieldLabelMap.put(sexComboBox, lblSex);
+		fieldLabelMap.put(raceComboBox, lblRace);
+		fieldLabelMap.put(pleaseSpecifySexTF, lblPleaseSpecifySex);
+		fieldLabelMap.put(pleaseSpecifyRaceTF, lblSpecifyOtherRace);
+		fieldLabelMap.put(dateFTF, lblDate);
+		fieldLabelMap.put(zipCodeFTF, lblZipcode);
+		
+		fieldLabelMap2.put(fNameTF, lblFirstName);
+		fieldLabelMap2.put(lNameTF, lblLastName);
+		fieldLabelMap2.put(classDayComboBox, lblClass);
+		fieldLabelMap2.put(classTimeComboBox, lblClass);
+		fieldLabelMap2.put(classLocationComboBox, lblClass);
+		fieldLabelMap2.put(classLanguageComboBox, lblClass);
 
 		//If new participant - display all information
 		rdbtnAreYouNew.addActionListener(new ActionListener() {
@@ -305,6 +350,10 @@ public class Attendance_Frame extends JFrame {
 					classTimeComboBox.setVisible(true);
 					classLocationComboBox.setVisible(true);
 					classLanguageComboBox.setVisible(true);
+					
+					//Clear the fields on change and label colors
+					clearFields();
+					clearColors();
 				}
 			}
 		});
@@ -338,7 +387,11 @@ public class Attendance_Frame extends JFrame {
 				classDayComboBox.setVisible(true);
 				classTimeComboBox.setVisible(true);
 				classLocationComboBox.setVisible(true);
-				classLanguageComboBox.setVisible(true);				
+				classLanguageComboBox.setVisible(true);
+				
+				//Clear the fields on change and label colors
+				clearFields();
+				clearColors();
 			}
 		});
 
@@ -373,6 +426,13 @@ public class Attendance_Frame extends JFrame {
 		//Add newly created strings/direct input as a new row in JTable
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(!rdbtnAreYouNew.isSelected() && !rdbtnNotFirstClass.isSelected()){
+					return;
+				}
+				clearColors();
+				if(!validateData()){
+					return;
+				}
 				DefaultTableModel table = (DefaultTableModel)outputTable.getModel();
 				String yesOrNo;
 				String sex;
@@ -403,38 +463,36 @@ public class Attendance_Frame extends JFrame {
 					yesOrNo = "No";
 				}
 				
-				table.addRow(new Object[] {
-						fName,
-						lName,
-						dateFTF.getText(),
-						classDayComboBox.getSelectedItem(),
-						classTimeComboBox.getSelectedItem(),
-						classLocationComboBox.getSelectedItem(),
-						classLanguageComboBox.getSelectedItem(),
-						sex,
-						race,
-						ageTF.getText(),
-						numberOfKidsTF.getText(),
-						zipCodeFTF.getText(),
-						yesOrNo
-				});
+				if(rdbtnAreYouNew.isSelected()){
+					table.addRow(new Object[] {
+							fName,
+							lName,
+							dateFTF.getText(),
+							classDayComboBox.getSelectedItem(),
+							classTimeComboBox.getSelectedItem(),
+							classLocationComboBox.getSelectedItem(),
+							classLanguageComboBox.getSelectedItem(),
+							sex,
+							race,
+							ageTF.getText(),
+							numberOfKidsTF.getText(),
+							zipCodeFTF.getText(),
+							yesOrNo
+					});
+				} else {
+					table.addRow(new Object[] {
+							fName,
+							lName,
+							dateFTF.getText(),
+							classDayComboBox.getSelectedItem(),
+							classTimeComboBox.getSelectedItem(),
+							classLocationComboBox.getSelectedItem(),
+							classLanguageComboBox.getSelectedItem()
+					});
+				}
 			
 				//Clear all textFields after submit for the next participant
-				fNameTF.setText("");
-				lNameTF.setText("");
-				zipCodeFTF.setText("");
-				ageTF.setText("");
-				numberOfKidsTF.setText("");
-				dateFTF.setText("");
-				pleaseSpecifySexTF.setText("");
-				pleaseSpecifyRaceTF.setText("");
-				sexComboBox.setSelectedIndex(0);
-				raceComboBox.setSelectedIndex(0);
-				classDayComboBox.setSelectedIndex(0);
-				classTimeComboBox.setSelectedIndex(0);
-				classLocationComboBox.setSelectedIndex(0);
-				classLanguageComboBox.setSelectedIndex(0);
-				
+				clearFields();				
 			}
 		});
 		
@@ -451,6 +509,161 @@ public class Attendance_Frame extends JFrame {
 			public void focusLost(FocusEvent e) {
 				outputTable.setEnabled(false);
 			}
-		});	
+		});
+	}
+	
+	//Validate the data fields throughout the application
+	//If anything isn't correct, highlight things in red and return false boolean
+	public boolean validateData(){
+		boolean returnValue = true;
+		//Validation is different if the "Are you new" radio button is selected
+		if(rdbtnAreYouNew.isSelected()){
+			for(Object key : fieldLabelMap.keySet()){
+				JLabel label = fieldLabelMap.get(key);
+				
+				//Checks all text fields to see if they meet specific criteria
+				if(key.getClass().equals(JTextField.class)){
+					JTextField textField = (JTextField) key;
+					if(textField.isVisible()){
+						if(textField.getText().isEmpty()){
+							label.setForeground(Color.RED);
+							returnValue = false;
+						} else {
+							if(!validateStringField(textField)){
+								returnValue = false;
+								label.setForeground(Color.RED);
+							}
+						}
+					}
+				}
+				
+				//Checks all combo box's to see if they meet specific criteria
+				if(key.getClass().equals(JComboBox.class)){
+					JComboBox comboBox = (JComboBox) key;
+					if(comboBox.isVisible()){
+						String defaultStr = comboBox.getItemAt(0).toString();
+						if(comboBox.getSelectedItem().toString().equals(defaultStr)){
+							label.setForeground(Color.RED);
+							returnValue = false;
+						}
+					}
+				}
+			}
+			
+			//Add additional specific formatted text fields here
+			if(dateFTF.getText().contains("D") || dateFTF.getText().isEmpty()){
+				lblDate.setForeground(Color.RED);
+				returnValue = false;
+			}
+			
+			if(zipCodeFTF.getText().isEmpty()){
+				lblZipcode.setForeground(Color.RED);
+				returnValue = false;
+			}
+			
+			if(ageTF.getText().isEmpty() || !validateIntegerField(ageTF)){
+				lblAge.setForeground(Color.RED);
+				returnValue = false;
+			}
+			
+			if(numberOfKidsTF.getText().isEmpty() || !validateIntegerField(numberOfKidsTF)){
+				lblNumberOfKids.setForeground(Color.RED);
+				returnValue = false;
+			}
+		} else {
+			int count = 0;
+			for(Object key : fieldLabelMap2.keySet()){
+				JLabel label = fieldLabelMap2.get(key);
+				//Checks all text fields to see if they meet specific criteria
+				if(key.getClass().equals(JTextField.class)){
+					JTextField textField = (JTextField) key;
+					if(textField.isVisible()){
+						if(textField.getText().isEmpty()){
+							label.setForeground(Color.RED);
+							returnValue = false;
+						} else {
+							if(!validateStringField(textField)){
+								returnValue = false;
+								label.setForeground(Color.RED);
+							}
+						}
+					}
+				}
+				
+				//Checks all combo box's to see if they meet specific criteria
+				if(key.getClass().equals(JComboBox.class)){
+					JComboBox comboBox = (JComboBox) key;
+					if(comboBox.isVisible()){
+						String defaultStr = comboBox.getItemAt(0).toString();
+						if(comboBox.getSelectedItem().toString().equals(defaultStr)){
+							label.setForeground(Color.RED);
+							returnValue = false;
+						}
+					}
+				}
+			}
+			//Add additional specific formatted text fields here
+			if(dateFTF.getText().contains("D") || dateFTF.getText().isEmpty()){
+				lblDate.setForeground(Color.RED);
+				returnValue = false;
+			}
+		}
+			
+		return returnValue;
+	}
+	
+	//Checks if field has any integers
+	public boolean validateStringField(JTextField field){
+		String fieldString = field.getText();
+		for(int i = 0; i < fieldString.length(); i++){
+			if(Character.isDigit(fieldString.charAt(i))){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	//Checks if field has any strings
+	public boolean validateIntegerField(JTextField field){
+		String fieldString = field.getText();
+		for(int i = 0; i < fieldString.length(); i++){
+			if(!Character.isDigit(fieldString.charAt(i))){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	//Clears all the colors of the labels
+	public void clearColors(){
+		for(Object key : fieldLabelMap.keySet()){
+			JLabel label = fieldLabelMap.get(key);
+			label.setForeground(Color.BLACK);
+		}
+		//These two are not in the hash map
+		lblAge.setForeground(Color.BLACK);
+		lblNumberOfKids.setForeground(Color.BLACK);
+	}
+	
+	//Clears all fields in the form
+	public void clearFields(){
+		//Clear all textFields after submit for the next participant
+		for(Object key : fieldLabelMap.keySet()){			
+			//Checks all text fields to see if they meet specific criteria
+			if(key.getClass().equals(JTextField.class)){
+				JTextField textField = (JTextField) key;
+				textField.setText("");
+			}
+			
+			//Checks all combo box's to see if they meet specific criteria
+			if(key.getClass().equals(JComboBox.class)){
+				JComboBox comboBox = (JComboBox) key;
+				comboBox.setSelectedIndex(0);
+			}
+		}
+		dateFTF.setText("");
+		zipCodeFTF.setText("");
+		ageTF.setText("");
+		numberOfKidsTF.setText("");
 	}
 }
