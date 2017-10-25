@@ -65,6 +65,7 @@ public class Attendance_Frame extends JFrame {
 	private JLabel lblNumberOfKids;
 	private JLabel lblDate;
 	private JLabel lblZip;
+	private static Attendance_Frame frame;
 	
 	private JRadioButton rdbtnAreYouNew;
 	private JRadioButton rdbtnNotFirstClass;
@@ -81,7 +82,7 @@ public class Attendance_Frame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Attendance_Frame frame = new Attendance_Frame();
+					frame = new Attendance_Frame();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -109,7 +110,7 @@ public class Attendance_Frame extends JFrame {
 	 * Create the frame.
 	 */
 	public Attendance_Frame() {
-     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+     	setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 1033, 651);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -301,6 +302,11 @@ public class Attendance_Frame extends JFrame {
 		mnFile.add(mntmSave);
 		
 		JMenuItem mntmExit = new JMenuItem("Exit");
+		mntmExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		});
 		mnFile.add(mntmExit);
 		
 		lblSex = new JLabel("Sex:");
