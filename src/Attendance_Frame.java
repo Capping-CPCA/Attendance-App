@@ -261,8 +261,8 @@ public class Attendance_Frame extends JFrame {
 		lblDate.setBounds(17, 371, 101, 16);
 		contentPane.add(lblDate);
 		
-		JButton btnSubmit = new JButton("Submit");
-		btnSubmit.setBounds(893, 542, 117, 29);
+		JButton btnSubmit = new JButton("Add Attendee");
+		btnSubmit.setBounds(744, 541, 117, 29);
 		contentPane.add(btnSubmit);
 		
 		rdbtnAreYouNew = new JRadioButton("This is my first class.");
@@ -322,6 +322,10 @@ public class Attendance_Frame extends JFrame {
 		fieldLabelMap2.put(classTimeComboBox, lblClass);
 		fieldLabelMap2.put(classLocationComboBox, lblClass);
 		fieldLabelMap2.put(classLanguageComboBox, lblClass);
+		
+		JButton btnUpload = new JButton("Upload");
+		btnUpload.setBounds(880, 541, 117, 29);
+		contentPane.add(btnUpload);
 
 		//If new participant - display all information
 		rdbtnAreYouNew.addActionListener(new ActionListener() {
