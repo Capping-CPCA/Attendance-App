@@ -35,6 +35,7 @@ public class Attendance_Frame extends JFrame {
 	//This hash map is used later on in data validation
 	//The key is the text field, and the value is the label that corresponds to that field
 	private HashMap<Object, JLabel> fieldLabelMap = new HashMap<Object, JLabel>();
+	private HashMap<Object, JLabel> fieldLabelMap2 = new HashMap<Object, JLabel>();
 	private JTextField fNameTF;
 	private JTextField lNameTF;
 	JFormattedTextField zipCodeFTF = new JFormattedTextField();
@@ -58,6 +59,7 @@ public class Attendance_Frame extends JFrame {
 	private JLabel lblZip;
 	
 	private JRadioButton rdbtnAreYouNew;
+	private JRadioButton rdbtnNotFirstClass;
 	
 	MaskFormatter date = createFormatter("##/##/####");
 	JFormattedTextField dateFTF = new JFormattedTextField();
@@ -268,7 +270,7 @@ public class Attendance_Frame extends JFrame {
 		rdbtnAreYouNew.setBounds(17, 268, 167, 23);
 		contentPane.add(rdbtnAreYouNew);
 		
-		JRadioButton rdbtnNotFirstClass = new JRadioButton("This is not my first class.");
+		rdbtnNotFirstClass = new JRadioButton("This is not my first class.");
 		firstClassButtonGroup.add(rdbtnNotFirstClass);
 		rdbtnNotFirstClass.setBounds(182, 268, 200, 23);
 		contentPane.add(rdbtnNotFirstClass);
@@ -300,9 +302,7 @@ public class Attendance_Frame extends JFrame {
 		classLocationComboBox.setVisible(false);
 		classLanguageComboBox.setVisible(false);
 		
-		//Add text fields and labels into hash map
-		//NOTE: The first 6 text fields and label combos need to stay in order for the validation to work if you are not NEW in the class
-		//Do not change order of first 6 text fields
+		//Add text fields and labels into two hash maps, the first one holds all fields, the second one only holds half of them	
 		fieldLabelMap.put(fNameTF, lblFirstName);
 		fieldLabelMap.put(lNameTF, lblLastName);
 		fieldLabelMap.put(classDayComboBox, lblClass);
@@ -315,6 +315,13 @@ public class Attendance_Frame extends JFrame {
 		fieldLabelMap.put(pleaseSpecifyRaceTF, lblSpecifyOtherRace);
 		fieldLabelMap.put(dateFTF, lblDate);
 		fieldLabelMap.put(zipCodeFTF, lblZipcode);
+		
+		fieldLabelMap2.put(fNameTF, lblFirstName);
+		fieldLabelMap2.put(lNameTF, lblLastName);
+		fieldLabelMap2.put(classDayComboBox, lblClass);
+		fieldLabelMap2.put(classTimeComboBox, lblClass);
+		fieldLabelMap2.put(classLocationComboBox, lblClass);
+		fieldLabelMap2.put(classLanguageComboBox, lblClass);
 
 		//If new participant - display all information
 		rdbtnAreYouNew.addActionListener(new ActionListener() {
@@ -343,6 +350,10 @@ public class Attendance_Frame extends JFrame {
 					classTimeComboBox.setVisible(true);
 					classLocationComboBox.setVisible(true);
 					classLanguageComboBox.setVisible(true);
+					
+					//Clear the fields on change and label colors
+					clearFields();
+					clearColors();
 				}
 			}
 		});
@@ -376,7 +387,11 @@ public class Attendance_Frame extends JFrame {
 				classDayComboBox.setVisible(true);
 				classTimeComboBox.setVisible(true);
 				classLocationComboBox.setVisible(true);
-				classLanguageComboBox.setVisible(true);				
+				classLanguageComboBox.setVisible(true);
+				
+				//Clear the fields on change and label colors
+				clearFields();
+				clearColors();
 			}
 		});
 
@@ -411,6 +426,9 @@ public class Attendance_Frame extends JFrame {
 		//Add newly created strings/direct input as a new row in JTable
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(!rdbtnAreYouNew.isSelected() && !rdbtnNotFirstClass.isSelected()){
+					return;
+				}
 				clearColors();
 				if(!validateData()){
 					return;
@@ -444,22 +462,34 @@ public class Attendance_Frame extends JFrame {
 				}else{
 					yesOrNo = "No";
 				}
-
-				table.addRow(new Object[] {
-						fName,
-						lName,
-						dateFTF.getText(),
-						classDayComboBox.getSelectedItem(),
-						classTimeComboBox.getSelectedItem(),
-						classLocationComboBox.getSelectedItem(),
-						classLanguageComboBox.getSelectedItem(),
-						sex,
-						race,
-						ageTF.getText(),
-						numberOfKidsTF.getText(),
-						zipCodeFTF.getText(),
-						yesOrNo
-				});
+				
+				if(rdbtnAreYouNew.isSelected()){
+					table.addRow(new Object[] {
+							fName,
+							lName,
+							dateFTF.getText(),
+							classDayComboBox.getSelectedItem(),
+							classTimeComboBox.getSelectedItem(),
+							classLocationComboBox.getSelectedItem(),
+							classLanguageComboBox.getSelectedItem(),
+							sex,
+							race,
+							ageTF.getText(),
+							numberOfKidsTF.getText(),
+							zipCodeFTF.getText(),
+							yesOrNo
+					});
+				} else {
+					table.addRow(new Object[] {
+							fName,
+							lName,
+							dateFTF.getText(),
+							classDayComboBox.getSelectedItem(),
+							classTimeComboBox.getSelectedItem(),
+							classLocationComboBox.getSelectedItem(),
+							classLanguageComboBox.getSelectedItem()
+					});
+				}
 			
 				//Clear all textFields after submit for the next participant
 				clearFields();				
@@ -542,12 +572,8 @@ public class Attendance_Frame extends JFrame {
 			}
 		} else {
 			int count = 0;
-			for(Object key : fieldLabelMap.keySet()){
-				if(count == 6){
-					break;
-				}
-				JLabel label = fieldLabelMap.get(key);
-				
+			for(Object key : fieldLabelMap2.keySet()){
+				JLabel label = fieldLabelMap2.get(key);
 				//Checks all text fields to see if they meet specific criteria
 				if(key.getClass().equals(JTextField.class)){
 					JTextField textField = (JTextField) key;
@@ -575,7 +601,6 @@ public class Attendance_Frame extends JFrame {
 						}
 					}
 				}
-				count += 1;
 			}
 			//Add additional specific formatted text fields here
 			if(dateFTF.getText().contains("D") || dateFTF.getText().isEmpty()){
@@ -620,11 +645,10 @@ public class Attendance_Frame extends JFrame {
 		lblNumberOfKids.setForeground(Color.BLACK);
 	}
 	
+	//Clears all fields in the form
 	public void clearFields(){
 		//Clear all textFields after submit for the next participant
-		for(Object key : fieldLabelMap.keySet()){
-			JLabel label = fieldLabelMap.get(key);
-			
+		for(Object key : fieldLabelMap.keySet()){			
 			//Checks all text fields to see if they meet specific criteria
 			if(key.getClass().equals(JTextField.class)){
 				JTextField textField = (JTextField) key;
