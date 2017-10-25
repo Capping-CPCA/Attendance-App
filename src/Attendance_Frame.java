@@ -271,7 +271,7 @@ public class Attendance_Frame extends JFrame {
 		        newCell.setCellValue("New");
 		        
 		        
-		        //TODO: Logic for writing to columns here under the header
+		        //Logic for writing to columns here under the header
 		        int excelRowCount = 1;
 		        int tableRowCount = 1;
 		        while(tableRowCount < outputTable.getRowCount()){
@@ -297,6 +297,7 @@ public class Attendance_Frame extends JFrame {
 		        }
 			}
 		});
+		
 		mnFile.add(mntmSave);
 		
 		JMenuItem mntmExit = new JMenuItem("Exit");
@@ -512,8 +513,6 @@ public class Attendance_Frame extends JFrame {
 		//Add newly created strings/direct input as a new row in JTable
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(outputTable.getColumnCount());
-				System.out.println(outputTable.getRowCount());
 				if(!rdbtnAreYouNew.isSelected() && !rdbtnNotFirstClass.isSelected()){
 					return;
 				}
@@ -580,7 +579,6 @@ public class Attendance_Frame extends JFrame {
 				}			
 				//Clear all textFields after submit for the next participant
 				clearFields();
-				System.out.println(outputTable.getValueAt(1, 0).toString());
 			}
 		});
 		
