@@ -307,8 +307,6 @@ public class Attendance_Frame extends JFrame {
 		fieldLabelMap.put(classLanguageComboBox, lblClass);
 		fieldLabelMap.put(sexComboBox, lblSex);
 		fieldLabelMap.put(raceComboBox, lblRace);
-		fieldLabelMap.put(ageTF, lblAge);
-		fieldLabelMap.put(numberOfKidsTF, lblNumberOfKids);
 		fieldLabelMap.put(pleaseSpecifySexTF, lblPleaseSpecifySex);
 		fieldLabelMap.put(pleaseSpecifyRaceTF, lblSpecifyOtherRace);
 		fieldLabelMap.put(dateFTF, lblDate);
@@ -442,7 +440,7 @@ public class Attendance_Frame extends JFrame {
 				}else{
 					yesOrNo = "No";
 				}
-				
+
 				table.addRow(new Object[] {
 						fName,
 						lName,
@@ -528,26 +526,29 @@ public class Attendance_Frame extends JFrame {
 					}
 				}
 			}
-			
-			//Add additional specific formatted text fields here
-			if(dateFTF.getText().contains("D") || dateFTF.getText().isEmpty()){
-				lblDate.setForeground(Color.RED);
-				returnValue = false;
-			}
-			
-			if(zipCodeFTF.getText().isEmpty()){
-				lblZipcode.setForeground(Color.RED);
-				returnValue = false;
-			}
-			
-			if(!ageTF.getText().isEmpty()){
-				lblAge.setForeground(Color.BLACK);
-			}
-			
-			if(!numberOfKidsTF.getText().isEmpty()){
-				lblNumberOfKids.setForeground(Color.BLACK);
-			}
 		}
+		
+		//Add additional specific formatted text fields here
+		if(dateFTF.getText().contains("D") || dateFTF.getText().isEmpty()){
+			lblDate.setForeground(Color.RED);
+			returnValue = false;
+		}
+		
+		if(zipCodeFTF.getText().isEmpty()){
+			lblZipcode.setForeground(Color.RED);
+			returnValue = false;
+		}
+		
+		if(ageTF.getText().isEmpty() || !validateIntegerField(ageTF)){
+			lblAge.setForeground(Color.RED);
+			returnValue = false;
+		}
+		
+		if(numberOfKidsTF.getText().isEmpty() || !validateIntegerField(numberOfKidsTF)){
+			lblNumberOfKids.setForeground(Color.RED);
+			returnValue = false;
+		}
+			
 		return returnValue;
 	}
 	
@@ -562,10 +563,25 @@ public class Attendance_Frame extends JFrame {
 		return true;
 	}
 	
+	//Checks if field has any strings
+	public boolean validateIntegerField(JTextField field){
+		String fieldString = field.getText();
+		for(int i = 0; i < fieldString.length(); i++){
+			if(!Character.isDigit(fieldString.charAt(i))){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	//Clears all the colors of the labels
 	public void clearColors(){
 		for(Object key : fieldLabelMap.keySet()){
 			JLabel label = fieldLabelMap.get(key);
 			label.setForeground(Color.BLACK);
 		}
+		//These two are not in the hash map
+		lblAge.setForeground(Color.BLACK);
+		lblNumberOfKids.setForeground(Color.BLACK);
 	}
 }
