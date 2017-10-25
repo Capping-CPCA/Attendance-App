@@ -57,6 +57,8 @@ public class Attendance_Frame extends JFrame {
 	private JLabel lblDate;
 	private JLabel lblZip;
 	
+	private JRadioButton rdbtnAreYouNew;
+	
 	MaskFormatter date = createFormatter("##/##/####");
 	JFormattedTextField dateFTF = new JFormattedTextField();
 	private final ButtonGroup newProgramButtonGroup = new ButtonGroup();
@@ -261,7 +263,7 @@ public class Attendance_Frame extends JFrame {
 		btnSubmit.setBounds(893, 542, 117, 29);
 		contentPane.add(btnSubmit);
 		
-		JRadioButton rdbtnAreYouNew = new JRadioButton("This is my first class.");
+		rdbtnAreYouNew = new JRadioButton("This is my first class.");
 		firstClassButtonGroup.add(rdbtnAreYouNew);
 		rdbtnAreYouNew.setBounds(17, 268, 167, 23);
 		contentPane.add(rdbtnAreYouNew);
@@ -299,6 +301,8 @@ public class Attendance_Frame extends JFrame {
 		classLanguageComboBox.setVisible(false);
 		
 		//Add text fields and labels into hash map
+		//NOTE: The first 6 text fields and label combos need to stay in order for the validation to work if you are not NEW in the class
+		//Do not change order of first 6 text fields
 		fieldLabelMap.put(fNameTF, lblFirstName);
 		fieldLabelMap.put(lNameTF, lblLastName);
 		fieldLabelMap.put(classDayComboBox, lblClass);
@@ -496,57 +500,102 @@ public class Attendance_Frame extends JFrame {
 	//If anything isn't correct, highlight things in red and return false boolean
 	public boolean validateData(){
 		boolean returnValue = true;
-		for(Object key : fieldLabelMap.keySet()){
-			JLabel label = fieldLabelMap.get(key);
-			
-			//Checks all text fields to see if they meet specific criteria
-			if(key.getClass().equals(JTextField.class)){
-				JTextField textField = (JTextField) key;
-				if(textField.isVisible()){
-					if(textField.getText().isEmpty()){
-						label.setForeground(Color.RED);
-						returnValue = false;
-					} else {
-						if(!validateStringField(textField)){
-							returnValue = false;
+		//Validation is different if the "Are you new" radio button is selected
+		if(rdbtnAreYouNew.isSelected()){
+			for(Object key : fieldLabelMap.keySet()){
+				JLabel label = fieldLabelMap.get(key);
+				
+				//Checks all text fields to see if they meet specific criteria
+				if(key.getClass().equals(JTextField.class)){
+					JTextField textField = (JTextField) key;
+					if(textField.isVisible()){
+						if(textField.getText().isEmpty()){
 							label.setForeground(Color.RED);
+							returnValue = false;
+						} else {
+							if(!validateStringField(textField)){
+								returnValue = false;
+								label.setForeground(Color.RED);
+							}
+						}
+					}
+				}
+				
+				//Checks all combo box's to see if they meet specific criteria
+				if(key.getClass().equals(JComboBox.class)){
+					JComboBox comboBox = (JComboBox) key;
+					if(comboBox.isVisible()){
+						String defaultStr = comboBox.getItemAt(0).toString();
+						if(comboBox.getSelectedItem().toString().equals(defaultStr)){
+							label.setForeground(Color.RED);
+							returnValue = false;
 						}
 					}
 				}
 			}
 			
-			//Checks all combo box's to see if they meet specific criteria
-			if(key.getClass().equals(JComboBox.class)){
-				JComboBox comboBox = (JComboBox) key;
-				if(comboBox.isVisible()){
-					String defaultStr = comboBox.getItemAt(0).toString();
-					if(comboBox.getSelectedItem().toString().equals(defaultStr)){
-						label.setForeground(Color.RED);
-						returnValue = false;
+			//Add additional specific formatted text fields here
+			if(dateFTF.getText().contains("D") || dateFTF.getText().isEmpty()){
+				lblDate.setForeground(Color.RED);
+				returnValue = false;
+			}
+			
+			if(zipCodeFTF.getText().isEmpty()){
+				lblZipcode.setForeground(Color.RED);
+				returnValue = false;
+			}
+			
+			if(ageTF.getText().isEmpty() || !validateIntegerField(ageTF)){
+				lblAge.setForeground(Color.RED);
+				returnValue = false;
+			}
+			
+			if(numberOfKidsTF.getText().isEmpty() || !validateIntegerField(numberOfKidsTF)){
+				lblNumberOfKids.setForeground(Color.RED);
+				returnValue = false;
+			}
+		} else {
+			int count = 0;
+			for(Object key : fieldLabelMap.keySet()){
+				if(count == 6){
+					break;
+				}
+				JLabel label = fieldLabelMap.get(key);
+				
+				//Checks all text fields to see if they meet specific criteria
+				if(key.getClass().equals(JTextField.class)){
+					JTextField textField = (JTextField) key;
+					if(textField.isVisible()){
+						if(textField.getText().isEmpty()){
+							label.setForeground(Color.RED);
+							returnValue = false;
+						} else {
+							if(!validateStringField(textField)){
+								returnValue = false;
+								label.setForeground(Color.RED);
+							}
+						}
 					}
 				}
+				
+				//Checks all combo box's to see if they meet specific criteria
+				if(key.getClass().equals(JComboBox.class)){
+					JComboBox comboBox = (JComboBox) key;
+					if(comboBox.isVisible()){
+						String defaultStr = comboBox.getItemAt(0).toString();
+						if(comboBox.getSelectedItem().toString().equals(defaultStr)){
+							label.setForeground(Color.RED);
+							returnValue = false;
+						}
+					}
+				}
+				count += 1;
 			}
-		}
-		
-		//Add additional specific formatted text fields here
-		if(dateFTF.getText().contains("D") || dateFTF.getText().isEmpty()){
-			lblDate.setForeground(Color.RED);
-			returnValue = false;
-		}
-		
-		if(zipCodeFTF.getText().isEmpty()){
-			lblZipcode.setForeground(Color.RED);
-			returnValue = false;
-		}
-		
-		if(ageTF.getText().isEmpty() || !validateIntegerField(ageTF)){
-			lblAge.setForeground(Color.RED);
-			returnValue = false;
-		}
-		
-		if(numberOfKidsTF.getText().isEmpty() || !validateIntegerField(numberOfKidsTF)){
-			lblNumberOfKids.setForeground(Color.RED);
-			returnValue = false;
+			//Add additional specific formatted text fields here
+			if(dateFTF.getText().contains("D") || dateFTF.getText().isEmpty()){
+				lblDate.setForeground(Color.RED);
+				returnValue = false;
+			}
 		}
 			
 		return returnValue;
