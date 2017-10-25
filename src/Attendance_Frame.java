@@ -74,6 +74,7 @@ public class Attendance_Frame extends JFrame {
 	JFormattedTextField dateFTF = new JFormattedTextField();
 	private final ButtonGroup newProgramButtonGroup = new ButtonGroup();
 	private final ButtonGroup firstClassButtonGroup = new ButtonGroup();
+	private JMenuItem mntmOpen;
 
 	/**
 	 * Launch the application.
@@ -307,6 +308,9 @@ public class Attendance_Frame extends JFrame {
 				frame.dispose();
 			}
 		});
+		
+		mntmOpen = new JMenuItem("Open");
+		mnFile.add(mntmOpen);
 		mnFile.add(mntmExit);
 		
 		lblSex = new JLabel("Sex:");
