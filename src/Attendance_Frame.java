@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import javax.swing.JButton;
@@ -13,6 +14,7 @@ import java.awt.Font;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
@@ -123,7 +125,7 @@ public class Attendance_Frame extends JFrame {
 		
 		date.setPlaceholderCharacter('D');
 	    date.setValidCharacters("0123456789");
-		dateFTF.setBounds(111, 364, 144, 30);
+		dateFTF.setBounds(91, 364, 164, 30);
 		date.install(dateFTF);
 		contentPane.add(dateFTF);
 		
@@ -310,6 +312,23 @@ public class Attendance_Frame extends JFrame {
 		});
 		
 		mntmOpen = new JMenuItem("Open");
+		
+		//Utilizes JFileChooser API which is a GUI to select files and get file path
+		mntmOpen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//Open file allowing only excel files
+				JFileChooser chooser = new JFileChooser();
+			    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			        "Excel Files (.xlsx)", "xlsx");
+			    chooser.setFileFilter(filter);
+			    int returnVal = chooser.showOpenDialog(getParent());
+			    //When the correct type of file is selected, then read the excel file and populate the table
+			    if(returnVal == JFileChooser.APPROVE_OPTION) {
+			    	String filePath = chooser.getSelectedFile().getAbsolutePath();
+			    	System.out.println(filePath);
+			    }
+			}
+		});
 		mnFile.add(mntmOpen);
 		mnFile.add(mntmExit);
 		
@@ -352,8 +371,8 @@ public class Attendance_Frame extends JFrame {
 		contentPane.add(numberOfKidsTF);
 		numberOfKidsTF.setColumns(10);
 		
-		lblDate = new JLabel("Today's Date:");
-		lblDate.setBounds(17, 371, 101, 16);
+		lblDate = new JLabel("Date:");
+		lblDate.setBounds(17, 371, 50, 16);
 		contentPane.add(lblDate);
 		
 		JButton btnSubmit = new JButton("Add Attendee");
