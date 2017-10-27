@@ -13,6 +13,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.SpringLayout;
+import javax.swing.UIManager;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
@@ -39,6 +41,10 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import com.seaglasslookandfeel.SeaGlassLookAndFeel;
+import com.jgoodies.looks.*;
+import com.alee.laf.WebLookAndFeel;
 
 public class Attendance_Frame extends JFrame {
 	private JPanel contentPane;
@@ -85,6 +91,10 @@ public class Attendance_Frame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+//					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//					UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+//					UIManager.setLookAndFeel("com.jgoodies.looks.windows.WindowsLookAndFeel");
+//					WebLookAndFeel.install ();
 					frame = new Attendance_Frame();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -218,7 +228,7 @@ public class Attendance_Frame extends JFrame {
 			));
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 1010, 22);
+		menuBar.setBounds(0, 0, 1032, 22);
 		contentPane.add(menuBar);
 		
 		JMenu mnFile = new JMenu("File");
