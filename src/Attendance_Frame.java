@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import javax.swing.JButton;
@@ -23,6 +24,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JMenuBar;
@@ -41,10 +43,15 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import com.jgoodies.looks.*;
 import com.alee.laf.WebLookAndFeel;
+import com.alee.managers.style.StyleManager;
+import com.alee.managers.style.skin.ninepatch.NinePatchSkin;
 
 public class Attendance_Frame extends JFrame {
 	private JPanel contentPane;
@@ -83,6 +90,8 @@ public class Attendance_Frame extends JFrame {
 	private final ButtonGroup newProgramButtonGroup = new ButtonGroup();
 	private final ButtonGroup firstClassButtonGroup = new ButtonGroup();
 	private JMenuItem mntmOpen;
+	
+	private StyleManager styleManager = new StyleManager();
 
 	/**
 	 * Launch the application.
@@ -94,7 +103,7 @@ public class Attendance_Frame extends JFrame {
 //					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 //					UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
 //					UIManager.setLookAndFeel("com.jgoodies.looks.windows.WindowsLookAndFeel");
-//					WebLookAndFeel.install ();
+					WebLookAndFeel.install ();
 					frame = new Attendance_Frame();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -123,6 +132,7 @@ public class Attendance_Frame extends JFrame {
 	 * Create the frame.
 	 */
 	public Attendance_Frame() {
+		setResizable(false);
      	setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 1033, 651);
 		contentPane = new JPanel();
@@ -133,11 +143,22 @@ public class Attendance_Frame extends JFrame {
 		zipCodeFTF.setBounds(77, 544, 178, 22);
 		contentPane.add(zipCodeFTF);
 		
-		date.setPlaceholderCharacter('D');
-	    date.setValidCharacters("0123456789");
-		dateFTF.setBounds(91, 364, 164, 30);
-		date.install(dateFTF);
-		contentPane.add(dateFTF);
+		//New Date here
+		UtilDateModel model = new UtilDateModel();
+		Properties p = new Properties();
+		p.put("text.today", "Today");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		datePicker.setBounds(91, 364, 164, 30);
+		contentPane.add(datePicker);
+		
+//		date.setPlaceholderCharacter('D');
+//	    date.setValidCharacters("0123456789");
+//		dateFTF.setBounds(91, 364, 164, 30);
+//		date.install(dateFTF);
+//		contentPane.add(dateFTF);
 		
 		JLabel lblCpcaAttendance = new JLabel("PEP Attendance Sheet");
 		lblCpcaAttendance.setBounds(343, 25, 330, 38);
