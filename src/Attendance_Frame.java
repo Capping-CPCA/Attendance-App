@@ -364,32 +364,75 @@ public class Attendance_Frame extends JFrame {
 			    		//Clear table
 			    		defaultModel.setRowCount(0);
 			    		
+			    		//Open excel file and workbook
 				    	FileInputStream excelFile = new FileInputStream(new File(filePath));
 				    	Workbook workbook = new XSSFWorkbook(excelFile);
 				    	Sheet datatypeSheet = workbook.getSheetAt(0);
 				    	Iterator<Row> iterator = datatypeSheet.iterator();
+				    	
 				    	//If this is false, you skip over the header row of the excel sheet
 				    	boolean headerRow = false;
-				    	
 				    	while(iterator.hasNext()){
+				    		//Array and count to hold string values in each cell
+				    		String[] row = new String[13];
+				    		int cellCount = 0;
+				    		
+				    		//Get row in excel sheet
 				    		Row currentRow = iterator.next();
+				    		
 				    		//Skip over header row
 				    		if(headerRow == false){
 				    			headerRow = true;
 				    			continue;
 				    		}
 				    		
+				    		//Iterate through each cell in excel sheet
 				    		Iterator<Cell> cellIterator = currentRow.iterator();
-				    		
 				    		while(cellIterator.hasNext()){
 				    			Cell currentCell = cellIterator.next();
+				    			String cellString = currentCell.getStringCellValue();
+				    			if(!cellString.isEmpty()){
+				    				row[cellCount] = cellString;
+				    				cellCount++;
+				    			}
+				    		}
+				    		
+				    		//Add row to the table(Check what type of row you are adding to table by checking if last value is empty)
+				    		if(row[12] == null){
+				    			defaultModel.addRow(new Object[] {
+										row[0],
+										row[1],
+										row[2],
+										row[3],
+										row[4],
+										row[5],
+										row[6]
+								});
+				    		} else {
+				    			defaultModel.addRow(new Object[] {
+										row[0],
+										row[1],
+										row[2],
+										row[3],
+										row[4],
+										row[5],
+										row[6],
+										row[7],
+										row[8],
+										row[9],
+										row[10],
+										row[11],
+										row[12]
+								});
 				    		}
 				    	}
 				    	
 				    } catch (FileNotFoundException e) {
-				    	
+				    	//TODO: If file was not found, do a pop up
+				    	System.out.println("File not found");
 				    } catch (IOException e) {
-				    	
+				    	//TODO: If something goes wrong with IO, do a pop up
+				    	System.out.println("IOException");
 				    }
 			    }
 			}
@@ -614,7 +657,6 @@ public class Attendance_Frame extends JFrame {
 				if(!validateData()){
 					return;
 				}
-				DefaultTableModel table = (DefaultTableModel)outputTable.getModel();
 				String yesOrNo;
 				String sex;
 				String classroom;
@@ -645,7 +687,7 @@ public class Attendance_Frame extends JFrame {
 				}
 				
 				if(rdbtnAreYouNew.isSelected()){
-					table.addRow(new Object[] {
+					defaultModel.addRow(new Object[] {
 							fName,
 							lName,
 							datePicker.getModel().getValue().toString(),
@@ -661,7 +703,7 @@ public class Attendance_Frame extends JFrame {
 							yesOrNo
 					});
 				} else {
-					table.addRow(new Object[] {
+					defaultModel.addRow(new Object[] {
 							fName,
 							lName,
 							datePicker.getModel().getValue().toString(),
