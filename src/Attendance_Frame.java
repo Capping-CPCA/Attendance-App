@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import javax.swing.JButton;
@@ -12,13 +14,18 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.SpringLayout;
+import javax.swing.UIManager;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Properties;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JMenuBar;
@@ -29,14 +36,28 @@ import javax.swing.text.MaskFormatter;
 import javax.swing.JFormattedTextField;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 //You need to add external Jars to your build path for these excel packages
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
+import com.seaglasslookandfeel.SeaGlassLookAndFeel;
+import com.jgoodies.looks.*;
+import com.alee.laf.WebLookAndFeel;
+import com.alee.managers.style.StyleManager;
+import com.alee.managers.style.skin.ninepatch.NinePatchSkin;
 
 public class Attendance_Frame extends JFrame {
 	private JPanel contentPane;
@@ -65,15 +86,19 @@ public class Attendance_Frame extends JFrame {
 	private JLabel lblNumberOfKids;
 	private JLabel lblDate;
 	private JLabel lblZip;
+	private JDatePickerImpl datePicker;
 	private static Attendance_Frame frame;
 	
 	private JRadioButton rdbtnAreYouNew;
 	private JRadioButton rdbtnNotFirstClass;
 	
-	MaskFormatter date = createFormatter("##/##/####");
-	JFormattedTextField dateFTF = new JFormattedTextField();
+//	MaskFormatter date = createFormatter("##/##/####");
+//	JFormattedTextField dateFTF = new JFormattedTextField();
 	private final ButtonGroup newProgramButtonGroup = new ButtonGroup();
 	private final ButtonGroup firstClassButtonGroup = new ButtonGroup();
+	private JMenuItem mntmOpen;
+	
+	private StyleManager styleManager = new StyleManager();
 
 	/**
 	 * Launch the application.
@@ -82,6 +107,10 @@ public class Attendance_Frame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+//					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//					UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+//					UIManager.setLookAndFeel("com.jgoodies.looks.windows.WindowsLookAndFeel");
+					WebLookAndFeel.install ();
 					frame = new Attendance_Frame();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -110,6 +139,7 @@ public class Attendance_Frame extends JFrame {
 	 * Create the frame.
 	 */
 	public Attendance_Frame() {
+		setResizable(false);
      	setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 1033, 651);
 		contentPane = new JPanel();
@@ -120,11 +150,16 @@ public class Attendance_Frame extends JFrame {
 		zipCodeFTF.setBounds(77, 544, 178, 22);
 		contentPane.add(zipCodeFTF);
 		
-		date.setPlaceholderCharacter('D');
-	    date.setValidCharacters("0123456789");
-		dateFTF.setBounds(111, 364, 144, 30);
-		date.install(dateFTF);
-		contentPane.add(dateFTF);
+		//New Date here
+		UtilDateModel model = new UtilDateModel();
+		Properties p = new Properties();
+		p.put("text.today", "Today");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		datePicker.setBounds(91, 364, 164, 30);
+		contentPane.add(datePicker);
 		
 		JLabel lblCpcaAttendance = new JLabel("PEP Attendance Sheet");
 		lblCpcaAttendance.setBounds(343, 25, 330, 38);
@@ -204,7 +239,7 @@ public class Attendance_Frame extends JFrame {
 		
 		outputTable = new JTable();
 		scrollPane.setViewportView(outputTable);
-		outputTable.setModel(new DefaultTableModel(
+		DefaultTableModel defaultModel = new DefaultTableModel(
 				new Object[][] {
 					{null, null, null, null, null, null},
 				},
@@ -212,10 +247,12 @@ public class Attendance_Frame extends JFrame {
 					"First", "Last", "Date", "Day", "Time", 
 					"Location", "Language","Sex", "Race", "Age","18&Under", "Zipcode","New"
 				}
-			));
+			);
+		defaultModel.setRowCount(0);
+		outputTable.setModel(defaultModel);
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 1010, 22);
+		menuBar.setBounds(0, 0, 1032, 22);
 		contentPane.add(menuBar);
 		
 		JMenu mnFile = new JMenu("File");
@@ -274,7 +311,7 @@ public class Attendance_Frame extends JFrame {
 		        
 		        //Logic for writing to columns here under the header
 		        int excelRowCount = 1;
-		        int tableRowCount = 1;
+		        int tableRowCount = 0;
 		        while(tableRowCount < outputTable.getRowCount()){
 		        	int tableColumnCount = 0;
 		        	int excelColumnCount = 0;
@@ -307,6 +344,100 @@ public class Attendance_Frame extends JFrame {
 				frame.dispose();
 			}
 		});
+		
+		mntmOpen = new JMenuItem("Open");
+		
+		//Utilizes JFileChooser API which is a GUI to select files and get file path
+		mntmOpen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//Open file allowing only excel files
+				JFileChooser chooser = new JFileChooser();
+			    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			        "Excel Files (.xlsx)", "xlsx");
+			    chooser.setFileFilter(filter);
+			    int returnVal = chooser.showOpenDialog(getParent());
+			    //When the correct type of file is selected, then read the excel file and populate the table
+			    if(returnVal == JFileChooser.APPROVE_OPTION) {
+			    	String filePath = chooser.getSelectedFile().getAbsolutePath();
+			    	//Opening file and populating to JTable
+			    	try {
+			    		//Clear table
+			    		defaultModel.setRowCount(0);
+			    		
+			    		//Open excel file and workbook
+				    	FileInputStream excelFile = new FileInputStream(new File(filePath));
+				    	Workbook workbook = new XSSFWorkbook(excelFile);
+				    	Sheet datatypeSheet = workbook.getSheetAt(0);
+				    	Iterator<Row> iterator = datatypeSheet.iterator();
+				    	
+				    	//If this is false, you skip over the header row of the excel sheet
+				    	boolean headerRow = false;
+				    	while(iterator.hasNext()){
+				    		//Array and count to hold string values in each cell
+				    		String[] row = new String[13];
+				    		int cellCount = 0;
+				    		
+				    		//Get row in excel sheet
+				    		Row currentRow = iterator.next();
+				    		
+				    		//Skip over header row
+				    		if(headerRow == false){
+				    			headerRow = true;
+				    			continue;
+				    		}
+				    		
+				    		//Iterate through each cell in excel sheet
+				    		Iterator<Cell> cellIterator = currentRow.iterator();
+				    		while(cellIterator.hasNext()){
+				    			Cell currentCell = cellIterator.next();
+				    			String cellString = currentCell.getStringCellValue();
+				    			if(!cellString.isEmpty()){
+				    				row[cellCount] = cellString;
+				    				cellCount++;
+				    			}
+				    		}
+				    		
+				    		//Add row to the table(Check what type of row you are adding to table by checking if last value is empty)
+				    		if(row[12] == null){
+				    			defaultModel.addRow(new Object[] {
+										row[0],
+										row[1],
+										row[2],
+										row[3],
+										row[4],
+										row[5],
+										row[6]
+								});
+				    		} else {
+				    			defaultModel.addRow(new Object[] {
+										row[0],
+										row[1],
+										row[2],
+										row[3],
+										row[4],
+										row[5],
+										row[6],
+										row[7],
+										row[8],
+										row[9],
+										row[10],
+										row[11],
+										row[12]
+								});
+				    		}
+				    	}
+				    	
+				    } catch (FileNotFoundException e) {
+				    	//TODO: If file was not found, do a pop up
+				    	System.out.println("File not found");
+				    } catch (IOException e) {
+				    	//TODO: If something goes wrong with IO, do a pop up
+				    	System.out.println("IOException");
+				    }
+			    }
+			}
+		});
+		mnFile.add(mntmOpen);
 		mnFile.add(mntmExit);
 		
 		lblSex = new JLabel("Sex:");
@@ -348,8 +479,8 @@ public class Attendance_Frame extends JFrame {
 		contentPane.add(numberOfKidsTF);
 		numberOfKidsTF.setColumns(10);
 		
-		lblDate = new JLabel("Today's Date:");
-		lblDate.setBounds(17, 371, 101, 16);
+		lblDate = new JLabel("Date:");
+		lblDate.setBounds(17, 371, 50, 16);
 		contentPane.add(lblDate);
 		
 		JButton btnSubmit = new JButton("Add Attendee");
@@ -374,7 +505,7 @@ public class Attendance_Frame extends JFrame {
 		ageTF.setVisible(false);
 		pleaseSpecifySexTF.setVisible(false);
 		numberOfKidsTF.setVisible(false);
-		dateFTF.setVisible(false);
+		datePicker.setVisible(false);
 		
 		lblFirstName.setVisible(false);
 		lblLastName.setVisible(false);
@@ -404,7 +535,7 @@ public class Attendance_Frame extends JFrame {
 		fieldLabelMap.put(raceComboBox, lblRace);
 		fieldLabelMap.put(pleaseSpecifySexTF, lblPleaseSpecifySex);
 		fieldLabelMap.put(pleaseSpecifyRaceTF, lblSpecifyOtherRace);
-		fieldLabelMap.put(dateFTF, lblDate);
+		fieldLabelMap.put(datePicker, lblDate);
 		fieldLabelMap.put(zipCodeFTF, lblZipcode);
 		
 		fieldLabelMap2.put(fNameTF, lblFirstName);
@@ -427,7 +558,7 @@ public class Attendance_Frame extends JFrame {
 					zipCodeFTF.setVisible(true);
 					ageTF.setVisible(true);
 					numberOfKidsTF.setVisible(true);
-					dateFTF.setVisible(true);
+					datePicker.setVisible(true);
 					
 					lblFirstName.setVisible(true);
 					lblLastName.setVisible(true);
@@ -461,7 +592,7 @@ public class Attendance_Frame extends JFrame {
 				zipCodeFTF.setVisible(false);
 				ageTF.setVisible(false);
 				numberOfKidsTF.setVisible(false);
-				dateFTF.setVisible(true);
+				datePicker.setVisible(true);
 				pleaseSpecifySexTF.setVisible(false);
 				pleaseSpecifyRaceTF.setVisible(false);
 				
@@ -526,7 +657,6 @@ public class Attendance_Frame extends JFrame {
 				if(!validateData()){
 					return;
 				}
-				DefaultTableModel table = (DefaultTableModel)outputTable.getModel();
 				String yesOrNo;
 				String sex;
 				String classroom;
@@ -557,10 +687,10 @@ public class Attendance_Frame extends JFrame {
 				}
 				
 				if(rdbtnAreYouNew.isSelected()){
-					table.addRow(new Object[] {
+					defaultModel.addRow(new Object[] {
 							fName,
 							lName,
-							dateFTF.getText(),
+							datePicker.getModel().getValue().toString(),
 							classDayComboBox.getSelectedItem(),
 							classTimeComboBox.getSelectedItem(),
 							classLocationComboBox.getSelectedItem(),
@@ -573,10 +703,10 @@ public class Attendance_Frame extends JFrame {
 							yesOrNo
 					});
 				} else {
-					table.addRow(new Object[] {
+					defaultModel.addRow(new Object[] {
 							fName,
 							lName,
-							dateFTF.getText(),
+							datePicker.getModel().getValue().toString(),
 							classDayComboBox.getSelectedItem(),
 							classTimeComboBox.getSelectedItem(),
 							classLocationComboBox.getSelectedItem(),
@@ -643,7 +773,7 @@ public class Attendance_Frame extends JFrame {
 			}
 			
 			//Add additional specific formatted text fields here
-			if(dateFTF.getText().contains("D") || dateFTF.getText().isEmpty()){
+			if(datePicker.getModel().getValue() == null){
 				lblDate.setForeground(Color.RED);
 				returnValue = false;
 			}
@@ -692,8 +822,9 @@ public class Attendance_Frame extends JFrame {
 					}
 				}
 			}
+			
 			//Add additional specific formatted text fields here
-			if(dateFTF.getText().contains("D") || dateFTF.getText().isEmpty()){
+			if(datePicker.getModel().getValue() == null){
 				lblDate.setForeground(Color.RED);
 				returnValue = false;
 			}
@@ -751,7 +882,7 @@ public class Attendance_Frame extends JFrame {
 				comboBox.setSelectedIndex(0);
 			}
 		}
-		dateFTF.setText("");
+		datePicker.getModel().setValue(null);
 		zipCodeFTF.setText("");
 		ageTF.setText("");
 		numberOfKidsTF.setText("");
