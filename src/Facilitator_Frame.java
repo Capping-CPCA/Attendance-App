@@ -9,6 +9,10 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
 import com.alee.laf.WebLookAndFeel;
 
 import javax.swing.JComboBox;
@@ -20,6 +24,7 @@ import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.Properties;
 import java.awt.event.ActionEvent;
 
 import com.alee.laf.WebLookAndFeel;
@@ -31,9 +36,10 @@ public class Facilitator_Frame extends JFrame {
 	private static Facilitator_Frame facilitator_frame;
 	private JComboBox instructorNameComboBox;
 	private JComboBox topicComboBox;
-	private JFormattedTextField dateFTF;
+//	private JFormattedTextField dateFTF;
 	private JComboBox startTimeComboBox;
 	private JComboBox locationComboBox;
+	private JDatePickerImpl datePicker;
 	
 	
 	MaskFormatter date = createFormatter("##/##/####");
@@ -80,7 +86,6 @@ public class Facilitator_Frame extends JFrame {
 		
 		instructorNameComboBox = new JComboBox();
 		topicComboBox = new JComboBox();
-		dateFTF = new JFormattedTextField();
 		startTimeComboBox = new JComboBox();
 		locationComboBox = new JComboBox();
 		
@@ -92,13 +97,16 @@ public class Facilitator_Frame extends JFrame {
 		topicComboBox.setBounds(182, 120, 211, 27);
 		contentPane.add(topicComboBox);
 		
-		dateFTF.setText("testDate");
-		dateFTF.setBounds(182, 167, 211, 19);
-		contentPane.add(dateFTF);
-				
-		date.setPlaceholderCharacter('D');
-	    date.setValidCharacters("0123456789");
-		date.install(dateFTF);
+		//New Date here
+		UtilDateModel model = new UtilDateModel();
+		Properties p = new Properties();
+		p.put("text.today", "Today");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		datePicker.setBounds(182, 167, 211, 25);
+		contentPane.add(datePicker);
 	
 		startTimeComboBox.setModel(new DefaultComboBoxModel(new String[] {"Start Time", "11", "12"}));
 		startTimeComboBox.setBounds(182, 205, 211, 27);
@@ -117,14 +125,17 @@ public class Facilitator_Frame extends JFrame {
 		JButton btnProceed = new JButton("Proceed");
 		btnProceed.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String instructorName = (String) instructorNameComboBox.getSelectedItem();
-				String topic = (String)topicComboBox.getSelectedItem();
-				String currentDate = dateFTF.getText();
-				String startTime = (String)startTimeComboBox.getSelectedItem();
-				String location = (String)locationComboBox.getSelectedItem();
-				//attendance_frame = new Attendance_Frame(instructorName, topic, currentDate, startTime, location);
-				//attendance_frame.setVisible(true);
-				facilitator_frame.dispose();
+				boolean validated = validation();
+				if(validated){
+					String instructorName = (String) instructorNameComboBox.getSelectedItem();
+					String topic = (String)topicComboBox.getSelectedItem();
+//					String currentDate = dateFTF.getText();
+					String startTime = (String)startTimeComboBox.getSelectedItem();
+					String location = (String)locationComboBox.getSelectedItem();
+					//attendance_frame = new Attendance_Frame(instructorName, topic, currentDate, startTime, location);
+					//attendance_frame.setVisible(true);
+					facilitator_frame.dispose();
+				}
 			}
 		});
 
@@ -132,44 +143,36 @@ public class Facilitator_Frame extends JFrame {
 		contentPane.add(btnProceed);
 	}
 	
-	public void validation(boolean flag) {
-		flag = true;
+	public boolean validation() {
+		boolean flag = true;
 		
 		//Add additional specific formatted text fields here
 		if(instructorNameComboBox.getSelectedItem().equals("Instructor Name")){
 			instructorNameComboBox.setForeground(Color.RED);
 			flag = false;
-		} else {
-			flag = true;
 		}
 		
 		if(topicComboBox.getSelectedItem().equals("Topic of Class")){
 			topicComboBox.setForeground(Color.RED);
 			flag = false;
-		} else {
-			flag = true;
 		}
 		
-		if(dateFTF.getText().contains("D") || dateFTF.getText().isEmpty()){
-			dateFTF.setForeground(Color.RED);
+		if(datePicker.getModel().getValue() == null){
+			datePicker.setForeground(Color.RED);
 			flag = false;
-		} else {
-			flag = true;
 		}
 		
 		if(startTimeComboBox.getSelectedItem().equals("Start Time")){
 			startTimeComboBox.setForeground(Color.RED);
 			flag = false;
-		} else {
-			flag = true;
 		}
 		
 		if(locationComboBox.getSelectedItem().equals("Location of Class")){
 			locationComboBox.setForeground(Color.RED);
 			flag = false;
-		} else {
-			flag = true;
 		}
+		
+		return flag;
 	}
 	
 	
