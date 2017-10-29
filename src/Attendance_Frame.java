@@ -80,13 +80,14 @@ public class Attendance_Frame extends JFrame {
 	private JLabel lblNumberOfKids;
 	private JLabel lblDate;
 	private JLabel lblZip;
+	private JDatePickerImpl datePicker;
 	private static Attendance_Frame frame;
 	
 	private JRadioButton rdbtnAreYouNew;
 	private JRadioButton rdbtnNotFirstClass;
 	
-	MaskFormatter date = createFormatter("##/##/####");
-	JFormattedTextField dateFTF = new JFormattedTextField();
+//	MaskFormatter date = createFormatter("##/##/####");
+//	JFormattedTextField dateFTF = new JFormattedTextField();
 	private final ButtonGroup newProgramButtonGroup = new ButtonGroup();
 	private final ButtonGroup firstClassButtonGroup = new ButtonGroup();
 	private JMenuItem mntmOpen;
@@ -150,15 +151,9 @@ public class Attendance_Frame extends JFrame {
 		p.put("text.month", "Month");
 		p.put("text.year", "Year");
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
-		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		datePicker.setBounds(91, 364, 164, 30);
 		contentPane.add(datePicker);
-		
-//		date.setPlaceholderCharacter('D');
-//	    date.setValidCharacters("0123456789");
-//		dateFTF.setBounds(91, 364, 164, 30);
-//		date.install(dateFTF);
-//		contentPane.add(dateFTF);
 		
 		JLabel lblCpcaAttendance = new JLabel("PEP Attendance Sheet");
 		lblCpcaAttendance.setBounds(343, 25, 330, 38);
@@ -428,7 +423,7 @@ public class Attendance_Frame extends JFrame {
 		ageTF.setVisible(false);
 		pleaseSpecifySexTF.setVisible(false);
 		numberOfKidsTF.setVisible(false);
-		dateFTF.setVisible(false);
+		datePicker.setVisible(false);
 		
 		lblFirstName.setVisible(false);
 		lblLastName.setVisible(false);
@@ -458,7 +453,7 @@ public class Attendance_Frame extends JFrame {
 		fieldLabelMap.put(raceComboBox, lblRace);
 		fieldLabelMap.put(pleaseSpecifySexTF, lblPleaseSpecifySex);
 		fieldLabelMap.put(pleaseSpecifyRaceTF, lblSpecifyOtherRace);
-		fieldLabelMap.put(dateFTF, lblDate);
+		fieldLabelMap.put(datePicker, lblDate);
 		fieldLabelMap.put(zipCodeFTF, lblZipcode);
 		
 		fieldLabelMap2.put(fNameTF, lblFirstName);
@@ -481,7 +476,7 @@ public class Attendance_Frame extends JFrame {
 					zipCodeFTF.setVisible(true);
 					ageTF.setVisible(true);
 					numberOfKidsTF.setVisible(true);
-					dateFTF.setVisible(true);
+					datePicker.setVisible(true);
 					
 					lblFirstName.setVisible(true);
 					lblLastName.setVisible(true);
@@ -515,7 +510,7 @@ public class Attendance_Frame extends JFrame {
 				zipCodeFTF.setVisible(false);
 				ageTF.setVisible(false);
 				numberOfKidsTF.setVisible(false);
-				dateFTF.setVisible(true);
+				datePicker.setVisible(true);
 				pleaseSpecifySexTF.setVisible(false);
 				pleaseSpecifyRaceTF.setVisible(false);
 				
@@ -614,7 +609,7 @@ public class Attendance_Frame extends JFrame {
 					table.addRow(new Object[] {
 							fName,
 							lName,
-							dateFTF.getText(),
+							datePicker.getModel().getValue().toString(),
 							classDayComboBox.getSelectedItem(),
 							classTimeComboBox.getSelectedItem(),
 							classLocationComboBox.getSelectedItem(),
@@ -630,7 +625,7 @@ public class Attendance_Frame extends JFrame {
 					table.addRow(new Object[] {
 							fName,
 							lName,
-							dateFTF.getText(),
+							datePicker.getModel().getValue().toString(),
 							classDayComboBox.getSelectedItem(),
 							classTimeComboBox.getSelectedItem(),
 							classLocationComboBox.getSelectedItem(),
@@ -697,7 +692,7 @@ public class Attendance_Frame extends JFrame {
 			}
 			
 			//Add additional specific formatted text fields here
-			if(dateFTF.getText().contains("D") || dateFTF.getText().isEmpty()){
+			if(datePicker.getModel().getValue().toString().isEmpty()){
 				lblDate.setForeground(Color.RED);
 				returnValue = false;
 			}
@@ -747,7 +742,7 @@ public class Attendance_Frame extends JFrame {
 				}
 			}
 			//Add additional specific formatted text fields here
-			if(dateFTF.getText().contains("D") || dateFTF.getText().isEmpty()){
+			if(datePicker.getModel().getValue().toString().isEmpty()){
 				lblDate.setForeground(Color.RED);
 				returnValue = false;
 			}
@@ -805,7 +800,7 @@ public class Attendance_Frame extends JFrame {
 				comboBox.setSelectedIndex(0);
 			}
 		}
-		dateFTF.setText("");
+		datePicker.getModel().setValue(null);
 		zipCodeFTF.setText("");
 		ageTF.setText("");
 		numberOfKidsTF.setText("");
