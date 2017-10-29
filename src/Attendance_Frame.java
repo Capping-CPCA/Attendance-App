@@ -24,6 +24,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Properties;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
@@ -35,12 +36,17 @@ import javax.swing.text.MaskFormatter;
 import javax.swing.JFormattedTextField;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 //You need to add external Jars to your build path for these excel packages
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jdatepicker.impl.JDatePanelImpl;
@@ -233,7 +239,7 @@ public class Attendance_Frame extends JFrame {
 		
 		outputTable = new JTable();
 		scrollPane.setViewportView(outputTable);
-		outputTable.setModel(new DefaultTableModel(
+		DefaultTableModel defaultModel = new DefaultTableModel(
 				new Object[][] {
 					{null, null, null, null, null, null},
 				},
@@ -241,7 +247,9 @@ public class Attendance_Frame extends JFrame {
 					"First", "Last", "Date", "Day", "Time", 
 					"Location", "Language","Sex", "Race", "Age","18&Under", "Zipcode","New"
 				}
-			));
+			);
+		defaultModel.setRowCount(0);
+		outputTable.setModel(defaultModel);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 1032, 22);
@@ -303,7 +311,7 @@ public class Attendance_Frame extends JFrame {
 		        
 		        //Logic for writing to columns here under the header
 		        int excelRowCount = 1;
-		        int tableRowCount = 1;
+		        int tableRowCount = 0;
 		        while(tableRowCount < outputTable.getRowCount()){
 		        	int tableColumnCount = 0;
 		        	int excelColumnCount = 0;
@@ -351,7 +359,38 @@ public class Attendance_Frame extends JFrame {
 			    //When the correct type of file is selected, then read the excel file and populate the table
 			    if(returnVal == JFileChooser.APPROVE_OPTION) {
 			    	String filePath = chooser.getSelectedFile().getAbsolutePath();
-			    	System.out.println(filePath);
+			    	//Opening file and populating to JTable
+			    	try {
+			    		//Clear table
+			    		defaultModel.setRowCount(0);
+			    		
+				    	FileInputStream excelFile = new FileInputStream(new File(filePath));
+				    	Workbook workbook = new XSSFWorkbook(excelFile);
+				    	Sheet datatypeSheet = workbook.getSheetAt(0);
+				    	Iterator<Row> iterator = datatypeSheet.iterator();
+				    	//If this is false, you skip over the header row of the excel sheet
+				    	boolean headerRow = false;
+				    	
+				    	while(iterator.hasNext()){
+				    		Row currentRow = iterator.next();
+				    		//Skip over header row
+				    		if(headerRow == false){
+				    			headerRow = true;
+				    			continue;
+				    		}
+				    		
+				    		Iterator<Cell> cellIterator = currentRow.iterator();
+				    		
+				    		while(cellIterator.hasNext()){
+				    			Cell currentCell = cellIterator.next();
+				    		}
+				    	}
+				    	
+				    } catch (FileNotFoundException e) {
+				    	
+				    } catch (IOException e) {
+				    	
+				    }
 			    }
 			}
 		});
@@ -692,7 +731,7 @@ public class Attendance_Frame extends JFrame {
 			}
 			
 			//Add additional specific formatted text fields here
-			if(datePicker.getModel().getValue().toString().isEmpty()){
+			if(datePicker.getModel().getValue() == null){
 				lblDate.setForeground(Color.RED);
 				returnValue = false;
 			}
@@ -741,8 +780,9 @@ public class Attendance_Frame extends JFrame {
 					}
 				}
 			}
+			
 			//Add additional specific formatted text fields here
-			if(datePicker.getModel().getValue().toString().isEmpty()){
+			if(datePicker.getModel().getValue() == null){
 				lblDate.setForeground(Color.RED);
 				returnValue = false;
 			}
