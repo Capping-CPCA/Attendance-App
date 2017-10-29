@@ -49,15 +49,14 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+//JDatePicker Jar
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
-import com.seaglasslookandfeel.SeaGlassLookAndFeel;
-import com.jgoodies.looks.*;
 import com.alee.laf.WebLookAndFeel;
-import com.alee.managers.style.StyleManager;
-import com.alee.managers.style.skin.ninepatch.NinePatchSkin;
+
 
 public class Attendance_Frame extends JFrame {
 	private JPanel contentPane;
@@ -92,13 +91,9 @@ public class Attendance_Frame extends JFrame {
 	private JRadioButton rdbtnAreYouNew;
 	private JRadioButton rdbtnNotFirstClass;
 	
-//	MaskFormatter date = createFormatter("##/##/####");
-//	JFormattedTextField dateFTF = new JFormattedTextField();
 	private final ButtonGroup newProgramButtonGroup = new ButtonGroup();
 	private final ButtonGroup firstClassButtonGroup = new ButtonGroup();
 	private JMenuItem mntmOpen;
-	
-	private StyleManager styleManager = new StyleManager();
 
 	/**
 	 * Launch the application.
@@ -107,9 +102,6 @@ public class Attendance_Frame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-//					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//					UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
-//					UIManager.setLookAndFeel("com.jgoodies.looks.windows.WindowsLookAndFeel");
 					WebLookAndFeel.install ();
 					frame = new Attendance_Frame();
 					frame.setVisible(true);
