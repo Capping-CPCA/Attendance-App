@@ -122,13 +122,13 @@ public class Attendance_Frame extends JFrame {
 		WebLookAndFeel.install ();
 		setResizable(false);
      	setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 1033, 651);
+		setBounds(100, 100, 1033, 574);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		zipCodeFTF.setBounds(77, 544, 178, 22);
+		zipCodeFTF.setBounds(77, 495, 178, 22);
 		contentPane.add(zipCodeFTF);
 		
 		
@@ -146,11 +146,11 @@ public class Attendance_Frame extends JFrame {
 		contentPane.add(lblLastName);
 		
 		lblZipcode = new JLabel("Zipcode:");
-		lblZipcode.setBounds(17, 544, 61, 22);
+		lblZipcode.setBounds(17, 495, 61, 22);
 		contentPane.add(lblZipcode);
 		
 		lblRace = new JLabel("Race:");
-		lblRace.setBounds(17, 458, 61, 22);
+		lblRace.setBounds(17, 402, 61, 22);
 		contentPane.add(lblRace);
 		
 		fNameTF = new JTextField();
@@ -164,18 +164,18 @@ public class Attendance_Frame extends JFrame {
 		lNameTF.setColumns(10);
 		
 		JComboBox raceComboBox = new JComboBox();
-		raceComboBox.setBounds(54, 453, 200, 27);
+		raceComboBox.setBounds(55, 400, 200, 27);
 		raceComboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose Race", "White", "African-American", "Hispanic", "Asian", "Other"}));
 		contentPane.add(raceComboBox);
 		
 		pleaseSpecifyRaceTF = new JTextField();
-		pleaseSpecifyRaceTF.setBounds(352, 454, 156, 22);
+		pleaseSpecifyRaceTF.setBounds(352, 402, 156, 22);
 		contentPane.add(pleaseSpecifyRaceTF);
 		pleaseSpecifyRaceTF.setColumns(10);
 		pleaseSpecifyRaceTF.setVisible(false);
 		
 		lblSpecifyOtherRace = new JLabel("Please Specify:");
-		lblSpecifyOtherRace.setBounds(264, 457, 79, 18);
+		lblSpecifyOtherRace.setBounds(264, 402, 79, 18);
 		lblSpecifyOtherRace.setFont(new Font("Lucida Grande", Font.ITALIC, 10));
 		contentPane.add(lblSpecifyOtherRace);
 		lblSpecifyOtherRace.setVisible(false);
@@ -186,6 +186,7 @@ public class Attendance_Frame extends JFrame {
 		
 		outputTable = new JTable();
 		scrollPane.setViewportView(outputTable);
+		//TODO: Rearrange the header cells to have ZipCode and 18&Under rearranged
 		DefaultTableModel defaultModel = new DefaultTableModel(
 				new Object[][] {
 					{null, null, null, null, null, null},
@@ -207,6 +208,7 @@ public class Attendance_Frame extends JFrame {
 		
 		JMenuItem mntmSave = new JMenuItem("Save");
 		
+		//TODO: Fix arrangement of header cells, along with adding topic
 		//Save to excel file
 		mntmSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -389,46 +391,46 @@ public class Attendance_Frame extends JFrame {
 		mnFile.add(mntmExit);
 		
 		lblSex = new JLabel("Sex:");
-		lblSex.setBounds(17, 430, 61, 16);
+		lblSex.setBounds(17, 372, 61, 16);
 		contentPane.add(lblSex);
 		
 		JComboBox sexComboBox = new JComboBox();
 		sexComboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose Sex", "Male", "Female", "Other"}));
-		sexComboBox.setBounds(54, 426, 200, 27);
+		sexComboBox.setBounds(55, 367, 200, 27);
 		contentPane.add(sexComboBox);
 		
 		lblPleaseSpecifySex = new JLabel("Please Specify:");
 		lblPleaseSpecifySex.setFont(new Font("Lucida Grande", Font.ITALIC, 10));
-		lblPleaseSpecifySex.setBounds(264, 431, 101, 16);
+		lblPleaseSpecifySex.setBounds(264, 373, 101, 16);
 		contentPane.add(lblPleaseSpecifySex);
 		lblPleaseSpecifySex.setVisible(false);
 		
 		lblAge = new JLabel("Age:");
-		lblAge.setBounds(17, 488, 34, 16);
+		lblAge.setBounds(17, 437, 34, 16);
 		contentPane.add(lblAge);
 		
 		ageTF = new JTextField();
-		ageTF.setBounds(55, 483, 41, 26);
+		ageTF.setBounds(55, 432, 41, 26);
 		contentPane.add(ageTF);
 		ageTF.setColumns(10);
 		
 		pleaseSpecifySexTF = new JTextField();
-		pleaseSpecifySexTF.setBounds(352, 424, 156, 28);
+		pleaseSpecifySexTF.setBounds(352, 366, 156, 28);
 		contentPane.add(pleaseSpecifySexTF);
 		pleaseSpecifySexTF.setColumns(10);
 		pleaseSpecifySexTF.setVisible(false);
 		
 		lblNumberOfKids = new JLabel("Number Of Kids 18 Or Under:");
-		lblNumberOfKids.setBounds(17, 516, 178, 16);
+		lblNumberOfKids.setBounds(17, 466, 178, 16);
 		contentPane.add(lblNumberOfKids);
 		
 		numberOfKidsTF = new JTextField();
-		numberOfKidsTF.setBounds(204, 511, 50, 26);
+		numberOfKidsTF.setBounds(205, 461, 50, 26);
 		contentPane.add(numberOfKidsTF);
 		numberOfKidsTF.setColumns(10);
 		
 		JButton btnSubmit = new JButton("Add Attendee");
-		btnSubmit.setBounds(744, 541, 117, 29);
+		btnSubmit.setBounds(741, 488, 117, 29);
 		contentPane.add(btnSubmit);
 		
 		rdbtnAreYouNew = new JRadioButton("This is my first class.");
@@ -472,9 +474,13 @@ public class Attendance_Frame extends JFrame {
 		
 		fieldLabelMap2.put(fNameTF, lblFirstName);
 		fieldLabelMap2.put(lNameTF, lblLastName);
+		fieldLabelMap2.put(sexComboBox, lblSex);
+		fieldLabelMap2.put(raceComboBox, lblRace);
+		fieldLabelMap2.put(pleaseSpecifySexTF, lblPleaseSpecifySex);
+		fieldLabelMap2.put(pleaseSpecifyRaceTF, lblSpecifyOtherRace);
 		
 		JButton btnUpload = new JButton("Upload");
-		btnUpload.setBounds(880, 541, 117, 29);
+		btnUpload.setBounds(870, 488, 117, 29);
 		contentPane.add(btnUpload);
 
 		//If new participant - display all information
@@ -508,26 +514,23 @@ public class Attendance_Frame extends JFrame {
 		//If not new participant - display lName, fName, date, and classroom information
 		rdbtnNotFirstClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				fNameTF.setVisible(true);
-				lNameTF.setVisible(true);
-				zipCodeFTF.setVisible(false);
-				ageTF.setVisible(false);
-				numberOfKidsTF.setVisible(false);
-				pleaseSpecifySexTF.setVisible(false);
-				pleaseSpecifyRaceTF.setVisible(false);
-				
-				lblSpecifyOtherRace.setVisible(false);
-				lblPleaseSpecifySex.setVisible(false);
-				lblFirstName.setVisible(true);
-				lblLastName.setVisible(true);
-				lblSex.setVisible(false);
-				lblRace.setVisible(false);
-				lblAge.setVisible(false);
 				lblNumberOfKids.setVisible(false);
 				lblZipcode.setVisible(false);
 				
-				sexComboBox.setVisible(false);
-				raceComboBox.setVisible(false);
+				fNameTF.setVisible(true);
+				lNameTF.setVisible(true);
+				zipCodeFTF.setVisible(true);
+				ageTF.setVisible(true);
+				numberOfKidsTF.setVisible(true);
+				
+				lblFirstName.setVisible(true);
+				lblLastName.setVisible(true);
+				lblSex.setVisible(true);
+				lblRace.setVisible(true);
+				lblAge.setVisible(true);
+				
+				sexComboBox.setVisible(true);
+				raceComboBox.setVisible(true);
 				
 				//Clear the fields on change and label colors
 				clearFields();
@@ -741,6 +744,10 @@ public class Attendance_Frame extends JFrame {
 						}
 					}
 				}
+			}
+			if(ageTF.getText().isEmpty() || !validateIntegerField(ageTF)){
+				lblAge.setForeground(Color.RED);
+				returnValue = false;
 			}
 		}
 			
