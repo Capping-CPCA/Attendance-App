@@ -114,7 +114,7 @@ public class Attendance_Frame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Attendance_Frame(String instructorName, String topic, Date date, String startTime, String location) {
+	public Attendance_Frame(String instructorName, String topic, int day, int month, int year, String startTime, String location) {
 		frame = this;
 		WebLookAndFeel.install ();
 		setResizable(false);
@@ -135,9 +135,13 @@ public class Attendance_Frame extends JFrame {
 		p.put("text.month", "Month");
 		p.put("text.year", "Year");
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+		datePanel.setEnabled(false);
 		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		datePicker.getJFormattedTextField().setEnabled(false);
 		datePicker.setBounds(91, 364, 164, 30);
-//		datePicker.getModel().setDate(arg0, arg1, arg2);
+		model.setDate(year, month, day);
+		model.setSelected(true);
+		datePicker.setEnabled(false);
 		contentPane.add(datePicker);
 		
 		JLabel lblCpcaAttendance = new JLabel("PEP Attendance Sheet");
@@ -861,7 +865,7 @@ public class Attendance_Frame extends JFrame {
 				comboBox.setSelectedIndex(0);
 			}
 		}
-		datePicker.getModel().setValue(null);
+//		datePicker.getModel().setValue(null);
 		zipCodeFTF.setText("");
 		ageTF.setText("");
 		numberOfKidsTF.setText("");
