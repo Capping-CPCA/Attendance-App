@@ -121,13 +121,11 @@ public class Facilitator_Frame extends JFrame {
 				boolean validated = validation();
 				if(validated){
 					String instructorName = instructorNameComboBox.getSelectedItem().toString();
-					int topicIndex = topicComboBox.getSelectedIndex();
-					int day = datePicker.getModel().getDay();
-					int month = datePicker.getModel().getMonth();
-					int year = datePicker.getModel().getYear();
-					int timeIndex = startTimeComboBox.getSelectedIndex();
-					int locationIndex = locationComboBox.getSelectedIndex();
-					attendance_frame = new Attendance_Frame(instructorName, topicIndex, day, month, year, timeIndex, locationIndex);
+					String topic = topicComboBox.getSelectedItem().toString();
+					String startTime = startTimeComboBox.getSelectedItem().toString();
+					String location = locationComboBox.getSelectedItem().toString();
+					String language = languageComboBox.getSelectedItem().toString();
+					attendance_frame = new Attendance_Frame(instructorName, topic, datePicker, startTime, location, language);
 					attendance_frame.setVisible(true);
 					facilitator_frame.dispose();
 				}

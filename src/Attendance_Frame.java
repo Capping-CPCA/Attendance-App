@@ -78,15 +78,12 @@ public class Attendance_Frame extends JFrame {
 	private JLabel lblLastName;
 	private JLabel lblZipcode;
 	private JLabel lblRace;
-	private JLabel lblClass;
 	private JLabel lblSpecifyOtherRace;
 	private JLabel lblSex;
 	private JLabel lblPleaseSpecifySex;
 	private JLabel lblAge;
 	private JLabel lblNumberOfKids;
-	private JLabel lblDate;
 	private JLabel lblZip;
-	private JDatePickerImpl datePicker;
 	private static Attendance_Frame frame;
 	
 	private JRadioButton rdbtnAreYouNew;
@@ -115,7 +112,7 @@ public class Attendance_Frame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Attendance_Frame(String instructor, int topicIndex, int day, int month, int year, int timeIndex, int locationIndex) {
+	public Attendance_Frame(String instructor, String topic, JDatePickerImpl datePicker, String startTime, String location, String language) {
 		instructorName = instructor;
 		frame = this;
 		WebLookAndFeel.install ();
@@ -130,28 +127,6 @@ public class Attendance_Frame extends JFrame {
 		zipCodeFTF.setBounds(77, 544, 178, 22);
 		contentPane.add(zipCodeFTF);
 		
-		//New Date here
-		UtilDateModel model = new UtilDateModel();
-		Properties p = new Properties();
-		p.put("text.today", "Today");
-		p.put("text.month", "Month");
-		p.put("text.year", "Year");
-		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
-		datePanel.setEnabled(false);
-		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-		datePicker.setButtonFocusable(false);
-		//Simple fix to make date uneditable...have to figure it out later
-		datePicker.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				model.setDate(year, month, day);
-			}
-		});
-		datePicker.getJFormattedTextField().setEnabled(false);
-		datePicker.setBounds(91, 364, 164, 30);
-		model.setDate(year, month, day);
-		model.setSelected(true);
-		datePicker.setEnabled(false);
-		contentPane.add(datePicker);
 		
 		JLabel lblCpcaAttendance = new JLabel("PEP Attendance Sheet");
 		lblCpcaAttendance.setBounds(343, 25, 330, 38);
@@ -183,34 +158,6 @@ public class Attendance_Frame extends JFrame {
 		lNameTF.setBounds(91, 333, 164, 30);
 		contentPane.add(lNameTF);
 		lNameTF.setColumns(10);
-		
-		lblClass = new JLabel("Class:");
-		lblClass.setBounds(17, 402, 61, 16);
-		contentPane.add(lblClass);
-		
-		JComboBox classDayComboBox = new JComboBox();
-		classDayComboBox.setModel(new DefaultComboBoxModel(new String[] {"Day", "Monday", "Tuesday", "Wednesday", "Thursday"}));
-		classDayComboBox.setBounds(54, 398, 117, 27);
-		contentPane.add(classDayComboBox);
-		
-		JComboBox classTimeComboBox = new JComboBox();
-		classTimeComboBox.setModel(new DefaultComboBoxModel(new String[] {"Start Time", "10:00am", "11:00am", "11:30am", "12:30am", "1:00pm", "1:30pm", "2:00pm", "4:30pm", "6:00pm"}));
-		classTimeComboBox.setBounds(176, 398, 117, 27);
-		classTimeComboBox.setEnabled(false);
-		classTimeComboBox.setSelectedIndex(timeIndex);
-		contentPane.add(classTimeComboBox);
-		
-		JComboBox classLocationComboBox = new JComboBox();
-		classLocationComboBox.setModel(new DefaultComboBoxModel(new String[] {"Location", "Poughkeepsie", "Florence Manor", "Fishkill", "ITAP", "Cornerstone", "Meadow Run", "Fox Run"}));
-		classLocationComboBox.setBounds(305, 398, 134, 27);
-		classLocationComboBox.setEnabled(false);
-		classLocationComboBox.setSelectedIndex(locationIndex);
-		contentPane.add(classLocationComboBox);
-		
-		JComboBox classLanguageComboBox = new JComboBox();
-		classLanguageComboBox.setModel(new DefaultComboBoxModel(new String[] {"Language", "English", "Spanish"}));
-		classLanguageComboBox.setBounds(449, 397, 129, 27);
-		contentPane.add(classLanguageComboBox);
 		
 		JComboBox raceComboBox = new JComboBox();
 		raceComboBox.setBounds(54, 453, 200, 27);
@@ -344,6 +291,7 @@ public class Attendance_Frame extends JFrame {
 		mntmOpen = new JMenuItem("Open");
 		
 		//Utilizes JFileChooser API which is a GUI to select files and get file path
+		//TODO: Fix open with topic
 		mntmOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//Open file allowing only excel files
@@ -475,10 +423,6 @@ public class Attendance_Frame extends JFrame {
 		contentPane.add(numberOfKidsTF);
 		numberOfKidsTF.setColumns(10);
 		
-		lblDate = new JLabel("Date:");
-		lblDate.setBounds(17, 371, 50, 16);
-		contentPane.add(lblDate);
-		
 		JButton btnSubmit = new JButton("Add Attendee");
 		btnSubmit.setBounds(744, 541, 117, 29);
 		contentPane.add(btnSubmit);
@@ -501,7 +445,6 @@ public class Attendance_Frame extends JFrame {
 		ageTF.setVisible(false);
 		pleaseSpecifySexTF.setVisible(false);
 		numberOfKidsTF.setVisible(false);
-		datePicker.setVisible(false);
 		
 		lblFirstName.setVisible(false);
 		lblLastName.setVisible(false);
@@ -510,40 +453,21 @@ public class Attendance_Frame extends JFrame {
 		lblAge.setVisible(false);
 		lblNumberOfKids.setVisible(false);
 		lblZipcode.setVisible(false);
-		lblDate.setVisible(false);
-		lblClass.setVisible(false);
 		
 		sexComboBox.setVisible(false);
 		raceComboBox.setVisible(false);
-		classDayComboBox.setVisible(false);
-		classTimeComboBox.setVisible(false);
-		classLocationComboBox.setVisible(false);
-		classLanguageComboBox.setVisible(false);
-		
-		JComboBox topicComboBox = new JComboBox();
-		topicComboBox.setModel(new DefaultComboBoxModel(new String[] {"Topic", "Happy", "Healthy"}));
-		topicComboBox.setBounds(588, 397, 79, 27);
-		topicComboBox.setVisible(false);
-		topicComboBox.setSelectedIndex(topicIndex);
-		topicComboBox.setEnabled(false);
-		contentPane.add(topicComboBox);
 		
 		//Add text fields and labels into two hash maps, the first one holds all fields, the second one only holds half of them	
 		fieldLabelMap.put(fNameTF, lblFirstName);
 		fieldLabelMap.put(lNameTF, lblLastName);
-		fieldLabelMap.put(classDayComboBox, lblClass);
-		fieldLabelMap.put(classLanguageComboBox, lblClass);
 		fieldLabelMap.put(sexComboBox, lblSex);
 		fieldLabelMap.put(raceComboBox, lblRace);
 		fieldLabelMap.put(pleaseSpecifySexTF, lblPleaseSpecifySex);
 		fieldLabelMap.put(pleaseSpecifyRaceTF, lblSpecifyOtherRace);
-		fieldLabelMap.put(datePicker, lblDate);
 		fieldLabelMap.put(zipCodeFTF, lblZipcode);
 		
 		fieldLabelMap2.put(fNameTF, lblFirstName);
 		fieldLabelMap2.put(lNameTF, lblLastName);
-		fieldLabelMap2.put(classDayComboBox, lblClass);
-		fieldLabelMap2.put(classLanguageComboBox, lblClass);
 		
 		JButton btnUpload = new JButton("Upload");
 		btnUpload.setBounds(880, 541, 117, 29);
@@ -558,7 +482,6 @@ public class Attendance_Frame extends JFrame {
 					zipCodeFTF.setVisible(true);
 					ageTF.setVisible(true);
 					numberOfKidsTF.setVisible(true);
-					datePicker.setVisible(true);
 					
 					lblFirstName.setVisible(true);
 					lblLastName.setVisible(true);
@@ -567,16 +490,9 @@ public class Attendance_Frame extends JFrame {
 					lblAge.setVisible(true);
 					lblNumberOfKids.setVisible(true);
 					lblZipcode.setVisible(true);
-					lblDate.setVisible(true);
-					lblClass.setVisible(true);
-					topicComboBox.setVisible(true);
 					
 					sexComboBox.setVisible(true);
 					raceComboBox.setVisible(true);
-					classDayComboBox.setVisible(true);
-					classTimeComboBox.setVisible(true);
-					classLocationComboBox.setVisible(true);
-					classLanguageComboBox.setVisible(true);
 					
 					//Clear the fields on change and label colors
 					clearFields();
@@ -593,7 +509,6 @@ public class Attendance_Frame extends JFrame {
 				zipCodeFTF.setVisible(false);
 				ageTF.setVisible(false);
 				numberOfKidsTF.setVisible(false);
-				datePicker.setVisible(true);
 				pleaseSpecifySexTF.setVisible(false);
 				pleaseSpecifyRaceTF.setVisible(false);
 				
@@ -606,16 +521,9 @@ public class Attendance_Frame extends JFrame {
 				lblAge.setVisible(false);
 				lblNumberOfKids.setVisible(false);
 				lblZipcode.setVisible(false);
-				lblDate.setVisible(true);
-				lblClass.setVisible(true);
-				topicComboBox.setVisible(true);
 				
 				sexComboBox.setVisible(false);
 				raceComboBox.setVisible(false);
-				classDayComboBox.setVisible(true);
-				classTimeComboBox.setVisible(true);
-				classLocationComboBox.setVisible(true);
-				classLanguageComboBox.setVisible(true);
 				
 				//Clear the fields on change and label colors
 				clearFields();
@@ -688,15 +596,16 @@ public class Attendance_Frame extends JFrame {
 					yesOrNo = "No";
 				}
 				
+				//TODO: Fix the row that you are adding based on parameters given to the class
 				if(rdbtnAreYouNew.isSelected()){
 					defaultModel.addRow(new Object[] {
 							fName,
 							lName,
 							datePicker.getModel().getValue().toString(),
-							classDayComboBox.getSelectedItem(),
-							classTimeComboBox.getSelectedItem(),
-							classLocationComboBox.getSelectedItem(),
-							classLanguageComboBox.getSelectedItem(),
+//							classDayComboBox.getSelectedItem(),
+//							classTimeComboBox.getSelectedItem(),
+//							classLocationComboBox.getSelectedItem(),
+//							classLanguageComboBox.getSelectedItem(),
 							sex,
 							race,
 							ageTF.getText(),
@@ -709,10 +618,10 @@ public class Attendance_Frame extends JFrame {
 							fName,
 							lName,
 							datePicker.getModel().getValue().toString(),
-							classDayComboBox.getSelectedItem(),
-							classTimeComboBox.getSelectedItem(),
-							classLocationComboBox.getSelectedItem(),
-							classLanguageComboBox.getSelectedItem()
+//							classDayComboBox.getSelectedItem(),
+//							classTimeComboBox.getSelectedItem(),
+//							classLocationComboBox.getSelectedItem(),
+//							classLanguageComboBox.getSelectedItem()
 					});
 				}			
 				//Clear all textFields after submit for the next participant
@@ -774,12 +683,7 @@ public class Attendance_Frame extends JFrame {
 				}
 			}
 			
-			//Add additional specific formatted text fields here
-			if(datePicker.getModel().getValue() == null){
-				lblDate.setForeground(Color.RED);
-				returnValue = false;
-			}
-			
+			//Add additional specific formatted text fields here			
 			if(zipCodeFTF.getText().isEmpty()){
 				lblZipcode.setForeground(Color.RED);
 				returnValue = false;
@@ -823,12 +727,6 @@ public class Attendance_Frame extends JFrame {
 						}
 					}
 				}
-			}
-			
-			//Add additional specific formatted text fields here
-			if(datePicker.getModel().getValue() == null){
-				lblDate.setForeground(Color.RED);
-				returnValue = false;
 			}
 		}
 			
