@@ -40,6 +40,11 @@ public class Facilitator_Frame extends JFrame {
 	private JComboBox startTimeComboBox;
 	private JComboBox locationComboBox;
 	private JDatePickerImpl datePicker;
+	private JLabel lblInstructorName;
+	private JLabel lblTopicOfClass;
+	private JLabel lblDate;
+	private JLabel lblStartTime;
+	private JLabel lblLocationOfClass;
 	
 	
 	MaskFormatter date = createFormatter("##/##/####");
@@ -143,27 +148,27 @@ public class Facilitator_Frame extends JFrame {
 		btnProceed.setBounds(447, 360, 117, 29);
 		contentPane.add(btnProceed);
 		
-		JLabel lblInstructorName = new JLabel("Instructor Name:");
+		lblInstructorName = new JLabel("Instructor Name:");
 		lblInstructorName.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblInstructorName.setBounds(64, 87, 109, 14);
 		contentPane.add(lblInstructorName);
 		
-		JLabel lblTopicOfClass = new JLabel("Topic of Class:");
+		lblTopicOfClass = new JLabel("Topic of Class:");
 		lblTopicOfClass.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblTopicOfClass.setBounds(64, 124, 109, 14);
 		contentPane.add(lblTopicOfClass);
 		
-		JLabel lblDate = new JLabel("Date:");
+		lblDate = new JLabel("Date:");
 		lblDate.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblDate.setBounds(64, 167, 46, 14);
 		contentPane.add(lblDate);
 		
-		JLabel lblStartTime = new JLabel("Start Time:");
+		lblStartTime = new JLabel("Start Time:");
 		lblStartTime.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblStartTime.setBounds(64, 209, 83, 14);
 		contentPane.add(lblStartTime);
 		
-		JLabel lblLocationOfClass = new JLabel("Location of Class:");
+		lblLocationOfClass = new JLabel("Location of Class:");
 		lblLocationOfClass.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblLocationOfClass.setBounds(64, 250, 117, 14);
 		contentPane.add(lblLocationOfClass);
@@ -171,33 +176,42 @@ public class Facilitator_Frame extends JFrame {
 	
 	public boolean validation() {
 		boolean flag = true;
+		clearColors();
 		
 		//Add additional specific formatted text fields here
-		if(instructorNameComboBox.getSelectedItem().equals("Instructor Name")){
-			instructorNameComboBox.setForeground(Color.RED);
+		if(instructorNameComboBox.getSelectedItem().equals("Choose")){
+			lblInstructorName.setForeground(Color.RED);
 			flag = false;
 		}
 		
-		if(topicComboBox.getSelectedItem().equals("Topic of Class")){
-			topicComboBox.setForeground(Color.RED);
+		if(topicComboBox.getSelectedItem().equals("Choose")){
+			lblTopicOfClass.setForeground(Color.RED);
 			flag = false;
 		}
 		
 		if(datePicker.getModel().getValue() == null){
-			datePicker.setForeground(Color.RED);
+			lblDate.setForeground(Color.RED);
 			flag = false;
 		}
 		
-		if(startTimeComboBox.getSelectedItem().equals("Start Time")){
-			startTimeComboBox.setForeground(Color.RED);
+		if(startTimeComboBox.getSelectedItem().equals("Choose")){
+			lblStartTime.setForeground(Color.RED);
 			flag = false;
 		}
 		
-		if(locationComboBox.getSelectedItem().equals("Location of Class")){
-			locationComboBox.setForeground(Color.RED);
+		if(locationComboBox.getSelectedItem().equals("Choose")){
+			lblLocationOfClass.setForeground(Color.RED);
 			flag = false;
 		}
 		
 		return flag;
+	}
+	
+	public void clearColors(){
+		lblInstructorName.setForeground(Color.BLACK);
+		lblTopicOfClass.setForeground(Color.BLACK);
+		lblDate.setForeground(Color.BLACK);
+		lblStartTime.setForeground(Color.BLACK);
+		lblLocationOfClass.setForeground(Color.BLACK);
 	}
 }
