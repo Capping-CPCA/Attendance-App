@@ -114,7 +114,7 @@ public class Attendance_Frame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Attendance_Frame(String instructorName, String topic, int day, int month, int year, String startTime, String location) {
+	public Attendance_Frame(String instructorName, int topicIndex, int day, int month, int year, String startTime, String location) {
 		frame = this;
 		WebLookAndFeel.install ();
 		setResizable(false);
@@ -137,6 +137,8 @@ public class Attendance_Frame extends JFrame {
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
 		datePanel.setEnabled(false);
 		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		datePicker.setButtonFocusable(false);
+		//Simple fix to make date uneditable...have to figure it out later
 		datePicker.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				model.setDate(year, month, day);
@@ -512,6 +514,14 @@ public class Attendance_Frame extends JFrame {
 		classLocationComboBox.setVisible(false);
 		classLanguageComboBox.setVisible(false);
 		
+		JComboBox topicComboBox = new JComboBox();
+		topicComboBox.setModel(new DefaultComboBoxModel(new String[] {"Topic", "Happy", "Healthy"}));
+		topicComboBox.setBounds(588, 397, 79, 27);
+		topicComboBox.setVisible(false);
+		topicComboBox.setSelectedIndex(topicIndex);
+		topicComboBox.setEnabled(false);
+		contentPane.add(topicComboBox);
+		
 		//Add text fields and labels into two hash maps, the first one holds all fields, the second one only holds half of them	
 		fieldLabelMap.put(fNameTF, lblFirstName);
 		fieldLabelMap.put(lNameTF, lblLastName);
@@ -536,12 +546,6 @@ public class Attendance_Frame extends JFrame {
 		JButton btnUpload = new JButton("Upload");
 		btnUpload.setBounds(880, 541, 117, 29);
 		contentPane.add(btnUpload);
-		
-		JComboBox topicComboBox = new JComboBox();
-		topicComboBox.setModel(new DefaultComboBoxModel(new String[] {"Topic", "Happy", "Healthy"}));
-		topicComboBox.setBounds(588, 397, 79, 27);
-		topicComboBox.setVisible(false);
-		contentPane.add(topicComboBox);
 
 		//If new participant - display all information
 		rdbtnAreYouNew.addActionListener(new ActionListener() {
