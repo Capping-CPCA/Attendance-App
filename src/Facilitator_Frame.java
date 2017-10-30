@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Properties;
 import java.awt.event.ActionEvent;
@@ -36,7 +37,6 @@ public class Facilitator_Frame extends JFrame {
 	private static Facilitator_Frame facilitator_frame;
 	private JComboBox instructorNameComboBox;
 	private JComboBox topicComboBox;
-//	private JFormattedTextField dateFTF;
 	private JComboBox startTimeComboBox;
 	private JComboBox locationComboBox;
 	private JDatePickerImpl datePicker;
@@ -45,9 +45,6 @@ public class Facilitator_Frame extends JFrame {
 	private JLabel lblDate;
 	private JLabel lblStartTime;
 	private JLabel lblLocationOfClass;
-	
-	
-	MaskFormatter date = createFormatter("##/##/####");
 	
 	/**
 	 * Launch the application.
@@ -65,18 +62,7 @@ public class Facilitator_Frame extends JFrame {
 			}
 		});
 	}
-
-	public MaskFormatter createFormatter(String s) {
-	     MaskFormatter formatter = null;
-	     try {
-	          formatter = new MaskFormatter(s);
-	         } 
-	     catch (java.text.ParseException exc) {
-		          System.err.println("formatter is bad: " + exc.getMessage());
-		          System.exit(-1);
-		      }
-	      return formatter;
-	}
+	
 	/**
 	 * Create the frame.
 	 */
@@ -103,7 +89,7 @@ public class Facilitator_Frame extends JFrame {
 		topicComboBox.setBounds(182, 120, 211, 27);
 		contentPane.add(topicComboBox);
 		
-		//New Date here
+		//Calender for date implementation
 		UtilDateModel model = new UtilDateModel();
 		Properties p = new Properties();
 		p.put("text.today", "Today");
@@ -133,13 +119,13 @@ public class Facilitator_Frame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				boolean validated = validation();
 				if(validated){
-					String instructorName = (String) instructorNameComboBox.getSelectedItem();
-					String topic = (String)topicComboBox.getSelectedItem();
-//					String currentDate = dateFTF.getText();
-					String startTime = (String)startTimeComboBox.getSelectedItem();
-					String location = (String)locationComboBox.getSelectedItem();
-					//attendance_frame = new Attendance_Frame(instructorName, topic, currentDate, startTime, location);
-					//attendance_frame.setVisible(true);
+					String instructorName = instructorNameComboBox.getSelectedItem().toString();
+					String topic = topicComboBox.getSelectedItem().toString();
+					Date date = (Date) datePicker.getModel().getValue();
+					String startTime = startTimeComboBox.getSelectedItem().toString();
+					String location = locationComboBox.getSelectedItem().toString();
+					attendance_frame = new Attendance_Frame(instructorName, topic, date, startTime, location);
+					attendance_frame.setVisible(true);
 					facilitator_frame.dispose();
 				}
 			}
@@ -174,6 +160,8 @@ public class Facilitator_Frame extends JFrame {
 		contentPane.add(lblLocationOfClass);
 	}
 	
+	
+	//Returns a boolean indicating if any fields are not filled
 	public boolean validation() {
 		boolean flag = true;
 		clearColors();
@@ -207,6 +195,7 @@ public class Facilitator_Frame extends JFrame {
 		return flag;
 	}
 	
+	//Clears all the colors of the labels in the form
 	public void clearColors(){
 		lblInstructorName.setForeground(Color.BLACK);
 		lblTopicOfClass.setForeground(Color.BLACK);

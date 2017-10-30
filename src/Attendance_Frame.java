@@ -23,6 +23,7 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Properties;
@@ -96,23 +97,6 @@ public class Attendance_Frame extends JFrame {
 	private JMenuItem mntmOpen;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					WebLookAndFeel.install ();
-					frame = new Attendance_Frame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
-	/**
 	 * Use to create mask for date, zipcode, ect.
 	 */
 	public MaskFormatter createFormatter(String s) {
@@ -130,7 +114,9 @@ public class Attendance_Frame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Attendance_Frame() {
+	public Attendance_Frame(String instructorName, String topic, Date date, String startTime, String location) {
+		frame = this;
+		WebLookAndFeel.install ();
 		setResizable(false);
      	setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 1033, 651);
@@ -151,6 +137,7 @@ public class Attendance_Frame extends JFrame {
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
 		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		datePicker.setBounds(91, 364, 164, 30);
+//		datePicker.getModel().setDate(arg0, arg1, arg2);
 		contentPane.add(datePicker);
 		
 		JLabel lblCpcaAttendance = new JLabel("PEP Attendance Sheet");
