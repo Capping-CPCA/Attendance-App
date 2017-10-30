@@ -21,9 +21,12 @@ import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
+import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Properties;
@@ -113,6 +116,7 @@ public class Attendance_Frame extends JFrame {
 	 * Create the frame.
 	 */
 	public Attendance_Frame(String instructor, String topic, JDatePickerImpl datePicker, String startTime, String location, String language) {
+		getDayString(datePicker);
 		instructorName = instructor;
 		frame = this;
 		WebLookAndFeel.install ();
@@ -596,6 +600,8 @@ public class Attendance_Frame extends JFrame {
 					yesOrNo = "No";
 				}
 				
+				String day = getDayString(datePicker);
+				
 				//TODO: Fix the row that you are adding based on parameters given to the class
 				if(rdbtnAreYouNew.isSelected()){
 					defaultModel.addRow(new Object[] {
@@ -603,7 +609,7 @@ public class Attendance_Frame extends JFrame {
 							lName,
 							datePicker.getModel().getValue().toString(),
 							topic,
-//							classDayComboBox.getSelectedItem(),
+							day,
 							startTime,
 							location,
 							language,
@@ -620,7 +626,7 @@ public class Attendance_Frame extends JFrame {
 							lName,
 							datePicker.getModel().getValue().toString(),
 							topic,
-//							classDayComboBox.getSelectedItem(),
+							day,
 							startTime,
 							location,
 							language,
@@ -797,7 +803,12 @@ public class Attendance_Frame extends JFrame {
 	
 	//Get day from datePicker
 	public String getDayString(JDatePickerImpl datePicker){
-		
-		return null;
+		int day = datePicker.getModel().getDay();
+		int month = datePicker.getModel().getMonth();
+		int year = datePicker.getModel().getYear();
+		GregorianCalendar c = new GregorianCalendar(year, month, day);
+		String[] weekdays = new DateFormatSymbols().getWeekdays(); // Get day names
+		String weekday = weekdays[c.get(c.DAY_OF_WEEK)];
+		return weekday;
 	}
 }
