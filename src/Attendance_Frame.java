@@ -95,6 +95,7 @@ public class Attendance_Frame extends JFrame {
 	private final ButtonGroup newProgramButtonGroup = new ButtonGroup();
 	private final ButtonGroup firstClassButtonGroup = new ButtonGroup();
 	private JMenuItem mntmOpen;
+	private String instructorName;
 
 	/**
 	 * Use to create mask for date, zipcode, ect.
@@ -114,7 +115,8 @@ public class Attendance_Frame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Attendance_Frame(String instructorName, int topicIndex, int day, int month, int year, String startTime, String location) {
+	public Attendance_Frame(String instructor, int topicIndex, int day, int month, int year, int timeIndex, int locationIndex) {
+		instructorName = instructor;
 		frame = this;
 		WebLookAndFeel.install ();
 		setResizable(false);
@@ -194,11 +196,15 @@ public class Attendance_Frame extends JFrame {
 		JComboBox classTimeComboBox = new JComboBox();
 		classTimeComboBox.setModel(new DefaultComboBoxModel(new String[] {"Start Time", "10:00am", "11:00am", "11:30am", "12:30am", "1:00pm", "1:30pm", "2:00pm", "4:30pm", "6:00pm"}));
 		classTimeComboBox.setBounds(176, 398, 117, 27);
+		classTimeComboBox.setEnabled(false);
+		classTimeComboBox.setSelectedIndex(timeIndex);
 		contentPane.add(classTimeComboBox);
 		
 		JComboBox classLocationComboBox = new JComboBox();
 		classLocationComboBox.setModel(new DefaultComboBoxModel(new String[] {"Location", "Poughkeepsie", "Florence Manor", "Fishkill", "ITAP", "Cornerstone", "Meadow Run", "Fox Run"}));
 		classLocationComboBox.setBounds(305, 398, 134, 27);
+		classLocationComboBox.setEnabled(false);
+		classLocationComboBox.setSelectedIndex(locationIndex);
 		contentPane.add(classLocationComboBox);
 		
 		JComboBox classLanguageComboBox = new JComboBox();
@@ -526,8 +532,6 @@ public class Attendance_Frame extends JFrame {
 		fieldLabelMap.put(fNameTF, lblFirstName);
 		fieldLabelMap.put(lNameTF, lblLastName);
 		fieldLabelMap.put(classDayComboBox, lblClass);
-		fieldLabelMap.put(classTimeComboBox, lblClass);
-		fieldLabelMap.put(classLocationComboBox, lblClass);
 		fieldLabelMap.put(classLanguageComboBox, lblClass);
 		fieldLabelMap.put(sexComboBox, lblSex);
 		fieldLabelMap.put(raceComboBox, lblRace);
@@ -539,8 +543,6 @@ public class Attendance_Frame extends JFrame {
 		fieldLabelMap2.put(fNameTF, lblFirstName);
 		fieldLabelMap2.put(lNameTF, lblLastName);
 		fieldLabelMap2.put(classDayComboBox, lblClass);
-		fieldLabelMap2.put(classTimeComboBox, lblClass);
-		fieldLabelMap2.put(classLocationComboBox, lblClass);
 		fieldLabelMap2.put(classLanguageComboBox, lblClass);
 		
 		JButton btnUpload = new JButton("Upload");

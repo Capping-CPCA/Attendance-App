@@ -39,13 +39,14 @@ public class Facilitator_Frame extends JFrame {
 	private JComboBox topicComboBox;
 	private JComboBox startTimeComboBox;
 	private JComboBox locationComboBox;
+	private JComboBox languageComboBox;
 	private JDatePickerImpl datePicker;
 	private JLabel lblInstructorName;
 	private JLabel lblTopicOfClass;
 	private JLabel lblDate;
 	private JLabel lblStartTime;
 	private JLabel lblLocationOfClass;
-	
+	private JLabel lblLanguage;
 	/**
 	 * Launch the application.
 	 */
@@ -89,7 +90,7 @@ public class Facilitator_Frame extends JFrame {
 		topicComboBox.setBounds(182, 120, 211, 27);
 		contentPane.add(topicComboBox);
 		
-		//Calender for date implementation
+		//Calendar for date implementation
 		UtilDateModel model = new UtilDateModel();
 		Properties p = new Properties();
 		p.put("text.today", "Today");
@@ -100,12 +101,12 @@ public class Facilitator_Frame extends JFrame {
 		datePicker.setBounds(182, 167, 211, 25);
 		contentPane.add(datePicker);
 	
-		startTimeComboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose", "11:00", "12:00"}));
+		startTimeComboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose", "10:00am", "11:00am", "11:30am", "12:30am", "1:00pm", "1:30pm", "2:00pm", "4:30pm", "6:00pm"}));
 		startTimeComboBox.setBounds(182, 205, 211, 27);
 		contentPane.add(startTimeComboBox);
 		
 		
-		locationComboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose", "Foxrun", "Poughkeepsie"}));
+		locationComboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose", "Florence Manor", "Fishkill", "ITAP", "Cornerstone", "Meadow Run", "Fox Run"}));
 		locationComboBox.setBounds(182, 244, 211, 27);
 		contentPane.add(locationComboBox);
 		
@@ -124,9 +125,9 @@ public class Facilitator_Frame extends JFrame {
 					int day = datePicker.getModel().getDay();
 					int month = datePicker.getModel().getMonth();
 					int year = datePicker.getModel().getYear();
-					String startTime = startTimeComboBox.getSelectedItem().toString();
-					String location = locationComboBox.getSelectedItem().toString();
-					attendance_frame = new Attendance_Frame(instructorName, topicIndex, day, month, year, startTime, location);
+					int timeIndex = startTimeComboBox.getSelectedIndex();
+					int locationIndex = locationComboBox.getSelectedIndex();
+					attendance_frame = new Attendance_Frame(instructorName, topicIndex, day, month, year, timeIndex, locationIndex);
 					attendance_frame.setVisible(true);
 					facilitator_frame.dispose();
 				}
@@ -160,6 +161,16 @@ public class Facilitator_Frame extends JFrame {
 		lblLocationOfClass.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblLocationOfClass.setBounds(64, 250, 117, 14);
 		contentPane.add(lblLocationOfClass);
+		
+		lblLanguage = new JLabel("Language:");
+		lblLanguage.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblLanguage.setBounds(64, 291, 109, 23);
+		contentPane.add(lblLanguage);
+		
+		languageComboBox = new JComboBox();
+		languageComboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose", "English", "Spanish"}));
+		languageComboBox.setBounds(182, 291, 211, 27);
+		contentPane.add(languageComboBox);
 	}
 	
 	
@@ -194,6 +205,11 @@ public class Facilitator_Frame extends JFrame {
 			flag = false;
 		}
 		
+		if(languageComboBox.getSelectedItem().equals("Choose")){
+			lblLanguage.setForeground(Color.RED);
+			flag = false;
+		}
+		
 		return flag;
 	}
 	
@@ -204,5 +220,6 @@ public class Facilitator_Frame extends JFrame {
 		lblDate.setForeground(Color.BLACK);
 		lblStartTime.setForeground(Color.BLACK);
 		lblLocationOfClass.setForeground(Color.BLACK);
+		lblLanguage.setForeground(Color.BLACK);
 	}
 }
