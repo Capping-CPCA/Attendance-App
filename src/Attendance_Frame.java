@@ -187,7 +187,7 @@ public class Attendance_Frame extends JFrame {
 					{null, null, null, null, null, null},
 				},
 				new String[] {
-					"First", "Last", "Date", "Day", "Time", 
+					"First", "Last", "Date", "Topic", "Day", "Time", 
 					"Location", "Language","Sex", "Race", "Age","18&Under", "Zipcode","New"
 				}
 			);
@@ -602,10 +602,11 @@ public class Attendance_Frame extends JFrame {
 							fName,
 							lName,
 							datePicker.getModel().getValue().toString(),
+							topic,
 //							classDayComboBox.getSelectedItem(),
-//							classTimeComboBox.getSelectedItem(),
-//							classLocationComboBox.getSelectedItem(),
-//							classLanguageComboBox.getSelectedItem(),
+							startTime,
+							location,
+							language,
 							sex,
 							race,
 							ageTF.getText(),
@@ -618,10 +619,17 @@ public class Attendance_Frame extends JFrame {
 							fName,
 							lName,
 							datePicker.getModel().getValue().toString(),
+							topic,
 //							classDayComboBox.getSelectedItem(),
-//							classTimeComboBox.getSelectedItem(),
-//							classLocationComboBox.getSelectedItem(),
-//							classLanguageComboBox.getSelectedItem()
+							startTime,
+							location,
+							language,
+							sex,
+							race,
+							ageTF.getText(),
+							null,
+							null,
+							"No"
 					});
 				}			
 				//Clear all textFields after submit for the next participant
@@ -785,5 +793,11 @@ public class Attendance_Frame extends JFrame {
 		zipCodeFTF.setText("");
 		ageTF.setText("");
 		numberOfKidsTF.setText("");
+	}
+	
+	//Get day from datePicker
+	public String getDayString(JDatePickerImpl datePicker){
+		
+		return null;
 	}
 }
