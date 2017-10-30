@@ -196,12 +196,12 @@ public class Attendance_Frame extends JFrame {
 		
 		JComboBox classLocationComboBox = new JComboBox();
 		classLocationComboBox.setModel(new DefaultComboBoxModel(new String[] {"Location", "Poughkeepsie", "Florence Manor", "Fishkill", "ITAP", "Cornerstone", "Meadow Run", "Fox Run"}));
-		classLocationComboBox.setBounds(305, 398, 203, 27);
+		classLocationComboBox.setBounds(305, 398, 134, 27);
 		contentPane.add(classLocationComboBox);
 		
 		JComboBox classLanguageComboBox = new JComboBox();
 		classLanguageComboBox.setModel(new DefaultComboBoxModel(new String[] {"Language", "English", "Spanish"}));
-		classLanguageComboBox.setBounds(520, 398, 129, 27);
+		classLanguageComboBox.setBounds(449, 397, 129, 27);
 		contentPane.add(classLanguageComboBox);
 		
 		JComboBox raceComboBox = new JComboBox();
@@ -536,6 +536,12 @@ public class Attendance_Frame extends JFrame {
 		JButton btnUpload = new JButton("Upload");
 		btnUpload.setBounds(880, 541, 117, 29);
 		contentPane.add(btnUpload);
+		
+		JComboBox topicComboBox = new JComboBox();
+		topicComboBox.setModel(new DefaultComboBoxModel(new String[] {"Topic", "Happy", "Healthy"}));
+		topicComboBox.setBounds(588, 397, 79, 27);
+		topicComboBox.setVisible(false);
+		contentPane.add(topicComboBox);
 
 		//If new participant - display all information
 		rdbtnAreYouNew.addActionListener(new ActionListener() {
@@ -557,6 +563,7 @@ public class Attendance_Frame extends JFrame {
 					lblZipcode.setVisible(true);
 					lblDate.setVisible(true);
 					lblClass.setVisible(true);
+					topicComboBox.setVisible(true);
 					
 					sexComboBox.setVisible(true);
 					raceComboBox.setVisible(true);
@@ -595,6 +602,7 @@ public class Attendance_Frame extends JFrame {
 				lblZipcode.setVisible(false);
 				lblDate.setVisible(true);
 				lblClass.setVisible(true);
+				topicComboBox.setVisible(true);
 				
 				sexComboBox.setVisible(false);
 				raceComboBox.setVisible(false);
@@ -870,7 +878,6 @@ public class Attendance_Frame extends JFrame {
 				comboBox.setSelectedIndex(0);
 			}
 		}
-//		datePicker.getModel().setValue(null);
 		zipCodeFTF.setText("");
 		ageTF.setText("");
 		numberOfKidsTF.setText("");
