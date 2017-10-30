@@ -137,6 +137,11 @@ public class Attendance_Frame extends JFrame {
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
 		datePanel.setEnabled(false);
 		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		datePicker.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				model.setDate(year, month, day);
+			}
+		});
 		datePicker.getJFormattedTextField().setEnabled(false);
 		datePicker.setBounds(91, 364, 164, 30);
 		model.setDate(year, month, day);
