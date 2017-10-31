@@ -186,14 +186,13 @@ public class Attendance_Frame extends JFrame {
 		
 		outputTable = new JTable();
 		scrollPane.setViewportView(outputTable);
-		//TODO: Rearrange the header cells to have ZipCode and 18&Under rearranged
 		DefaultTableModel defaultModel = new DefaultTableModel(
 				new Object[][] {
 					{null, null, null, null, null, null},
 				},
 				new String[] {
 					"First", "Last", "Date", "Topic", "Day", "Time", 
-					"Location", "Language","Sex", "Race", "Age","18&Under", "Zipcode","New"
+					"Location", "Language","Sex", "Race", "Age","New","18&Under", "Zipcode"
 				}
 			);
 		defaultModel.setRowCount(0);
@@ -503,6 +502,8 @@ public class Attendance_Frame extends JFrame {
 					
 					sexComboBox.setVisible(true);
 					raceComboBox.setVisible(true);
+					numberOfKidsTF.setVisible(true);
+					zipCodeFTF.setVisible(true);
 					
 					//Clear the fields on change and label colors
 					clearFields();
@@ -531,6 +532,8 @@ public class Attendance_Frame extends JFrame {
 				
 				sexComboBox.setVisible(true);
 				raceComboBox.setVisible(true);
+				numberOfKidsTF.setVisible(false);
+				zipCodeFTF.setVisible(false);
 				
 				//Clear the fields on change and label colors
 				clearFields();
@@ -605,7 +608,6 @@ public class Attendance_Frame extends JFrame {
 				
 				String day = getDayString(datePicker);
 				
-				//TODO: Fix the row that you are adding based on parameters given to the class
 				if(rdbtnAreYouNew.isSelected()){
 					defaultModel.addRow(new Object[] {
 							fName,
@@ -619,9 +621,9 @@ public class Attendance_Frame extends JFrame {
 							sex,
 							race,
 							ageTF.getText(),
+							yesOrNo,
 							numberOfKidsTF.getText(),
-							zipCodeFTF.getText(),
-							yesOrNo
+							zipCodeFTF.getText()
 					});
 				} else {
 					defaultModel.addRow(new Object[] {
@@ -636,9 +638,9 @@ public class Attendance_Frame extends JFrame {
 							sex,
 							race,
 							ageTF.getText(),
+							yesOrNo,
 							null,
-							null,
-							"No"
+							null
 					});
 				}			
 				//Clear all textFields after submit for the next participant
