@@ -21,8 +21,12 @@ import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
+import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Properties;
@@ -49,15 +53,14 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+//JDatePicker Jar
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
-import com.seaglasslookandfeel.SeaGlassLookAndFeel;
-import com.jgoodies.looks.*;
 import com.alee.laf.WebLookAndFeel;
-import com.alee.managers.style.StyleManager;
-import com.alee.managers.style.skin.ninepatch.NinePatchSkin;
+
 
 public class Attendance_Frame extends JFrame {
 	private JPanel contentPane;
@@ -78,48 +81,22 @@ public class Attendance_Frame extends JFrame {
 	private JLabel lblLastName;
 	private JLabel lblZipcode;
 	private JLabel lblRace;
-	private JLabel lblClass;
 	private JLabel lblSpecifyOtherRace;
 	private JLabel lblSex;
 	private JLabel lblPleaseSpecifySex;
 	private JLabel lblAge;
 	private JLabel lblNumberOfKids;
-	private JLabel lblDate;
 	private JLabel lblZip;
-	private JDatePickerImpl datePicker;
 	private static Attendance_Frame frame;
 	
 	private JRadioButton rdbtnAreYouNew;
 	private JRadioButton rdbtnNotFirstClass;
 	
-//	MaskFormatter date = createFormatter("##/##/####");
-//	JFormattedTextField dateFTF = new JFormattedTextField();
 	private final ButtonGroup newProgramButtonGroup = new ButtonGroup();
 	private final ButtonGroup firstClassButtonGroup = new ButtonGroup();
 	private JMenuItem mntmOpen;
-	
-	private StyleManager styleManager = new StyleManager();
+	private String instructorName;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-//					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//					UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
-//					UIManager.setLookAndFeel("com.jgoodies.looks.windows.WindowsLookAndFeel");
-					WebLookAndFeel.install ();
-					frame = new Attendance_Frame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
 	/**
 	 * Use to create mask for date, zipcode, ect.
 	 */
@@ -138,28 +115,22 @@ public class Attendance_Frame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Attendance_Frame() {
+	public Attendance_Frame(String instructor, String topic, JDatePickerImpl datePicker, String startTime, String location, String language) {
+		getDayString(datePicker);
+		instructorName = instructor;
+		frame = this;
+		WebLookAndFeel.install ();
 		setResizable(false);
      	setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 1033, 651);
+		setBounds(100, 100, 1033, 574);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		zipCodeFTF.setBounds(77, 544, 178, 22);
+		zipCodeFTF.setBounds(77, 495, 178, 22);
 		contentPane.add(zipCodeFTF);
 		
-		//New Date here
-		UtilDateModel model = new UtilDateModel();
-		Properties p = new Properties();
-		p.put("text.today", "Today");
-		p.put("text.month", "Month");
-		p.put("text.year", "Year");
-		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
-		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-		datePicker.setBounds(91, 364, 164, 30);
-		contentPane.add(datePicker);
 		
 		JLabel lblCpcaAttendance = new JLabel("PEP Attendance Sheet");
 		lblCpcaAttendance.setBounds(343, 25, 330, 38);
@@ -175,11 +146,11 @@ public class Attendance_Frame extends JFrame {
 		contentPane.add(lblLastName);
 		
 		lblZipcode = new JLabel("Zipcode:");
-		lblZipcode.setBounds(17, 544, 61, 22);
+		lblZipcode.setBounds(17, 495, 61, 22);
 		contentPane.add(lblZipcode);
 		
 		lblRace = new JLabel("Race:");
-		lblRace.setBounds(17, 458, 61, 22);
+		lblRace.setBounds(17, 402, 61, 22);
 		contentPane.add(lblRace);
 		
 		fNameTF = new JTextField();
@@ -192,43 +163,19 @@ public class Attendance_Frame extends JFrame {
 		contentPane.add(lNameTF);
 		lNameTF.setColumns(10);
 		
-		lblClass = new JLabel("Class:");
-		lblClass.setBounds(17, 402, 61, 16);
-		contentPane.add(lblClass);
-		
-		JComboBox classDayComboBox = new JComboBox();
-		classDayComboBox.setModel(new DefaultComboBoxModel(new String[] {"Day", "Monday", "Tuesday", "Wednesday", "Thursday"}));
-		classDayComboBox.setBounds(54, 398, 117, 27);
-		contentPane.add(classDayComboBox);
-		
-		JComboBox classTimeComboBox = new JComboBox();
-		classTimeComboBox.setModel(new DefaultComboBoxModel(new String[] {"Start Time", "10:00am", "11:00am", "11:30am", "12:30am", "1:00pm", "1:30pm", "2:00pm", "4:30pm", "6:00pm"}));
-		classTimeComboBox.setBounds(176, 398, 117, 27);
-		contentPane.add(classTimeComboBox);
-		
-		JComboBox classLocationComboBox = new JComboBox();
-		classLocationComboBox.setModel(new DefaultComboBoxModel(new String[] {"Location", "Poughkeepsie", "Florence Manor", "Fishkill", "ITAP", "Cornerstone", "Meadow Run", "Fox Run"}));
-		classLocationComboBox.setBounds(305, 398, 203, 27);
-		contentPane.add(classLocationComboBox);
-		
-		JComboBox classLanguageComboBox = new JComboBox();
-		classLanguageComboBox.setModel(new DefaultComboBoxModel(new String[] {"Language", "English", "Spanish"}));
-		classLanguageComboBox.setBounds(520, 398, 129, 27);
-		contentPane.add(classLanguageComboBox);
-		
 		JComboBox raceComboBox = new JComboBox();
-		raceComboBox.setBounds(54, 453, 200, 27);
+		raceComboBox.setBounds(55, 400, 200, 27);
 		raceComboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose Race", "White", "African-American", "Hispanic", "Asian", "Other"}));
 		contentPane.add(raceComboBox);
 		
 		pleaseSpecifyRaceTF = new JTextField();
-		pleaseSpecifyRaceTF.setBounds(352, 454, 156, 22);
+		pleaseSpecifyRaceTF.setBounds(352, 402, 156, 22);
 		contentPane.add(pleaseSpecifyRaceTF);
 		pleaseSpecifyRaceTF.setColumns(10);
 		pleaseSpecifyRaceTF.setVisible(false);
 		
 		lblSpecifyOtherRace = new JLabel("Please Specify:");
-		lblSpecifyOtherRace.setBounds(264, 457, 79, 18);
+		lblSpecifyOtherRace.setBounds(264, 402, 79, 18);
 		lblSpecifyOtherRace.setFont(new Font("Lucida Grande", Font.ITALIC, 10));
 		contentPane.add(lblSpecifyOtherRace);
 		lblSpecifyOtherRace.setVisible(false);
@@ -244,8 +191,8 @@ public class Attendance_Frame extends JFrame {
 					{null, null, null, null, null, null},
 				},
 				new String[] {
-					"First", "Last", "Date", "Day", "Time", 
-					"Location", "Language","Sex", "Race", "Age","18&Under", "Zipcode","New"
+					"First", "Last", "Date", "Topic", "Day", "Time", 
+					"Location", "Language","Sex", "Race", "Age","New","18&Under", "Zipcode"
 				}
 			);
 		defaultModel.setRowCount(0);
@@ -277,36 +224,39 @@ public class Attendance_Frame extends JFrame {
 		        //Date
 		        Cell dateCell = headerRow.createCell(2);
 		        dateCell.setCellValue("Date");
+		        //Topic
+		        Cell topicCell = headerRow.createCell(3);
+		        topicCell.setCellValue("Topic");
 		        //Day
-		        Cell dayCell = headerRow.createCell(3);
+		        Cell dayCell = headerRow.createCell(4);
 		        dayCell.setCellValue("Day");
 		        //Time
-		        Cell timeCell = headerRow.createCell(4);
+		        Cell timeCell = headerRow.createCell(5);
 		        timeCell.setCellValue("Time");
 		        //Location
-		        Cell locationCell = headerRow.createCell(5);
+		        Cell locationCell = headerRow.createCell(6);
 		        locationCell.setCellValue("Location");
 		        //Language
-		        Cell languageCell = headerRow.createCell(6);
+		        Cell languageCell = headerRow.createCell(7);
 		        languageCell.setCellValue("Language");
 		        //Sex
-		        Cell sexCell = headerRow.createCell(7);
+		        Cell sexCell = headerRow.createCell(8);
 		        sexCell.setCellValue("Sex");
 		        //Race
-		        Cell raceCell = headerRow.createCell(8);
+		        Cell raceCell = headerRow.createCell(9);
 		        raceCell.setCellValue("Race");
 		        //Age
-		        Cell ageCell = headerRow.createCell(9);
+		        Cell ageCell = headerRow.createCell(10);
 		        ageCell.setCellValue("Age");
+		        //New
+		        Cell newCell = headerRow.createCell(11);
+		        newCell.setCellValue("New");
 		        //18&Under
-		        Cell ageUnderCell = headerRow.createCell(10);
+		        Cell ageUnderCell = headerRow.createCell(12);
 		        ageUnderCell.setCellValue("18 & Under");
 		        //Zip
-		        Cell zipCodeCell = headerRow.createCell(11);
+		        Cell zipCodeCell = headerRow.createCell(13);
 		        zipCodeCell.setCellValue("Zipcode");
-		        //New
-		        Cell newCell = headerRow.createCell(12);
-		        newCell.setCellValue("New");
 		        
 		        
 		        //Logic for writing to columns here under the header
@@ -374,7 +324,7 @@ public class Attendance_Frame extends JFrame {
 				    	boolean headerRow = false;
 				    	while(iterator.hasNext()){
 				    		//Array and count to hold string values in each cell
-				    		String[] row = new String[13];
+				    		String[] row = new String[14];
 				    		int cellCount = 0;
 				    		
 				    		//Get row in excel sheet
@@ -406,7 +356,12 @@ public class Attendance_Frame extends JFrame {
 										row[3],
 										row[4],
 										row[5],
-										row[6]
+										row[6],
+										row[7],
+										row[8],
+										row[9],
+										row[10],
+										row[11]
 								});
 				    		} else {
 				    			defaultModel.addRow(new Object[] {
@@ -422,7 +377,8 @@ public class Attendance_Frame extends JFrame {
 										row[9],
 										row[10],
 										row[11],
-										row[12]
+										row[12],
+										row[13]
 								});
 				    		}
 				    	}
@@ -441,50 +397,46 @@ public class Attendance_Frame extends JFrame {
 		mnFile.add(mntmExit);
 		
 		lblSex = new JLabel("Sex:");
-		lblSex.setBounds(17, 430, 61, 16);
+		lblSex.setBounds(17, 372, 61, 16);
 		contentPane.add(lblSex);
 		
 		JComboBox sexComboBox = new JComboBox();
 		sexComboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose Sex", "Male", "Female", "Other"}));
-		sexComboBox.setBounds(54, 426, 200, 27);
+		sexComboBox.setBounds(55, 367, 200, 27);
 		contentPane.add(sexComboBox);
 		
 		lblPleaseSpecifySex = new JLabel("Please Specify:");
 		lblPleaseSpecifySex.setFont(new Font("Lucida Grande", Font.ITALIC, 10));
-		lblPleaseSpecifySex.setBounds(264, 431, 101, 16);
+		lblPleaseSpecifySex.setBounds(264, 373, 101, 16);
 		contentPane.add(lblPleaseSpecifySex);
 		lblPleaseSpecifySex.setVisible(false);
 		
 		lblAge = new JLabel("Age:");
-		lblAge.setBounds(17, 488, 34, 16);
+		lblAge.setBounds(17, 437, 34, 16);
 		contentPane.add(lblAge);
 		
 		ageTF = new JTextField();
-		ageTF.setBounds(55, 483, 41, 26);
+		ageTF.setBounds(55, 432, 41, 26);
 		contentPane.add(ageTF);
 		ageTF.setColumns(10);
 		
 		pleaseSpecifySexTF = new JTextField();
-		pleaseSpecifySexTF.setBounds(352, 424, 156, 28);
+		pleaseSpecifySexTF.setBounds(352, 366, 156, 28);
 		contentPane.add(pleaseSpecifySexTF);
 		pleaseSpecifySexTF.setColumns(10);
 		pleaseSpecifySexTF.setVisible(false);
 		
 		lblNumberOfKids = new JLabel("Number Of Kids 18 Or Under:");
-		lblNumberOfKids.setBounds(17, 516, 178, 16);
+		lblNumberOfKids.setBounds(17, 466, 178, 16);
 		contentPane.add(lblNumberOfKids);
 		
 		numberOfKidsTF = new JTextField();
-		numberOfKidsTF.setBounds(204, 511, 50, 26);
+		numberOfKidsTF.setBounds(205, 461, 50, 26);
 		contentPane.add(numberOfKidsTF);
 		numberOfKidsTF.setColumns(10);
 		
-		lblDate = new JLabel("Date:");
-		lblDate.setBounds(17, 371, 50, 16);
-		contentPane.add(lblDate);
-		
 		JButton btnSubmit = new JButton("Add Attendee");
-		btnSubmit.setBounds(744, 541, 117, 29);
+		btnSubmit.setBounds(741, 488, 117, 29);
 		contentPane.add(btnSubmit);
 		
 		rdbtnAreYouNew = new JRadioButton("This is my first class.");
@@ -505,7 +457,6 @@ public class Attendance_Frame extends JFrame {
 		ageTF.setVisible(false);
 		pleaseSpecifySexTF.setVisible(false);
 		numberOfKidsTF.setVisible(false);
-		datePicker.setVisible(false);
 		
 		lblFirstName.setVisible(false);
 		lblLastName.setVisible(false);
@@ -514,39 +465,28 @@ public class Attendance_Frame extends JFrame {
 		lblAge.setVisible(false);
 		lblNumberOfKids.setVisible(false);
 		lblZipcode.setVisible(false);
-		lblDate.setVisible(false);
-		lblClass.setVisible(false);
 		
 		sexComboBox.setVisible(false);
 		raceComboBox.setVisible(false);
-		classDayComboBox.setVisible(false);
-		classTimeComboBox.setVisible(false);
-		classLocationComboBox.setVisible(false);
-		classLanguageComboBox.setVisible(false);
 		
 		//Add text fields and labels into two hash maps, the first one holds all fields, the second one only holds half of them	
 		fieldLabelMap.put(fNameTF, lblFirstName);
 		fieldLabelMap.put(lNameTF, lblLastName);
-		fieldLabelMap.put(classDayComboBox, lblClass);
-		fieldLabelMap.put(classTimeComboBox, lblClass);
-		fieldLabelMap.put(classLocationComboBox, lblClass);
-		fieldLabelMap.put(classLanguageComboBox, lblClass);
 		fieldLabelMap.put(sexComboBox, lblSex);
 		fieldLabelMap.put(raceComboBox, lblRace);
 		fieldLabelMap.put(pleaseSpecifySexTF, lblPleaseSpecifySex);
 		fieldLabelMap.put(pleaseSpecifyRaceTF, lblSpecifyOtherRace);
-		fieldLabelMap.put(datePicker, lblDate);
 		fieldLabelMap.put(zipCodeFTF, lblZipcode);
 		
 		fieldLabelMap2.put(fNameTF, lblFirstName);
 		fieldLabelMap2.put(lNameTF, lblLastName);
-		fieldLabelMap2.put(classDayComboBox, lblClass);
-		fieldLabelMap2.put(classTimeComboBox, lblClass);
-		fieldLabelMap2.put(classLocationComboBox, lblClass);
-		fieldLabelMap2.put(classLanguageComboBox, lblClass);
+		fieldLabelMap2.put(sexComboBox, lblSex);
+		fieldLabelMap2.put(raceComboBox, lblRace);
+		fieldLabelMap2.put(pleaseSpecifySexTF, lblPleaseSpecifySex);
+		fieldLabelMap2.put(pleaseSpecifyRaceTF, lblSpecifyOtherRace);
 		
 		JButton btnUpload = new JButton("Upload");
-		btnUpload.setBounds(880, 541, 117, 29);
+		btnUpload.setBounds(870, 488, 117, 29);
 		contentPane.add(btnUpload);
 
 		//If new participant - display all information
@@ -558,7 +498,6 @@ public class Attendance_Frame extends JFrame {
 					zipCodeFTF.setVisible(true);
 					ageTF.setVisible(true);
 					numberOfKidsTF.setVisible(true);
-					datePicker.setVisible(true);
 					
 					lblFirstName.setVisible(true);
 					lblLastName.setVisible(true);
@@ -567,15 +506,11 @@ public class Attendance_Frame extends JFrame {
 					lblAge.setVisible(true);
 					lblNumberOfKids.setVisible(true);
 					lblZipcode.setVisible(true);
-					lblDate.setVisible(true);
-					lblClass.setVisible(true);
 					
 					sexComboBox.setVisible(true);
 					raceComboBox.setVisible(true);
-					classDayComboBox.setVisible(true);
-					classTimeComboBox.setVisible(true);
-					classLocationComboBox.setVisible(true);
-					classLanguageComboBox.setVisible(true);
+					numberOfKidsTF.setVisible(true);
+					zipCodeFTF.setVisible(true);
 					
 					//Clear the fields on change and label colors
 					clearFields();
@@ -587,33 +522,25 @@ public class Attendance_Frame extends JFrame {
 		//If not new participant - display lName, fName, date, and classroom information
 		rdbtnNotFirstClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				fNameTF.setVisible(true);
-				lNameTF.setVisible(true);
-				zipCodeFTF.setVisible(false);
-				ageTF.setVisible(false);
-				numberOfKidsTF.setVisible(false);
-				datePicker.setVisible(true);
-				pleaseSpecifySexTF.setVisible(false);
-				pleaseSpecifyRaceTF.setVisible(false);
-				
-				lblSpecifyOtherRace.setVisible(false);
-				lblPleaseSpecifySex.setVisible(false);
-				lblFirstName.setVisible(true);
-				lblLastName.setVisible(true);
-				lblSex.setVisible(false);
-				lblRace.setVisible(false);
-				lblAge.setVisible(false);
 				lblNumberOfKids.setVisible(false);
 				lblZipcode.setVisible(false);
-				lblDate.setVisible(true);
-				lblClass.setVisible(true);
 				
-				sexComboBox.setVisible(false);
-				raceComboBox.setVisible(false);
-				classDayComboBox.setVisible(true);
-				classTimeComboBox.setVisible(true);
-				classLocationComboBox.setVisible(true);
-				classLanguageComboBox.setVisible(true);
+				fNameTF.setVisible(true);
+				lNameTF.setVisible(true);
+				zipCodeFTF.setVisible(true);
+				ageTF.setVisible(true);
+				numberOfKidsTF.setVisible(true);
+				
+				lblFirstName.setVisible(true);
+				lblLastName.setVisible(true);
+				lblSex.setVisible(true);
+				lblRace.setVisible(true);
+				lblAge.setVisible(true);
+				
+				sexComboBox.setVisible(true);
+				raceComboBox.setVisible(true);
+				numberOfKidsTF.setVisible(false);
+				zipCodeFTF.setVisible(false);
 				
 				//Clear the fields on change and label colors
 				clearFields();
@@ -686,31 +613,41 @@ public class Attendance_Frame extends JFrame {
 					yesOrNo = "No";
 				}
 				
+				String day = getDayString(datePicker);
+				
 				if(rdbtnAreYouNew.isSelected()){
 					defaultModel.addRow(new Object[] {
 							fName,
 							lName,
 							datePicker.getModel().getValue().toString(),
-							classDayComboBox.getSelectedItem(),
-							classTimeComboBox.getSelectedItem(),
-							classLocationComboBox.getSelectedItem(),
-							classLanguageComboBox.getSelectedItem(),
+							topic,
+							day,
+							startTime,
+							location,
+							language,
 							sex,
 							race,
 							ageTF.getText(),
+							yesOrNo,
 							numberOfKidsTF.getText(),
-							zipCodeFTF.getText(),
-							yesOrNo
+							zipCodeFTF.getText()
 					});
 				} else {
 					defaultModel.addRow(new Object[] {
 							fName,
 							lName,
 							datePicker.getModel().getValue().toString(),
-							classDayComboBox.getSelectedItem(),
-							classTimeComboBox.getSelectedItem(),
-							classLocationComboBox.getSelectedItem(),
-							classLanguageComboBox.getSelectedItem()
+							topic,
+							day,
+							startTime,
+							location,
+							language,
+							sex,
+							race,
+							ageTF.getText(),
+							yesOrNo,
+							null,
+							null
 					});
 				}			
 				//Clear all textFields after submit for the next participant
@@ -772,12 +709,7 @@ public class Attendance_Frame extends JFrame {
 				}
 			}
 			
-			//Add additional specific formatted text fields here
-			if(datePicker.getModel().getValue() == null){
-				lblDate.setForeground(Color.RED);
-				returnValue = false;
-			}
-			
+			//Add additional specific formatted text fields here			
 			if(zipCodeFTF.getText().isEmpty()){
 				lblZipcode.setForeground(Color.RED);
 				returnValue = false;
@@ -822,10 +754,8 @@ public class Attendance_Frame extends JFrame {
 					}
 				}
 			}
-			
-			//Add additional specific formatted text fields here
-			if(datePicker.getModel().getValue() == null){
-				lblDate.setForeground(Color.RED);
+			if(ageTF.getText().isEmpty() || !validateIntegerField(ageTF)){
+				lblAge.setForeground(Color.RED);
 				returnValue = false;
 			}
 		}
@@ -882,9 +812,19 @@ public class Attendance_Frame extends JFrame {
 				comboBox.setSelectedIndex(0);
 			}
 		}
-		datePicker.getModel().setValue(null);
 		zipCodeFTF.setText("");
 		ageTF.setText("");
 		numberOfKidsTF.setText("");
+	}
+	
+	//Get day from datePicker
+	public String getDayString(JDatePickerImpl datePicker){
+		int day = datePicker.getModel().getDay();
+		int month = datePicker.getModel().getMonth();
+		int year = datePicker.getModel().getYear();
+		GregorianCalendar c = new GregorianCalendar(year, month, day);
+		String[] weekdays = new DateFormatSymbols().getWeekdays(); // Get day names
+		String weekday = weekdays[c.get(c.DAY_OF_WEEK)];
+		return weekday;
 	}
 }
