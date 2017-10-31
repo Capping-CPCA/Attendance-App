@@ -225,36 +225,39 @@ public class Attendance_Frame extends JFrame {
 		        //Date
 		        Cell dateCell = headerRow.createCell(2);
 		        dateCell.setCellValue("Date");
+		        //Topic
+		        Cell topicCell = headerRow.createCell(3);
+		        topicCell.setCellValue("Topic");
 		        //Day
-		        Cell dayCell = headerRow.createCell(3);
+		        Cell dayCell = headerRow.createCell(4);
 		        dayCell.setCellValue("Day");
 		        //Time
-		        Cell timeCell = headerRow.createCell(4);
+		        Cell timeCell = headerRow.createCell(5);
 		        timeCell.setCellValue("Time");
 		        //Location
-		        Cell locationCell = headerRow.createCell(5);
+		        Cell locationCell = headerRow.createCell(6);
 		        locationCell.setCellValue("Location");
 		        //Language
-		        Cell languageCell = headerRow.createCell(6);
+		        Cell languageCell = headerRow.createCell(7);
 		        languageCell.setCellValue("Language");
 		        //Sex
-		        Cell sexCell = headerRow.createCell(7);
+		        Cell sexCell = headerRow.createCell(8);
 		        sexCell.setCellValue("Sex");
 		        //Race
-		        Cell raceCell = headerRow.createCell(8);
+		        Cell raceCell = headerRow.createCell(9);
 		        raceCell.setCellValue("Race");
 		        //Age
-		        Cell ageCell = headerRow.createCell(9);
+		        Cell ageCell = headerRow.createCell(10);
 		        ageCell.setCellValue("Age");
+		        //New
+		        Cell newCell = headerRow.createCell(11);
+		        newCell.setCellValue("New");
 		        //18&Under
-		        Cell ageUnderCell = headerRow.createCell(10);
+		        Cell ageUnderCell = headerRow.createCell(12);
 		        ageUnderCell.setCellValue("18 & Under");
 		        //Zip
-		        Cell zipCodeCell = headerRow.createCell(11);
+		        Cell zipCodeCell = headerRow.createCell(13);
 		        zipCodeCell.setCellValue("Zipcode");
-		        //New
-		        Cell newCell = headerRow.createCell(12);
-		        newCell.setCellValue("New");
 		        
 		        
 		        //Logic for writing to columns here under the header
