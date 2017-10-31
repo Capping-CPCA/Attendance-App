@@ -207,7 +207,6 @@ public class Attendance_Frame extends JFrame {
 		
 		JMenuItem mntmSave = new JMenuItem("Save");
 		
-		//TODO: Fix arrangement of header cells, along with adding topic
 		//Save to excel file
 		mntmSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -299,7 +298,6 @@ public class Attendance_Frame extends JFrame {
 		mntmOpen = new JMenuItem("Open");
 		
 		//Utilizes JFileChooser API which is a GUI to select files and get file path
-		//TODO: Fix open with topic
 		mntmOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//Open file allowing only excel files
@@ -326,7 +324,7 @@ public class Attendance_Frame extends JFrame {
 				    	boolean headerRow = false;
 				    	while(iterator.hasNext()){
 				    		//Array and count to hold string values in each cell
-				    		String[] row = new String[13];
+				    		String[] row = new String[14];
 				    		int cellCount = 0;
 				    		
 				    		//Get row in excel sheet
@@ -358,7 +356,12 @@ public class Attendance_Frame extends JFrame {
 										row[3],
 										row[4],
 										row[5],
-										row[6]
+										row[6],
+										row[7],
+										row[8],
+										row[9],
+										row[10],
+										row[11]
 								});
 				    		} else {
 				    			defaultModel.addRow(new Object[] {
@@ -374,7 +377,8 @@ public class Attendance_Frame extends JFrame {
 										row[9],
 										row[10],
 										row[11],
-										row[12]
+										row[12],
+										row[13]
 								});
 				    		}
 				    	}
