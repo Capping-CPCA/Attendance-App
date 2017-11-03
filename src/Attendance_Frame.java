@@ -677,8 +677,7 @@ public class Attendance_Frame extends JFrame {
 		zipCodeFTF.setText("");
 		ageTF.setText("");
 		numberOfKidsTF.setText("");
-		rdbtnAreYouNew.setSelected(false);
-		rdbtnNotFirstClass.setSelected(false);
+		firstClassButtonGroup.clearSelection();
 	}
 	
 	//Get day from datePicker
