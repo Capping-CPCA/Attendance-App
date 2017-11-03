@@ -353,41 +353,23 @@ public class Attendance_Frame extends JFrame {
 				    		}
 				    		
 				    		//Add row to the table(Check what type of row you are adding to table by checking if last value is empty)
-				    		if(row[13] == null){
-				    			defaultModel.addRow(new Object[] {
-										row[0],
-										row[1],
-										row[2],
-										row[3],
-										row[4],
-										row[5],
-										row[6],
-										row[7],
-										row[8],
-										row[9],
-										row[10],
-										row[11],
-										row[12]
-								});
-				    		} else {
-				    			defaultModel.addRow(new Object[] {
-										row[0],
-										row[1],
-										row[2],
-										row[3],
-										row[4],
-										row[5],
-										row[6],
-										row[7],
-										row[8],
-										row[9],
-										row[10],
-										row[11],
-										row[12],
-										row[13],
-										row[14]
-								});
-				    		}
+			    			defaultModel.addRow(new Object[] {
+									row[0],
+									row[1],
+									row[2],
+									row[3],
+									row[4],
+									row[5],
+									row[6],
+									row[7],
+									row[8],
+									row[9],
+									row[10],
+									row[11],
+									row[12],
+									row[13],
+									row[14]
+							});
 				    	}
 				    	workbook.close();
 				    } catch (FileNotFoundException e) {
@@ -455,26 +437,6 @@ public class Attendance_Frame extends JFrame {
 		firstClassButtonGroup.add(rdbtnNotFirstClass);
 		rdbtnNotFirstClass.setBounds(198, 492, 167, 23);
 		contentPane.add(rdbtnNotFirstClass);
-	
-		//Set everything to invisible until an initial radio button is chosen
-		fNameTF.setVisible(false);
-		lNameTF.setVisible(false);
-		zipCodeFTF.setVisible(false);
-		pleaseSpecifyRaceTF.setVisible(false);
-		ageTF.setVisible(false);
-		pleaseSpecifySexTF.setVisible(false);
-		numberOfKidsTF.setVisible(false);
-		
-		lblFirstName.setVisible(false);
-		lblLastName.setVisible(false);
-		lblSex.setVisible(false);
-		lblRace.setVisible(false);
-		lblAge.setVisible(false);
-		lblNumberOfKids.setVisible(false);
-		lblZipcode.setVisible(false);
-		
-		sexComboBox.setVisible(false);
-		raceComboBox.setVisible(false);
 		
 		//Add text fields and labels into two hash maps, the first one holds all fields, the second one only holds half of them	
 		fieldLabelMap.put(fNameTF, lblFirstName);
@@ -499,65 +461,6 @@ public class Attendance_Frame extends JFrame {
 		lblNew = new JLabel("New?");
 		lblNew.setBounds(10, 496, 56, 16);
 		contentPane.add(lblNew);
-
-		//If new participant - display all information
-		rdbtnAreYouNew.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(rdbtnAreYouNew.isSelected()){
-					fNameTF.setVisible(true);
-					lNameTF.setVisible(true);
-					zipCodeFTF.setVisible(true);
-					ageTF.setVisible(true);
-					numberOfKidsTF.setVisible(true);
-					
-					lblFirstName.setVisible(true);
-					lblLastName.setVisible(true);
-					lblSex.setVisible(true);
-					lblRace.setVisible(true);
-					lblAge.setVisible(true);
-					lblNumberOfKids.setVisible(true);
-					lblZipcode.setVisible(true);
-					
-					sexComboBox.setVisible(true);
-					raceComboBox.setVisible(true);
-					numberOfKidsTF.setVisible(true);
-					zipCodeFTF.setVisible(true);
-					
-					//Clear the fields on change and label colors
-					clearFields();
-					clearColors();
-				}
-			}
-		});
-		
-		//If not new participant - display lName, fName, date, and classroom information
-		rdbtnNotFirstClass.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				lblNumberOfKids.setVisible(false);
-				lblZipcode.setVisible(false);
-				
-				fNameTF.setVisible(true);
-				lNameTF.setVisible(true);
-				zipCodeFTF.setVisible(true);
-				ageTF.setVisible(true);
-				numberOfKidsTF.setVisible(true);
-				
-				lblFirstName.setVisible(true);
-				lblLastName.setVisible(true);
-				lblSex.setVisible(true);
-				lblRace.setVisible(true);
-				lblAge.setVisible(true);
-				
-				sexComboBox.setVisible(true);
-				raceComboBox.setVisible(true);
-				numberOfKidsTF.setVisible(false);
-				zipCodeFTF.setVisible(false);
-				
-				//Clear the fields on change and label colors
-				clearFields();
-				clearColors();
-			}
-		});
 
 		//If "Other" option is chosen from Sex Combobox, display the Other textfield
 		sexComboBox.addActionListener(new ActionListener() {
@@ -588,9 +491,6 @@ public class Attendance_Frame extends JFrame {
 		//Add newly created strings/direct input as a new row in JTable
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(!rdbtnAreYouNew.isSelected() && !rdbtnNotFirstClass.isSelected()){
-					return;
-				}
 				clearColors();
 				if(!validateData()){
 					return;
@@ -625,45 +525,25 @@ public class Attendance_Frame extends JFrame {
 				}
 				
 				String day = getDayString(datePicker);
+				defaultModel.addRow(new Object[] {
+						fName,
+						lName,
+						datePicker.getModel().getValue().toString(),
+						curriculum,
+						topic,
+						day,
+						startTime,
+						location,
+						language,
+						sex,
+						race,
+						ageTF.getText(),
+						yesOrNo,
+						numberOfKidsTF.getText(),
+						zipCodeFTF.getText()
+				});
 				
-				if(rdbtnAreYouNew.isSelected()){
-					defaultModel.addRow(new Object[] {
-							fName,
-							lName,
-							datePicker.getModel().getValue().toString(),
-							curriculum,
-							topic,
-							day,
-							startTime,
-							location,
-							language,
-							sex,
-							race,
-							ageTF.getText(),
-							yesOrNo,
-							numberOfKidsTF.getText(),
-							zipCodeFTF.getText()
-					});
-				} else {
-					defaultModel.addRow(new Object[] {
-							fName,
-							lName,
-							datePicker.getModel().getValue().toString(),
-							curriculum,
-							topic,
-							day,
-							startTime,
-							location,
-							language,
-							sex,
-							race,
-							ageTF.getText(),
-							yesOrNo,
-							null,
-							null
-					});
-				}			
-				//Clear all textFields after submit for the next participant
+				//Clear all textFields submit for the next participant
 				clearFields();
 			}
 		});
@@ -689,90 +569,58 @@ public class Attendance_Frame extends JFrame {
 	public boolean validateData(){
 		boolean returnValue = true;
 		//Validation is different if the "Are you new" radio button is selected
-		if(rdbtnAreYouNew.isSelected()){
-			for(Object key : fieldLabelMap.keySet()){
-				JLabel label = fieldLabelMap.get(key);
-				
-				//Checks all text fields to see if they meet specific criteria
-				if(key.getClass().equals(JTextField.class)){
-					JTextField textField = (JTextField) key;
-					if(textField.isVisible()){
-						if(textField.getText().isEmpty()){
-							label.setForeground(Color.RED);
+		for(Object key : fieldLabelMap.keySet()){
+			JLabel label = fieldLabelMap.get(key);
+			
+			//Checks all text fields to see if they meet specific criteria
+			if(key.getClass().equals(JTextField.class)){
+				JTextField textField = (JTextField) key;
+				if(textField.isVisible()){
+					if(textField.getText().isEmpty()){
+						label.setForeground(Color.RED);
+						returnValue = false;
+					} else {
+						if(!validateStringField(textField)){
 							returnValue = false;
-						} else {
-							if(!validateStringField(textField)){
-								returnValue = false;
-								label.setForeground(Color.RED);
-							}
-						}
-					}
-				}
-				
-				//Checks all combo box's to see if they meet specific criteria
-				if(key.getClass().equals(JComboBox.class)){
-					JComboBox comboBox = (JComboBox) key;
-					if(comboBox.isVisible()){
-						String defaultStr = comboBox.getItemAt(0).toString();
-						if(comboBox.getSelectedItem().toString().equals(defaultStr)){
 							label.setForeground(Color.RED);
-							returnValue = false;
 						}
 					}
 				}
 			}
 			
-			//Add additional specific formatted text fields here			
-			if(zipCodeFTF.getText().isEmpty()){
-				lblZipcode.setForeground(Color.RED);
-				returnValue = false;
-			}
-			
-			if(ageTF.getText().isEmpty() || !validateIntegerField(ageTF)){
-				lblAge.setForeground(Color.RED);
-				returnValue = false;
-			}
-			
-			if(numberOfKidsTF.getText().isEmpty() || !validateIntegerField(numberOfKidsTF)){
-				lblNumberOfKids.setForeground(Color.RED);
-				returnValue = false;
-			}
-		} else {
-			for(Object key : fieldLabelMap2.keySet()){
-				JLabel label = fieldLabelMap2.get(key);
-				//Checks all text fields to see if they meet specific criteria
-				if(key.getClass().equals(JTextField.class)){
-					JTextField textField = (JTextField) key;
-					if(textField.isVisible()){
-						if(textField.getText().isEmpty()){
-							label.setForeground(Color.RED);
-							returnValue = false;
-						} else {
-							if(!validateStringField(textField)){
-								returnValue = false;
-								label.setForeground(Color.RED);
-							}
-						}
-					}
-				}				
-				//Checks all combo box's to see if they meet specific criteria
-				if(key.getClass().equals(JComboBox.class)){
-					JComboBox comboBox = (JComboBox) key;
-					if(comboBox.isVisible()){
-						String defaultStr = comboBox.getItemAt(0).toString();
-						if(comboBox.getSelectedItem().toString().equals(defaultStr)){
-							label.setForeground(Color.RED);
-							returnValue = false;
-						}
+			//Checks all combo box's to see if they meet specific criteria
+			if(key.getClass().equals(JComboBox.class)){
+				JComboBox comboBox = (JComboBox) key;
+				if(comboBox.isVisible()){
+					String defaultStr = comboBox.getItemAt(0).toString();
+					if(comboBox.getSelectedItem().toString().equals(defaultStr)){
+						label.setForeground(Color.RED);
+						returnValue = false;
 					}
 				}
-			}
-			if(ageTF.getText().isEmpty() || !validateIntegerField(ageTF)){
-				lblAge.setForeground(Color.RED);
-				returnValue = false;
 			}
 		}
-			
+		
+		//Add additional specific formatted text fields here			
+		if(zipCodeFTF.getText().isEmpty()){
+			lblZipcode.setForeground(Color.RED);
+			returnValue = false;
+		}
+		
+		if(ageTF.getText().isEmpty() || !validateIntegerField(ageTF)){
+			lblAge.setForeground(Color.RED);
+			returnValue = false;
+		}
+		
+		if(numberOfKidsTF.getText().isEmpty() || !validateIntegerField(numberOfKidsTF)){
+			lblNumberOfKids.setForeground(Color.RED);
+			returnValue = false;
+		}
+		
+		if(!rdbtnNotFirstClass.isSelected() && !rdbtnAreYouNew.isSelected()){
+			lblNew.setForeground(Color.RED);
+			returnValue = false;
+		}		
 		return returnValue;
 	}
 	
@@ -804,9 +652,10 @@ public class Attendance_Frame extends JFrame {
 			JLabel label = fieldLabelMap.get(key);
 			label.setForeground(Color.BLACK);
 		}
-		//These two are not in the hash map
+		//These three are not in the hash map
 		lblAge.setForeground(Color.BLACK);
 		lblNumberOfKids.setForeground(Color.BLACK);
+		lblNew.setForeground(Color.BLACK);
 	}
 	
 	//Clears all fields in the form
@@ -828,6 +677,8 @@ public class Attendance_Frame extends JFrame {
 		zipCodeFTF.setText("");
 		ageTF.setText("");
 		numberOfKidsTF.setText("");
+		rdbtnAreYouNew.setSelected(false);
+		rdbtnNotFirstClass.setSelected(false);
 	}
 	
 	//Get day from datePicker
