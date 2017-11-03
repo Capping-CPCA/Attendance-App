@@ -14,6 +14,9 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import com.alee.laf.WebLookAndFeel;
+import com.alee.managers.style.StyleManager;
+import com.alee.managers.style.skin.CustomSkin;
+import com.alee.managers.style.skin.WebLafSkin;
 
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -29,6 +32,8 @@ import java.util.Properties;
 import java.awt.event.ActionEvent;
 
 import com.alee.laf.WebLookAndFeel;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class Facilitator_Frame extends JFrame {
 
@@ -47,29 +52,13 @@ public class Facilitator_Frame extends JFrame {
 	private JLabel lblStartTime;
 	private JLabel lblLocationOfClass;
 	private JLabel lblLanguage;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					WebLookAndFeel.install ();
-					facilitator_frame = new Facilitator_Frame();
-					facilitator_frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 	
 	/**
 	 * Create the frame.
 	 */
 	public Facilitator_Frame() {
+		facilitator_frame = this;
 		setResizable(false);
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 587, 435);
 		contentPane = new JPanel();

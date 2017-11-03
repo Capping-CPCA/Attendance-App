@@ -382,7 +382,7 @@ public class Attendance_Frame extends JFrame {
 								});
 				    		}
 				    	}
-				    	
+				    	workbook.close();
 				    } catch (FileNotFoundException e) {
 				    	//TODO: If file was not found, do a pop up
 				    	System.out.println("File not found");
