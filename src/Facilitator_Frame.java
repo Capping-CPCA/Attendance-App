@@ -45,6 +45,7 @@ public class Facilitator_Frame extends JFrame {
 	private JComboBox startTimeComboBox;
 	private JComboBox locationComboBox;
 	private JComboBox languageComboBox;
+	private JComboBox curriculumComboBox;
 	private JDatePickerImpl datePicker;
 	private JLabel lblInstructorName;
 	private JLabel lblTopicOfClass;
@@ -52,6 +53,7 @@ public class Facilitator_Frame extends JFrame {
 	private JLabel lblStartTime;
 	private JLabel lblLocationOfClass;
 	private JLabel lblLanguage;
+	private JLabel lblCurriculum;
 	
 	/**
 	 * Create the frame.
@@ -159,12 +161,12 @@ public class Facilitator_Frame extends JFrame {
 		languageComboBox.setBounds(182, 316, 211, 27);
 		contentPane.add(languageComboBox);
 		
-		JLabel lblCurriculum = new JLabel("Curriculum:");
+		lblCurriculum = new JLabel("Curriculum:");
 		lblCurriculum.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblCurriculum.setBounds(64, 105, 109, 31);
 		contentPane.add(lblCurriculum);
 		
-		JComboBox curriculumComboBox = new JComboBox();
+		curriculumComboBox = new JComboBox();
 		curriculumComboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose", "Florence Manor", "Fishkill", "ITAP", "Cornerstone", "Meadow Run", "Fox Run"}));
 		curriculumComboBox.setBounds(182, 105, 211, 27);
 		contentPane.add(curriculumComboBox);
@@ -207,6 +209,11 @@ public class Facilitator_Frame extends JFrame {
 			flag = false;
 		}
 		
+		if(curriculumComboBox.getSelectedItem().equals("Choose")){
+			lblCurriculum.setForeground(Color.RED);
+			flag = false;
+		}
+		
 		return flag;
 	}
 	
@@ -218,5 +225,6 @@ public class Facilitator_Frame extends JFrame {
 		lblStartTime.setForeground(Color.BLACK);
 		lblLocationOfClass.setForeground(Color.BLACK);
 		lblLanguage.setForeground(Color.BLACK);
+		lblCurriculum.setForeground(Color.BLACK);
 	}
 }
