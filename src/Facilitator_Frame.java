@@ -116,7 +116,8 @@ public class Facilitator_Frame extends JFrame {
 					String startTime = startTimeComboBox.getSelectedItem().toString();
 					String location = locationComboBox.getSelectedItem().toString();
 					String language = languageComboBox.getSelectedItem().toString();
-					attendance_frame = new Attendance_Frame(instructorName, topic, datePicker, startTime, location, language);
+					String curriculum = curriculumComboBox.getSelectedItem().toString();
+					attendance_frame = new Attendance_Frame(instructorName, topic, datePicker, startTime, location, language, curriculum);
 					attendance_frame.setVisible(true);
 					facilitator_frame.dispose();
 				}

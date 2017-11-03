@@ -115,7 +115,7 @@ public class Attendance_Frame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Attendance_Frame(String instructor, String topic, JDatePickerImpl datePicker, String startTime, String location, String language) {
+	public Attendance_Frame(String instructor, String topic, JDatePickerImpl datePicker, String startTime, String location, String language, String curriculum) {
 		getDayString(datePicker);
 		instructorName = instructor;
 		frame = this;
@@ -620,6 +620,7 @@ public class Attendance_Frame extends JFrame {
 							fName,
 							lName,
 							datePicker.getModel().getValue().toString(),
+							curriculum,
 							topic,
 							day,
 							startTime,
@@ -637,6 +638,7 @@ public class Attendance_Frame extends JFrame {
 							fName,
 							lName,
 							datePicker.getModel().getValue().toString(),
+							curriculum,
 							topic,
 							day,
 							startTime,
