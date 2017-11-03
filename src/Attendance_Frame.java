@@ -122,7 +122,7 @@ public class Attendance_Frame extends JFrame {
 		WebLookAndFeel.install ();
 		setResizable(false);
      	setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 1033, 574);
+		setBounds(100, 100, 1161, 574);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -181,7 +181,7 @@ public class Attendance_Frame extends JFrame {
 		lblSpecifyOtherRace.setVisible(false);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(6, 74, 1006, 182);
+		scrollPane.setBounds(0, 74, 1155, 182);
 		contentPane.add(scrollPane);
 		
 		outputTable = new JTable();
@@ -191,7 +191,7 @@ public class Attendance_Frame extends JFrame {
 					{null, null, null, null, null, null},
 				},
 				new String[] {
-					"First", "Last", "Date", "Topic", "Day", "Time", 
+					"First", "Last", "Date", "Curriculum", "Topic", "Day", "Time", 
 					"Location", "Language","Sex", "Race", "Age","New","18&Under", "Zipcode"
 				}
 			);
@@ -436,7 +436,7 @@ public class Attendance_Frame extends JFrame {
 		numberOfKidsTF.setColumns(10);
 		
 		JButton btnSubmit = new JButton("Add Attendee");
-		btnSubmit.setBounds(741, 488, 117, 29);
+		btnSubmit.setBounds(877, 488, 117, 29);
 		contentPane.add(btnSubmit);
 		
 		rdbtnAreYouNew = new JRadioButton("This is my first class.");
@@ -486,7 +486,7 @@ public class Attendance_Frame extends JFrame {
 		fieldLabelMap2.put(pleaseSpecifyRaceTF, lblSpecifyOtherRace);
 		
 		JButton btnUpload = new JButton("Upload");
-		btnUpload.setBounds(870, 488, 117, 29);
+		btnUpload.setBounds(1026, 488, 117, 29);
 		contentPane.add(btnUpload);
 
 		//If new participant - display all information
