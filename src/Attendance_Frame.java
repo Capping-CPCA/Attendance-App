@@ -224,38 +224,41 @@ public class Attendance_Frame extends JFrame {
 		        //Date
 		        Cell dateCell = headerRow.createCell(2);
 		        dateCell.setCellValue("Date");
+		        //Curriculum
+		        Cell curriculumCell = headerRow.createCell(3);
+		        curriculumCell.setCellValue("Curriculum");
 		        //Topic
-		        Cell topicCell = headerRow.createCell(3);
+		        Cell topicCell = headerRow.createCell(4);
 		        topicCell.setCellValue("Topic");
 		        //Day
-		        Cell dayCell = headerRow.createCell(4);
+		        Cell dayCell = headerRow.createCell(5);
 		        dayCell.setCellValue("Day");
 		        //Time
-		        Cell timeCell = headerRow.createCell(5);
+		        Cell timeCell = headerRow.createCell(6);
 		        timeCell.setCellValue("Time");
 		        //Location
-		        Cell locationCell = headerRow.createCell(6);
+		        Cell locationCell = headerRow.createCell(7);
 		        locationCell.setCellValue("Location");
 		        //Language
-		        Cell languageCell = headerRow.createCell(7);
+		        Cell languageCell = headerRow.createCell(8);
 		        languageCell.setCellValue("Language");
 		        //Sex
-		        Cell sexCell = headerRow.createCell(8);
+		        Cell sexCell = headerRow.createCell(9);
 		        sexCell.setCellValue("Sex");
 		        //Race
-		        Cell raceCell = headerRow.createCell(9);
+		        Cell raceCell = headerRow.createCell(10);
 		        raceCell.setCellValue("Race");
 		        //Age
-		        Cell ageCell = headerRow.createCell(10);
+		        Cell ageCell = headerRow.createCell(11);
 		        ageCell.setCellValue("Age");
 		        //New
-		        Cell newCell = headerRow.createCell(11);
+		        Cell newCell = headerRow.createCell(12);
 		        newCell.setCellValue("New");
 		        //18&Under
-		        Cell ageUnderCell = headerRow.createCell(12);
+		        Cell ageUnderCell = headerRow.createCell(13);
 		        ageUnderCell.setCellValue("18 & Under");
 		        //Zip
-		        Cell zipCodeCell = headerRow.createCell(13);
+		        Cell zipCodeCell = headerRow.createCell(14);
 		        zipCodeCell.setCellValue("Zipcode");
 		        
 		        
@@ -278,6 +281,7 @@ public class Attendance_Frame extends JFrame {
 		        	excelRowCount++;
 		        }
 		        
+		        //TODO: Change naming parameters somehow
 		        try (FileOutputStream outputStream = new FileOutputStream("Attendance_Test.xlsx")) {
 		            workbook.write(outputStream);
 		        } catch (IOException e){
@@ -324,7 +328,7 @@ public class Attendance_Frame extends JFrame {
 				    	boolean headerRow = false;
 				    	while(iterator.hasNext()){
 				    		//Array and count to hold string values in each cell
-				    		String[] row = new String[14];
+				    		String[] row = new String[15];
 				    		int cellCount = 0;
 				    		
 				    		//Get row in excel sheet
@@ -348,7 +352,7 @@ public class Attendance_Frame extends JFrame {
 				    		}
 				    		
 				    		//Add row to the table(Check what type of row you are adding to table by checking if last value is empty)
-				    		if(row[12] == null){
+				    		if(row[13] == null){
 				    			defaultModel.addRow(new Object[] {
 										row[0],
 										row[1],
@@ -361,7 +365,8 @@ public class Attendance_Frame extends JFrame {
 										row[8],
 										row[9],
 										row[10],
-										row[11]
+										row[11],
+										row[12]
 								});
 				    		} else {
 				    			defaultModel.addRow(new Object[] {
@@ -378,7 +383,8 @@ public class Attendance_Frame extends JFrame {
 										row[10],
 										row[11],
 										row[12],
-										row[13]
+										row[13],
+										row[14]
 								});
 				    		}
 				    	}
