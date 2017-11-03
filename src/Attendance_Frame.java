@@ -96,6 +96,7 @@ public class Attendance_Frame extends JFrame {
 	private final ButtonGroup firstClassButtonGroup = new ButtonGroup();
 	private JMenuItem mntmOpen;
 	private String instructorName;
+	private JLabel lblNew;
 
 	/**
 	 * Use to create mask for date, zipcode, ect.
@@ -128,7 +129,7 @@ public class Attendance_Frame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		zipCodeFTF.setBounds(77, 495, 178, 22);
+		zipCodeFTF.setBounds(70, 461, 178, 22);
 		contentPane.add(zipCodeFTF);
 		
 		
@@ -138,44 +139,44 @@ public class Attendance_Frame extends JFrame {
 		contentPane.add(lblCpcaAttendance);
 		
 		lblFirstName = new JLabel("First Name:");
-		lblFirstName.setBounds(17, 303, 79, 30);
+		lblFirstName.setBounds(10, 269, 79, 30);
 		contentPane.add(lblFirstName);
 		
 		lblLastName = new JLabel("Last Name:");
-		lblLastName.setBounds(17, 337, 79, 22);
+		lblLastName.setBounds(10, 303, 79, 22);
 		contentPane.add(lblLastName);
 		
 		lblZipcode = new JLabel("Zipcode:");
-		lblZipcode.setBounds(17, 495, 61, 22);
+		lblZipcode.setBounds(10, 461, 61, 22);
 		contentPane.add(lblZipcode);
 		
 		lblRace = new JLabel("Race:");
-		lblRace.setBounds(17, 402, 61, 22);
+		lblRace.setBounds(10, 368, 61, 22);
 		contentPane.add(lblRace);
 		
 		fNameTF = new JTextField();
-		fNameTF.setBounds(91, 303, 164, 30);
+		fNameTF.setBounds(84, 269, 164, 30);
 		contentPane.add(fNameTF);
 		fNameTF.setColumns(10);
 		
 		lNameTF = new JTextField();
-		lNameTF.setBounds(91, 333, 164, 30);
+		lNameTF.setBounds(84, 299, 164, 30);
 		contentPane.add(lNameTF);
 		lNameTF.setColumns(10);
 		
 		JComboBox raceComboBox = new JComboBox();
-		raceComboBox.setBounds(55, 400, 200, 27);
+		raceComboBox.setBounds(48, 366, 200, 27);
 		raceComboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose Race", "White", "African-American", "Hispanic", "Asian", "Other"}));
 		contentPane.add(raceComboBox);
 		
 		pleaseSpecifyRaceTF = new JTextField();
-		pleaseSpecifyRaceTF.setBounds(352, 402, 156, 22);
+		pleaseSpecifyRaceTF.setBounds(345, 368, 156, 22);
 		contentPane.add(pleaseSpecifyRaceTF);
 		pleaseSpecifyRaceTF.setColumns(10);
 		pleaseSpecifyRaceTF.setVisible(false);
 		
 		lblSpecifyOtherRace = new JLabel("Please Specify:");
-		lblSpecifyOtherRace.setBounds(264, 402, 79, 18);
+		lblSpecifyOtherRace.setBounds(257, 368, 79, 18);
 		lblSpecifyOtherRace.setFont(new Font("Lucida Grande", Font.ITALIC, 10));
 		contentPane.add(lblSpecifyOtherRace);
 		lblSpecifyOtherRace.setVisible(false);
@@ -403,41 +404,41 @@ public class Attendance_Frame extends JFrame {
 		mnFile.add(mntmExit);
 		
 		lblSex = new JLabel("Sex:");
-		lblSex.setBounds(17, 372, 61, 16);
+		lblSex.setBounds(10, 338, 61, 16);
 		contentPane.add(lblSex);
 		
 		JComboBox sexComboBox = new JComboBox();
 		sexComboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose Sex", "Male", "Female", "Other"}));
-		sexComboBox.setBounds(55, 367, 200, 27);
+		sexComboBox.setBounds(48, 333, 200, 27);
 		contentPane.add(sexComboBox);
 		
 		lblPleaseSpecifySex = new JLabel("Please Specify:");
 		lblPleaseSpecifySex.setFont(new Font("Lucida Grande", Font.ITALIC, 10));
-		lblPleaseSpecifySex.setBounds(264, 373, 101, 16);
+		lblPleaseSpecifySex.setBounds(257, 339, 101, 16);
 		contentPane.add(lblPleaseSpecifySex);
 		lblPleaseSpecifySex.setVisible(false);
 		
 		lblAge = new JLabel("Age:");
-		lblAge.setBounds(17, 437, 34, 16);
+		lblAge.setBounds(10, 403, 34, 16);
 		contentPane.add(lblAge);
 		
 		ageTF = new JTextField();
-		ageTF.setBounds(55, 432, 41, 26);
+		ageTF.setBounds(48, 398, 41, 26);
 		contentPane.add(ageTF);
 		ageTF.setColumns(10);
 		
 		pleaseSpecifySexTF = new JTextField();
-		pleaseSpecifySexTF.setBounds(352, 366, 156, 28);
+		pleaseSpecifySexTF.setBounds(345, 332, 156, 28);
 		contentPane.add(pleaseSpecifySexTF);
 		pleaseSpecifySexTF.setColumns(10);
 		pleaseSpecifySexTF.setVisible(false);
 		
 		lblNumberOfKids = new JLabel("Number Of Kids 18 Or Under:");
-		lblNumberOfKids.setBounds(17, 466, 178, 16);
+		lblNumberOfKids.setBounds(10, 432, 178, 16);
 		contentPane.add(lblNumberOfKids);
 		
 		numberOfKidsTF = new JTextField();
-		numberOfKidsTF.setBounds(205, 461, 50, 26);
+		numberOfKidsTF.setBounds(198, 427, 50, 26);
 		contentPane.add(numberOfKidsTF);
 		numberOfKidsTF.setColumns(10);
 		
@@ -447,12 +448,12 @@ public class Attendance_Frame extends JFrame {
 		
 		rdbtnAreYouNew = new JRadioButton("This is my first class.");
 		firstClassButtonGroup.add(rdbtnAreYouNew);
-		rdbtnAreYouNew.setBounds(17, 268, 167, 23);
+		rdbtnAreYouNew.setBounds(48, 492, 145, 23);
 		contentPane.add(rdbtnAreYouNew);
 		
 		rdbtnNotFirstClass = new JRadioButton("This is not my first class.");
 		firstClassButtonGroup.add(rdbtnNotFirstClass);
-		rdbtnNotFirstClass.setBounds(182, 268, 200, 23);
+		rdbtnNotFirstClass.setBounds(198, 492, 167, 23);
 		contentPane.add(rdbtnNotFirstClass);
 	
 		//Set everything to invisible until an initial radio button is chosen
@@ -494,6 +495,10 @@ public class Attendance_Frame extends JFrame {
 		JButton btnUpload = new JButton("Upload");
 		btnUpload.setBounds(1026, 488, 117, 29);
 		contentPane.add(btnUpload);
+		
+		lblNew = new JLabel("New?");
+		lblNew.setBounds(10, 496, 56, 16);
+		contentPane.add(lblNew);
 
 		//If new participant - display all information
 		rdbtnAreYouNew.addActionListener(new ActionListener() {
