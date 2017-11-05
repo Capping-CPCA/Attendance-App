@@ -200,7 +200,7 @@ public class Attendance_Frame extends JFrame {
 		outputTable.setModel(defaultModel);
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 1032, 22);
+		menuBar.setBounds(0, 0, 1173, 22);
 		contentPane.add(menuBar);
 		
 		JMenu mnFile = new JMenu("File");

@@ -84,7 +84,8 @@ public class Opening_Frame extends JFrame {
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
                     	//TODO: Open up new frame for just opening a file, sending the file path that you found
                         String filePath = chooser.getSelectedFile().getAbsolutePath();
-                        System.out.println(filePath);
+                        Upload_Frame uploadFrame = new Upload_Frame(filePath);
+                        uploadFrame.setVisible(true);
                         opening_frame.dispose();
                     }
 //                } else {
