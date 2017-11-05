@@ -28,6 +28,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.jdatepicker.impl.JDatePickerImpl;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -41,7 +42,9 @@ public class Upload_Frame extends JFrame {
     
     //Variables to hold changed values
     public String curriculumChange = "";
-
+    public JDatePickerImpl dateChange;
+    public boolean popUpOpen = false;
+    
 	/**
 	 * Create the frame.
 	 */
@@ -108,7 +111,12 @@ public class Upload_Frame extends JFrame {
 		JButton btnChangeDate = new JButton("Change Date");
 		btnChangeDate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(curriculumChange);
+				if(!popUpOpen){
+					Change_Date changeDate = new Change_Date((Upload_Frame) frame);
+					changeDate.setVisible(true);
+					changeDate.setAlwaysOnTop(true);
+					popUpOpen = true;
+				}
 			}
 		});
 		btnChangeDate.setBounds(12, 301, 141, 25);
@@ -117,9 +125,12 @@ public class Upload_Frame extends JFrame {
 		JButton btnChangeCurriculum = new JButton("Change Curriculum");
 		btnChangeCurriculum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Change_Curriculum changeCurriculum = new Change_Curriculum((Upload_Frame) frame);
-				changeCurriculum.setVisible(true);
-				changeCurriculum.setAlwaysOnTop(true);
+				if(!popUpOpen){
+					Change_Curriculum changeCurriculum = new Change_Curriculum((Upload_Frame) frame);
+					changeCurriculum.setVisible(true);
+					changeCurriculum.setAlwaysOnTop(true);
+					popUpOpen = true;
+				}
 			}
 		});
 		

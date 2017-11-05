@@ -7,6 +7,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -18,11 +23,13 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Properties;
 
 public class Change_Date extends JFrame {
 
 	private JPanel contentPane;
 	private Change_Date frame;
+	private JDatePickerImpl datePicker;
 
 	/**
 	 * Create the frame.
@@ -58,17 +65,35 @@ public class Change_Date extends JFrame {
 		lblChangeDate.setBounds(146, 13, 137, 43);
 		contentPane.add(lblChangeDate);
 		
-		JButton btnChange = new JButton("Change");
-		btnChange.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		btnChange.setBounds(325, 223, 97, 25);
-		contentPane.add(btnChange);
-		
 		JLabel lblSelect = new JLabel("Select:");
 		lblSelect.setBounds(78, 111, 56, 16);
 		contentPane.add(lblSelect);
+		
+		//Calendar for date implementation
+		UtilDateModel model = new UtilDateModel();
+		Properties p = new Properties();
+		p.put("text.today", "Today");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		datePicker.setBounds(133, 108, 167, 22);
+		contentPane.add(datePicker);
+		
+		JButton btnChange = new JButton("Change");
+		btnChange.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(datePicker.getModel().getValue() == null){
+					lblSelect.setForeground(Color.RED);
+				} else {
+					uploadFrame.dateChange = datePicker;
+					uploadFrame.popUpOpen = false;
+					frame.dispose();
+				}
+			}
+		});
+		
+		btnChange.setBounds(325, 223, 97, 25);
+		contentPane.add(btnChange);
 	}
 }

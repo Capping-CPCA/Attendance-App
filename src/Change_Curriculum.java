@@ -70,6 +70,7 @@ public class Change_Curriculum extends JFrame {
 					lblChangeCurriculum.setForeground(Color.RED);
 				} else {
 					uploadFrame.curriculumChange = comboBox.getSelectedItem().toString();
+					uploadFrame.popUpOpen = false;
 					frame.dispose();
 				}
 			}
