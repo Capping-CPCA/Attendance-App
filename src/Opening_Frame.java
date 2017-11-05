@@ -41,8 +41,8 @@ public class Opening_Frame extends JFrame {
             public void run() {
                 try {
                 	WebLookAndFeel.install();
-                    Opening_Frame frame = new Opening_Frame();
-                    frame.setVisible(true);
+                    opening_frame = new Opening_Frame();
+                    opening_frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -54,7 +54,6 @@ public class Opening_Frame extends JFrame {
      * Create the frame.
      */
     public Opening_Frame() {
-        opening_frame = this;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 300);
         contentPane = new JPanel();

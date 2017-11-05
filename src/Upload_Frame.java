@@ -35,15 +35,18 @@ import javax.swing.JFileChooser;
 public class Upload_Frame extends JFrame {
 
 	private JPanel contentPane;
-	private JFrame Upload_Frame;
+	private JFrame frame;
 	private JTable outputTable;
 	private DefaultTableModel defaultModel;
+    
+    //Variables to hold changed values
+    public String curriculumChange = "";
 
 	/**
 	 * Create the frame.
 	 */
 	public Upload_Frame(String filePath) {
-		Upload_Frame = this;
+		frame = this;
 		setResizable(false);
      	setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 1161, 374);
@@ -72,7 +75,7 @@ public class Upload_Frame extends JFrame {
 		mntmExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TODO: Ask if they want to save
-				Upload_Frame.dispose();
+				frame.dispose();
 			}
 		});
 		
@@ -103,13 +106,20 @@ public class Upload_Frame extends JFrame {
 		contentPane.add(btnUpload);
 		
 		JButton btnChangeDate = new JButton("Change Date");
+		btnChangeDate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(curriculumChange);
+			}
+		});
 		btnChangeDate.setBounds(12, 301, 141, 25);
 		contentPane.add(btnChangeDate);
 		
 		JButton btnChangeCurriculum = new JButton("Change Curriculum");
 		btnChangeCurriculum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				Change_Curriculum changeCurriculum = new Change_Curriculum((Upload_Frame) frame);
+				changeCurriculum.setVisible(true);
+				changeCurriculum.setAlwaysOnTop(true);
 			}
 		});
 		btnChangeCurriculum.setBounds(12, 263, 141, 25);
