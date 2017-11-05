@@ -107,6 +107,11 @@ public class Upload_Frame extends JFrame {
 		contentPane.add(btnChangeDate);
 		
 		JButton btnChangeCurriculum = new JButton("Change Curriculum");
+		btnChangeCurriculum.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
 		btnChangeCurriculum.setBounds(12, 263, 141, 25);
 		contentPane.add(btnChangeCurriculum);
 		
@@ -117,6 +122,14 @@ public class Upload_Frame extends JFrame {
 		JButton btnChangeTime = new JButton("Change Time");
 		btnChangeTime.setBounds(165, 263, 141, 25);
 		contentPane.add(btnChangeTime);
+		
+		JButton btnChangeLanguage = new JButton("Change Language");
+		btnChangeLanguage.setBounds(318, 263, 141, 25);
+		contentPane.add(btnChangeLanguage);
+		
+		JButton btnChangeLocation = new JButton("Change Location");
+		btnChangeLocation.setBounds(318, 301, 141, 25);
+		contentPane.add(btnChangeLocation);
 		
 		//TODO: Populate screen with initial open of excel file
 		initialOpen(filePath);
