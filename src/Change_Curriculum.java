@@ -47,6 +47,7 @@ public class Change_Curriculum extends JFrame {
 		JButton btnCancel = new JButton("Close");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				uploadFrame.popUpOpen = false;
 				frame.dispose();
 			}
 		});

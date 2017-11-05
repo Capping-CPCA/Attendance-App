@@ -54,6 +54,7 @@ public class Change_Date extends JFrame {
 		JButton btnCancel = new JButton("Close");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				uploadFrame.popUpOpen = false;
 				frame.dispose();
 			}
 		});
@@ -77,7 +78,7 @@ public class Change_Date extends JFrame {
 		p.put("text.year", "Year");
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
 		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-		datePicker.setBounds(133, 108, 167, 22);
+		datePicker.setBounds(133, 108, 167, 32);
 		contentPane.add(datePicker);
 		
 		JButton btnChange = new JButton("Change");
