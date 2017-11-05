@@ -44,6 +44,7 @@ public class Upload_Frame extends JFrame {
     public String curriculumChange = "";
     public JDatePickerImpl dateChange;
     public String timeChange = "";
+    public String topicChange = "";
     public boolean popUpOpen = false;
     
 	/**
@@ -109,6 +110,9 @@ public class Upload_Frame extends JFrame {
 		JButton btnUpload = new JButton("Upload");
 		btnUpload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println(topicChange);
+				System.out.println(curriculumChange);
+				System.out.println(timeChange);
 			}
 		});
 		btnUpload.setBounds(1008, 269, 135, 63);
@@ -145,6 +149,16 @@ public class Upload_Frame extends JFrame {
 		contentPane.add(btnChangeCurriculum);
 		
 		JButton btnChangeTopic = new JButton("Change Topic");
+		btnChangeTopic.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(!popUpOpen){
+					Change_Topic changeTopic = new Change_Topic((Upload_Frame) frame);
+					changeTopic.setVisible(true);
+					changeTopic.setAlwaysOnTop(true);
+					popUpOpen = true;
+				}
+			}
+		});
 		btnChangeTopic.setBounds(165, 301, 141, 25);
 		contentPane.add(btnChangeTopic);
 		
