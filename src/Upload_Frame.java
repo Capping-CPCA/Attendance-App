@@ -122,6 +122,7 @@ public class Upload_Frame extends JFrame {
 				changeCurriculum.setAlwaysOnTop(true);
 			}
 		});
+		
 		btnChangeCurriculum.setBounds(12, 263, 141, 25);
 		contentPane.add(btnChangeCurriculum);
 		
