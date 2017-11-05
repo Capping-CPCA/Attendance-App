@@ -45,6 +45,7 @@ public class Upload_Frame extends JFrame {
     public JDatePickerImpl dateChange;
     public String timeChange = "";
     public String topicChange = "";
+    public String languageChange = "";
     public boolean popUpOpen = false;
     
 	/**
@@ -113,6 +114,7 @@ public class Upload_Frame extends JFrame {
 				System.out.println(topicChange);
 				System.out.println(curriculumChange);
 				System.out.println(timeChange);
+				System.out.println(languageChange);
 			}
 		});
 		btnUpload.setBounds(1008, 269, 135, 63);
@@ -177,6 +179,16 @@ public class Upload_Frame extends JFrame {
 		contentPane.add(btnChangeTime);
 		
 		JButton btnChangeLanguage = new JButton("Change Language");
+		btnChangeLanguage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(!popUpOpen){
+					Change_Language changeLanguage = new Change_Language((Upload_Frame) frame);
+					changeLanguage.setVisible(true);
+					changeLanguage.setAlwaysOnTop(true);
+					popUpOpen = true;
+				}
+			}
+		});
 		btnChangeLanguage.setBounds(318, 263, 141, 25);
 		contentPane.add(btnChangeLanguage);
 		
