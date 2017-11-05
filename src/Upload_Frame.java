@@ -43,6 +43,7 @@ public class Upload_Frame extends JFrame {
     //Variables to hold changed values
     public String curriculumChange = "";
     public JDatePickerImpl dateChange;
+    public String timeChange = "";
     public boolean popUpOpen = false;
     
 	/**
@@ -104,10 +105,16 @@ public class Upload_Frame extends JFrame {
 		defaultModel.setRowCount(0);
 		outputTable.setModel(defaultModel);
 		
+		//TODO: Database stuff here
 		JButton btnUpload = new JButton("Upload");
+		btnUpload.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnUpload.setBounds(1008, 269, 135, 63);
 		contentPane.add(btnUpload);
 		
+		//TODO: Do day logic when date changed
 		JButton btnChangeDate = new JButton("Change Date");
 		btnChangeDate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -142,6 +149,16 @@ public class Upload_Frame extends JFrame {
 		contentPane.add(btnChangeTopic);
 		
 		JButton btnChangeTime = new JButton("Change Time");
+		btnChangeTime.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(!popUpOpen){
+					Change_Time changeTime = new Change_Time((Upload_Frame) frame);
+					changeTime.setVisible(true);
+					changeTime.setAlwaysOnTop(true);
+					popUpOpen = true;
+				}
+			}
+		});
 		btnChangeTime.setBounds(165, 263, 141, 25);
 		contentPane.add(btnChangeTime);
 		
