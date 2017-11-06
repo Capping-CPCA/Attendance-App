@@ -107,18 +107,6 @@ public class Upload_Frame extends JFrame {
 		
 		outputTable = new JTable();
 		scrollPane.setViewportView(outputTable);
-//		defaultModel = new DefaultTableModel(
-//				new Object[][] {
-//					{null, null, null, null, null, null},
-//				},
-//				new String[] {
-//					"First", "Last", "Date", "Curriculum", "Topic", "Day", "Time", 
-//					"Location", "Language","Sex", "Race", "Age","New","18&Under", "Zipcode"
-//				}
-//			){
-//			
-//		};
-//		defaultModel.setRowCount(0);
 		outputTable.setModel(model);
 		
 		//TODO: Database stuff here
@@ -134,7 +122,6 @@ public class Upload_Frame extends JFrame {
 		btnUpload.setBounds(1008, 269, 135, 63);
 		contentPane.add(btnUpload);
 		
-		//TODO: Do day logic when date changed
 		JButton btnChangeDate = new JButton("Change Date");
 		btnChangeDate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -223,8 +210,11 @@ public class Upload_Frame extends JFrame {
 		JButton btnReset = new JButton("Reset");
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.setRowCount(0);
-				initialOpen(filePath);
+				if(!popUpOpen){
+					model.setRowCount(0);
+					clearStore();
+					initialOpen(filePath);
+				}
 			}
 		});
 		btnReset.setBounds(861, 269, 135, 63);
@@ -236,7 +226,6 @@ public class Upload_Frame extends JFrame {
 	
 	public void initialOpen(String filePath){
     	//Opening file and populating to JTable
-		//TODO: Logic to have different fields under the table
     	try {
     		//Get Table ready
     		setupSexColumn(outputTable, outputTable.getColumnModel().getColumn(9));
@@ -320,8 +309,6 @@ public class Upload_Frame extends JFrame {
 				//Change date and day if there is something stored for dateChange
 				if(column == 2 && dateChange != null){
 					String day = getDayString(dateChange);
-					System.out.println("Here");
-					System.out.println(day);
 					outputTable.setValueAt(dateChange.getModel().getValue().toString(), row, column);
 					outputTable.setValueAt(day, row, 5);
 				}
@@ -391,5 +378,14 @@ public class Upload_Frame extends JFrame {
 		String[] weekdays = new DateFormatSymbols().getWeekdays(); // Get day names
 		String weekday = weekdays[c.get(c.DAY_OF_WEEK)];
 		return weekday;
+	}
+	
+	public void clearStore(){
+		curriculumChange = "";
+	    dateChange = null;
+	    timeChange = "";
+	    topicChange = "";
+	    languageChange = "";
+	    locationChange = "";
 	}
 }

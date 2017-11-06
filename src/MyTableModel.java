@@ -57,20 +57,20 @@ public class MyTableModel extends DefaultTableModel {
 		rowData.set(13, (String)aValue);
 		fireTableCellUpdated(row, column);
       } else if(column == 14){
-			System.out.println(aValue);
-			Vector rowData = (Vector)getDataVector().get(row);
-			rowData.set(14, (String)aValue);
-			fireTableCellUpdated(row, column);
+		System.out.println(aValue);
+		Vector rowData = (Vector)getDataVector().get(row);
+		rowData.set(14, (String)aValue);
+		fireTableCellUpdated(row, column);
       } else if(column == 2){
-		  System.out.println(aValue);
-		  Vector rowData = (Vector)getDataVector().get(row);
-		  rowData.set(2, (String)aValue);
-		  fireTableCellUpdated(row, column);
+		System.out.println(aValue);
+		Vector rowData = (Vector)getDataVector().get(row);
+		rowData.set(2, (String)aValue);
+		fireTableCellUpdated(row, column);
       } else if(column == 5){
-    	  System.out.println(aValue);
-          Vector rowData = (Vector)getDataVector().get(row);
-    	  rowData.set(5, (String)aValue);
-    	  fireTableCellUpdated(row, column);
+    	System.out.println(aValue);
+        Vector rowData = (Vector)getDataVector().get(row);
+    	rowData.set(5, (String)aValue);
+    	fireTableCellUpdated(row, column);
       }
     }
 }
