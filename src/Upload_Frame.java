@@ -46,6 +46,7 @@ public class Upload_Frame extends JFrame {
     public String timeChange = "";
     public String topicChange = "";
     public String languageChange = "";
+    public String locationChange = "";
     public boolean popUpOpen = false;
     
 	/**
@@ -193,6 +194,16 @@ public class Upload_Frame extends JFrame {
 		contentPane.add(btnChangeLanguage);
 		
 		JButton btnChangeLocation = new JButton("Change Location");
+		btnChangeLocation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(!popUpOpen){
+					Change_Location changeLocation = new Change_Location((Upload_Frame) frame);
+					changeLocation.setVisible(true);
+					changeLocation.setAlwaysOnTop(true);
+					popUpOpen = true;
+				}
+			}
+		});
 		btnChangeLocation.setBounds(318, 301, 141, 25);
 		contentPane.add(btnChangeLocation);
 		
