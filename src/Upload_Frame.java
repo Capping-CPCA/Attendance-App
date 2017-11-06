@@ -196,7 +196,12 @@ public class Upload_Frame extends JFrame {
 			}
 		});
 		
+		//TODO: Not implemented yet, going to ask algozzine what I should do
 		JMenuItem mntmOpen = new JMenuItem("Open");
+		mntmOpen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		mnFile.add(mntmOpen);
 		mnFile.add(mntmExit);
 		
