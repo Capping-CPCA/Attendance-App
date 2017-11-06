@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,6 +32,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jdatepicker.impl.JDatePickerImpl;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 
 public class Upload_Frame extends JFrame {
@@ -39,6 +41,7 @@ public class Upload_Frame extends JFrame {
 	private JFrame frame;
 	private JTable outputTable;
 	private DefaultTableModel defaultModel;
+	private MyTableModel model = new MyTableModel();
     
     //Variables to hold changed values
     public String curriculumChange = "";
@@ -96,17 +99,19 @@ public class Upload_Frame extends JFrame {
 		
 		outputTable = new JTable();
 		scrollPane.setViewportView(outputTable);
-		defaultModel = new DefaultTableModel(
-				new Object[][] {
-					{null, null, null, null, null, null},
-				},
-				new String[] {
-					"First", "Last", "Date", "Curriculum", "Topic", "Day", "Time", 
-					"Location", "Language","Sex", "Race", "Age","New","18&Under", "Zipcode"
-				}
-			);
-		defaultModel.setRowCount(0);
-		outputTable.setModel(defaultModel);
+//		defaultModel = new DefaultTableModel(
+//				new Object[][] {
+//					{null, null, null, null, null, null},
+//				},
+//				new String[] {
+//					"First", "Last", "Date", "Curriculum", "Topic", "Day", "Time", 
+//					"Location", "Language","Sex", "Race", "Age","New","18&Under", "Zipcode"
+//				}
+//			){
+//			
+//		};
+//		defaultModel.setRowCount(0);
+		outputTable.setModel(model);
 		
 		//TODO: Database stuff here
 		JButton btnUpload = new JButton("Upload");
@@ -207,16 +212,16 @@ public class Upload_Frame extends JFrame {
 		btnChangeLocation.setBounds(318, 301, 141, 25);
 		contentPane.add(btnChangeLocation);
 		
-		//TODO: Populate screen with initial open of excel file
+		//Populate screen with initial open of excel file
 		initialOpen(filePath);
 	}
 	
 	public void initialOpen(String filePath){
     	//Opening file and populating to JTable
-		//TODO: Logic to have combo boxes and such under the table
+		//TODO: Logic to have different fields under the table
     	try {
     		//Clear table
-    		defaultModel.setRowCount(0);
+//    		defaultModel.setRowCount(0);
     		
     		//Open excel file and workbook
 	    	FileInputStream excelFile = new FileInputStream(new File(filePath));
@@ -251,8 +256,15 @@ public class Upload_Frame extends JFrame {
 	    			}
 	    		}
 	    		
+	    		boolean yesOrNo;
+	    		if(row[12].equals("Yes")){
+	    			yesOrNo = true;
+	    		}else{
+	    			yesOrNo = false;
+	    		}
+	    		
 	    		//Add row to the table(Check what type of row you are adding to table by checking if last value is empty)
-    			defaultModel.addRow(new Object[] {
+    			model.addRow(new Object[] {
 						row[0],
 						row[1],
 						row[2],
@@ -265,7 +277,7 @@ public class Upload_Frame extends JFrame {
 						row[9],
 						row[10],
 						row[11],
-						row[12],
+						yesOrNo,
 						row[13],
 						row[14]
 				});
