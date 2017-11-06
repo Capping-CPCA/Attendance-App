@@ -90,7 +90,6 @@ public class Attendance_Frame extends JFrame {
 	
 	private final ButtonGroup newProgramButtonGroup = new ButtonGroup();
 	private final ButtonGroup firstClassButtonGroup = new ButtonGroup();
-	private JMenuItem mntmOpen;
 	private String instructorName;
 	private JLabel lblNew;
 
@@ -290,90 +289,6 @@ public class Attendance_Frame extends JFrame {
 				frame.dispose();
 			}
 		});
-		
-		mntmOpen = new JMenuItem("Open");
-		
-		//Utilizes JFileChooser API which is a GUI to select files and get file path
-		mntmOpen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//Open file allowing only excel files
-				JFileChooser chooser = new JFileChooser();
-			    FileNameExtensionFilter filter = new FileNameExtensionFilter(
-			        "Excel Files (.xlsx)", "xlsx");
-			    chooser.setFileFilter(filter);
-			    int returnVal = chooser.showOpenDialog(getParent());
-			    //When the correct type of file is selected, then read the excel file and populate the table
-			    if(returnVal == JFileChooser.APPROVE_OPTION) {
-			    	String filePath = chooser.getSelectedFile().getAbsolutePath();
-			    	//Opening file and populating to JTable
-			    	try {
-			    		//Clear table
-			    		defaultModel.setRowCount(0);
-			    		
-			    		//Open excel file and workbook
-				    	FileInputStream excelFile = new FileInputStream(new File(filePath));
-				    	Workbook workbook = new XSSFWorkbook(excelFile);
-				    	Sheet datatypeSheet = workbook.getSheetAt(0);
-				    	Iterator<Row> iterator = datatypeSheet.iterator();
-				    	
-				    	//If this is false, you skip over the header row of the excel sheet
-				    	boolean headerRow = false;
-				    	while(iterator.hasNext()){
-				    		//Array and count to hold string values in each cell
-				    		String[] row = new String[15];
-				    		int cellCount = 0;
-				    		
-				    		//Get row in excel sheet
-				    		Row currentRow = iterator.next();
-				    		
-				    		//Skip over header row
-				    		if(headerRow == false){
-				    			headerRow = true;
-				    			continue;
-				    		}
-				    		
-				    		//Iterate through each cell in excel sheet
-				    		Iterator<Cell> cellIterator = currentRow.iterator();
-				    		while(cellIterator.hasNext()){
-				    			Cell currentCell = cellIterator.next();
-				    			String cellString = currentCell.getStringCellValue();
-				    			if(!cellString.isEmpty()){
-				    				row[cellCount] = cellString;
-				    				cellCount++;
-				    			}
-				    		}
-				    		
-				    		//Add row to the table(Check what type of row you are adding to table by checking if last value is empty)
-			    			defaultModel.addRow(new Object[] {
-									row[0],
-									row[1],
-									row[2],
-									row[3],
-									row[4],
-									row[5],
-									row[6],
-									row[7],
-									row[8],
-									row[9],
-									row[10],
-									row[11],
-									row[12],
-									row[13],
-									row[14]
-							});
-				    	}
-				    	workbook.close();
-				    } catch (FileNotFoundException e) {
-				    	//TODO: If file was not found, do a pop up
-				    	System.out.println("File not found");
-				    } catch (IOException e) {
-				    	//TODO: If something goes wrong with IO, do a pop up
-				    	System.out.println("IOException");
-				    }
-			    }
-			}
-		});
-		mnFile.add(mntmOpen);
 		mnFile.add(mntmExit);
 		
 		lblSex = new JLabel("Sex:");
