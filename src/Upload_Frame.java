@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormatSymbols;
 import java.util.GregorianCalendar;
@@ -33,6 +34,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jdatepicker.impl.JDatePickerImpl;
 
@@ -86,6 +88,103 @@ public class Upload_Frame extends JFrame {
 		menuBar.add(mnFile);
 		
 		JMenuItem mntmSave = new JMenuItem("Save");
+		mntmSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				XSSFWorkbook workbook = new XSSFWorkbook();
+		        XSSFSheet sheet = workbook.createSheet("Attendance");
+		        
+		        //Created header for excel sheet
+		        Row headerRow = sheet.createRow(0);
+		        //First Name
+		        Cell firstNameCell = headerRow.createCell(0);
+		        firstNameCell.setCellValue("First Name");
+		        //Last Name
+		        Cell lastNameCell = headerRow.createCell(1);
+		        lastNameCell.setCellValue("Last Name");
+		        //Date
+		        Cell dateCell = headerRow.createCell(2);
+		        dateCell.setCellValue("Date");
+		        //Curriculum
+		        Cell curriculumCell = headerRow.createCell(3);
+		        curriculumCell.setCellValue("Curriculum");
+		        //Topic
+		        Cell topicCell = headerRow.createCell(4);
+		        topicCell.setCellValue("Topic");
+		        //Day
+		        Cell dayCell = headerRow.createCell(5);
+		        dayCell.setCellValue("Day");
+		        //Time
+		        Cell timeCell = headerRow.createCell(6);
+		        timeCell.setCellValue("Time");
+		        //Location
+		        Cell locationCell = headerRow.createCell(7);
+		        locationCell.setCellValue("Location");
+		        //Language
+		        Cell languageCell = headerRow.createCell(8);
+		        languageCell.setCellValue("Language");
+		        //Sex
+		        Cell sexCell = headerRow.createCell(9);
+		        sexCell.setCellValue("Sex");
+		        //Race
+		        Cell raceCell = headerRow.createCell(10);
+		        raceCell.setCellValue("Race");
+		        //Age
+		        Cell ageCell = headerRow.createCell(11);
+		        ageCell.setCellValue("Age");
+		        //New
+		        Cell newCell = headerRow.createCell(12);
+		        newCell.setCellValue("New");
+		        //18&Under
+		        Cell ageUnderCell = headerRow.createCell(13);
+		        ageUnderCell.setCellValue("18 & Under");
+		        //Zip
+		        Cell zipCodeCell = headerRow.createCell(14);
+		        zipCodeCell.setCellValue("Zipcode");
+		        
+		        
+		        //Logic for writing to columns here under the header
+		        int excelRowCount = 1;
+		        int tableRowCount = 0;
+		        while(tableRowCount < outputTable.getRowCount()){
+		        	int tableColumnCount = 0;
+		        	int excelColumnCount = 0;
+		        	Row tempRow = sheet.createRow(excelRowCount);
+		        	while(tableColumnCount < outputTable.getColumnCount()){
+		        		Cell tempCell = tempRow.createCell(excelColumnCount);
+		        		if(outputTable.getValueAt(tableRowCount, tableColumnCount) != null){
+		        			//Check box for yes or no
+		        			if(tableColumnCount == 12){
+		        				if(outputTable.getValueAt(tableRowCount, tableColumnCount).equals(true)){
+		        					tempCell.setCellValue("Yes");
+		        				}else{
+		        					tempCell.setCellValue("No");
+		        				}
+		        			} else {
+		        				tempCell.setCellValue(outputTable.getValueAt(tableRowCount, tableColumnCount).toString());
+		        			}
+		        		}
+		        		tableColumnCount++;
+		        		excelColumnCount++;
+		        	}
+		        	tableRowCount++;
+		        	excelRowCount++;
+		        }
+		        
+		        JFileChooser fileChooser = new JFileChooser();
+		        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+				        "Excel Files (.xlsx)", "xlsx");
+				fileChooser.setFileFilter(filter);
+				int returnVal = fileChooser.showSaveDialog(getParent());
+		        if (returnVal == JFileChooser.APPROVE_OPTION) {
+		        	File file = fileChooser.getSelectedFile();
+			        try (FileOutputStream outputStream = new FileOutputStream(file.getAbsolutePath()+".xlsx")) {
+			            workbook.write(outputStream);
+			        } catch (IOException e1){
+			        	System.out.println("IOException: " + e1.getMessage());
+			        }
+		        }
+			}
+		});
 		
 		mnFile.add(mntmSave);
 		
@@ -113,10 +212,6 @@ public class Upload_Frame extends JFrame {
 		JButton btnUpload = new JButton("Upload");
 		btnUpload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(topicChange);
-				System.out.println(curriculumChange);
-				System.out.println(timeChange);
-				System.out.println(languageChange);
 			}
 		});
 		btnUpload.setBounds(1008, 269, 135, 63);
