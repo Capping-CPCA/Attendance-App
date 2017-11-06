@@ -89,6 +89,7 @@ public class Change_Date extends JFrame {
 				} else {
 					uploadFrame.dateChange = datePicker;
 					uploadFrame.popUpOpen = false;
+					uploadFrame.redoFields();
 					frame.dispose();
 				}
 			}

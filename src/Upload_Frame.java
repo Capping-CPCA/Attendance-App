@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DateFormatSymbols;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -51,7 +53,7 @@ public class Upload_Frame extends JFrame {
     
     //Variables to hold changed values
     public String curriculumChange = "";
-    public JDatePickerImpl dateChange;
+    public JDatePickerImpl dateChange = null;
     public String timeChange = "";
     public String topicChange = "";
     public String languageChange = "";
@@ -309,6 +311,26 @@ public class Upload_Frame extends JFrame {
 	    }
 	}
 	
+	public void redoFields(){
+		//TODO: Iterate through each row and column and check if there are anything in the changed variables, if so change column
+		int row = 0;
+		while(row < outputTable.getRowCount()){
+			int column = 0;
+			while(column < outputTable.getColumnCount()){
+				//Change date and day if there is something stored for dateChange
+				if(column == 2 && dateChange != null){
+					String day = getDayString(dateChange);
+					System.out.println("Here");
+					System.out.println(day);
+					outputTable.setValueAt(dateChange.getModel().getValue().toString(), row, column);
+					outputTable.setValueAt(day, row, 5);
+				}
+				column++;
+			}
+			row++;
+		}
+	}
+	
 	public void setupSexColumn(JTable table, TableColumn sexColumn){
 		//Set up the editor for the sport cells.
 	    JComboBox comboBox = new JComboBox();
@@ -358,5 +380,16 @@ public class Upload_Frame extends JFrame {
 	        setSelectedItem(value);
 	        return this;
 	    }
+	}
+	
+	//Get day from datePicker
+	public String getDayString(JDatePickerImpl datePicker){
+		int day = datePicker.getModel().getDay();
+		int month = datePicker.getModel().getMonth();
+		int year = datePicker.getModel().getYear();
+		GregorianCalendar c = new GregorianCalendar(year, month, day);
+		String[] weekdays = new DateFormatSymbols().getWeekdays(); // Get day names
+		String weekday = weekdays[c.get(c.DAY_OF_WEEK)];
+		return weekday;
 	}
 }
