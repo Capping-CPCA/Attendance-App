@@ -218,6 +218,16 @@ public class Upload_Frame extends JFrame {
 		btnChangeLocation.setBounds(318, 301, 141, 25);
 		contentPane.add(btnChangeLocation);
 		
+		JButton btnReset = new JButton("Reset");
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.setRowCount(0);
+				initialOpen(filePath);
+			}
+		});
+		btnReset.setBounds(861, 269, 135, 63);
+		contentPane.add(btnReset);
+		
 		//Populate screen with initial open of excel file
 		initialOpen(filePath);
 	}
@@ -226,9 +236,6 @@ public class Upload_Frame extends JFrame {
     	//Opening file and populating to JTable
 		//TODO: Logic to have different fields under the table
     	try {
-    		//Clear table
-//    		defaultModel.setRowCount(0);
-    		
     		//Get Table ready
     		setupSexColumn(outputTable, outputTable.getColumnModel().getColumn(9));
     		
@@ -320,12 +327,10 @@ public class Upload_Frame extends JFrame {
 	}
 	
 	public class ComboBoxTableCellRenderer extends JComboBox implements TableCellRenderer {
-
 	    @Override
 	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 	        setSelectedItem(value);
 	        return this;
 	    }
-
 	}
 }
