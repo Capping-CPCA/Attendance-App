@@ -72,6 +72,7 @@ public class Change_Topic extends JFrame {
 				} else {
 					uploadFrame.topicChange = comboBox.getSelectedItem().toString();
 					uploadFrame.popUpOpen = false;
+					uploadFrame.redoFields();
 					frame.dispose();
 				}
 			}

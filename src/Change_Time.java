@@ -72,6 +72,7 @@ public class Change_Time extends JFrame {
 				} else {
 					uploadFrame.timeChange = comboBox.getSelectedItem().toString();
 					uploadFrame.popUpOpen = false;
+					uploadFrame.redoFields();
 					frame.dispose();
 				}
 			}

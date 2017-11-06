@@ -72,6 +72,7 @@ public class Change_Curriculum extends JFrame {
 				} else {
 					uploadFrame.curriculumChange = comboBox.getSelectedItem().toString();
 					uploadFrame.popUpOpen = false;
+					uploadFrame.redoFields();
 					frame.dispose();
 				}
 			}

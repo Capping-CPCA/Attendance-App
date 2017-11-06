@@ -72,6 +72,7 @@ public class Change_Location extends JFrame {
 				} else {
 					uploadFrame.locationChange = comboBox.getSelectedItem().toString();
 					uploadFrame.popUpOpen = false;
+					uploadFrame.redoFields();
 					frame.dispose();
 				}
 			}

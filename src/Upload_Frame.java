@@ -306,11 +306,21 @@ public class Upload_Frame extends JFrame {
 		while(row < outputTable.getRowCount()){
 			int column = 0;
 			while(column < outputTable.getColumnCount()){
-				//Change date and day if there is something stored for dateChange
+				//Change values in row if something is in the store
 				if(column == 2 && dateChange != null){
 					String day = getDayString(dateChange);
 					outputTable.setValueAt(dateChange.getModel().getValue().toString(), row, column);
 					outputTable.setValueAt(day, row, 5);
+				}else if(column == 3 && curriculumChange != ""){
+					outputTable.setValueAt(curriculumChange, row, column);
+				}else if(column == 4 && topicChange != ""){
+					outputTable.setValueAt(topicChange, row, column);
+				}else if(column == 6 && timeChange != ""){
+					outputTable.setValueAt(timeChange, row, column);
+				}else if(column == 7 && locationChange != ""){
+					outputTable.setValueAt(locationChange, row, column);
+				}else if(column == 8 && languageChange != ""){
+					outputTable.setValueAt(languageChange, row, column);
 				}
 				column++;
 			}

@@ -72,6 +72,7 @@ public class Change_Language extends JFrame {
 				} else {
 					uploadFrame.languageChange = comboBox.getSelectedItem().toString();
 					uploadFrame.popUpOpen = false;
+					uploadFrame.redoFields();
 					frame.dispose();
 				}
 			}
