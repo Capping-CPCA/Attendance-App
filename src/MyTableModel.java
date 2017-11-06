@@ -26,7 +26,7 @@ public class MyTableModel extends DefaultTableModel {
 
     @Override
     public boolean isCellEditable(int row, int column) {
-      return column == 12;
+      return column == 12 || column == 9;
     }
 
     @Override
@@ -35,6 +35,11 @@ public class MyTableModel extends DefaultTableModel {
         System.out.println(aValue);
         Vector rowData = (Vector)getDataVector().get(row);
         rowData.set(12, (boolean)aValue);
+        fireTableCellUpdated(row, column);
+      } else if(column == 9){
+    	System.out.println(aValue);
+    	Vector rowData = (Vector)getDataVector().get(row);
+        rowData.set(9, (String)aValue);
         fireTableCellUpdated(row, column);
       }
     }

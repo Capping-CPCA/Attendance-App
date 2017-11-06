@@ -1,6 +1,7 @@
 package javaApplication;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -23,6 +24,8 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -31,8 +34,11 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jdatepicker.impl.JDatePickerImpl;
 
+import javax.swing.DefaultCellEditor;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 
 public class Upload_Frame extends JFrame {
@@ -223,6 +229,9 @@ public class Upload_Frame extends JFrame {
     		//Clear table
 //    		defaultModel.setRowCount(0);
     		
+    		//Get Table ready
+    		setupSexColumn(outputTable, outputTable.getColumnModel().getColumn(9));
+    		
     		//Open excel file and workbook
 	    	FileInputStream excelFile = new FileInputStream(new File(filePath));
 	    	Workbook workbook = new XSSFWorkbook(excelFile);
@@ -290,5 +299,33 @@ public class Upload_Frame extends JFrame {
 	    	//TODO: If something goes wrong with IO, do a pop up
 	    	System.out.println("IOException");
 	    }
+	}
+	
+	public void setupSexColumn(JTable table, TableColumn sexColumn){
+		//Set up the editor for the sport cells.
+	    JComboBox comboBox = new JComboBox();
+	    DefaultComboBoxModel model = new DefaultComboBoxModel();
+	    model.addElement("Male");
+	    model.addElement("Female");
+	    comboBox.setModel(model);
+	    sexColumn.setCellEditor(new DefaultCellEditor(comboBox));
+	    
+	    model = new DefaultComboBoxModel();
+	    model.addElement("Male");
+	    model.addElement("Female");
+	    //Set up tool tips for the sport cells.
+	    ComboBoxTableCellRenderer renderer = new ComboBoxTableCellRenderer();
+	    renderer.setModel(model);
+	    sexColumn.setCellRenderer(renderer);
+	}
+	
+	public class ComboBoxTableCellRenderer extends JComboBox implements TableCellRenderer {
+
+	    @Override
+	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+	        setSelectedItem(value);
+	        return this;
+	    }
+
 	}
 }
