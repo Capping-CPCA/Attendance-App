@@ -238,6 +238,7 @@ public class Upload_Frame extends JFrame {
     	try {
     		//Get Table ready
     		setupSexColumn(outputTable, outputTable.getColumnModel().getColumn(9));
+    		setupRaceColumn(outputTable, outputTable.getColumnModel().getColumn(10));
     		
     		//Open excel file and workbook
 	    	FileInputStream excelFile = new FileInputStream(new File(filePath));
@@ -324,6 +325,31 @@ public class Upload_Frame extends JFrame {
 	    ComboBoxTableCellRenderer renderer = new ComboBoxTableCellRenderer();
 	    renderer.setModel(model);
 	    sexColumn.setCellRenderer(renderer);
+	}
+	
+	public void setupRaceColumn(JTable table, TableColumn raceColumn){
+		//Set up the editor for the sport cells.
+	    JComboBox comboBox = new JComboBox();
+	    DefaultComboBoxModel model = new DefaultComboBoxModel();
+	    model.addElement("White");
+	    model.addElement("African-American");
+	    model.addElement("Hispanic");
+	    model.addElement("Asian");
+	    model.addElement("Other");
+	    comboBox.setModel(model);
+	    raceColumn.setCellEditor(new DefaultCellEditor(comboBox));
+	    
+	    model = new DefaultComboBoxModel();
+	    model.addElement("White");
+	    model.addElement("African-American");
+	    model.addElement("Hispanic");
+	    model.addElement("Asian");
+	    model.addElement("Other");
+	    //Set up tool tips for the sport cells.
+	    ComboBoxTableCellRenderer renderer = new ComboBoxTableCellRenderer();
+	    renderer.setModel(model);
+	    raceColumn.setCellRenderer(renderer);
+	    raceColumn.setMinWidth(110);
 	}
 	
 	public class ComboBoxTableCellRenderer extends JComboBox implements TableCellRenderer {
