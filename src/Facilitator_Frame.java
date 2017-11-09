@@ -92,7 +92,7 @@ public class Facilitator_Frame extends JFrame {
 		datePicker.setBounds(182, 192, 211, 25);
 		contentPane.add(datePicker);
 	
-		startTimeComboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose", "10:00am", "11:00am", "11:30am", "12:30am", "1:00pm", "1:30pm", "2:00pm", "4:30pm", "6:00pm"}));
+		startTimeComboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose", "10:00am", "11:00am", "11:30am", "12:30pm", "1:00pm", "1:30pm", "2:00pm", "4:30pm", "6:00pm"}));
 		startTimeComboBox.setBounds(182, 230, 211, 27);
 		contentPane.add(startTimeComboBox);
 		

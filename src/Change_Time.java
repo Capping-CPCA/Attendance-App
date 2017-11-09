@@ -55,7 +55,7 @@ public class Change_Time extends JFrame {
 		contentPane.add(btnCancel);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose", "10:00am", "11:00am", "11:30am", "12:30am", "1:00pm", "1:30pm", "2:00pm", "4:30pm", "6:00pm"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose", "10:00am", "11:00am", "11:30am", "12:30pm", "1:00pm", "1:30pm", "2:00pm", "4:30pm", "6:00pm"}));
 		comboBox.setBounds(133, 108, 167, 22);
 		contentPane.add(comboBox);
 		

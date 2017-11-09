@@ -12,6 +12,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Vector;
@@ -190,7 +194,6 @@ public class Upload_Frame extends JFrame {
 			}
 		});
 		
-		//TODO: Not implemented yet, going to ask algozzine what I should do
 		JMenuItem mntmOpen = new JMenuItem("Open");
 		mntmOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -225,6 +228,73 @@ public class Upload_Frame extends JFrame {
 		JButton btnUpload = new JButton("Upload");
 		btnUpload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String date = (String) outputTable.getValueAt(0, 2);
+				String[] dateArray = date.split(" ");
+				String year = dateArray[5];
+				//Logic to get month
+				String month = "";
+				System.out.println(dateArray[1]);
+				if(dateArray[1].equals("Jan")) {
+	                month = "01";
+	            } else if(dateArray[1].equals("Feb")) {
+	                month = "02";
+	            } else if(dateArray[1].equals("Mar")) {
+	                month = "03";
+	            } else if(dateArray[1].equals("Apr")) {
+	                month = "04";
+	            } else if(dateArray[1].equals("May")) {
+	                month = "05";
+	            } else if(dateArray[1].equals("Jun")) {
+	                month = "06";
+	            } else if(dateArray[1].equals("Jul")) {
+	                month = "07";
+	            } else if(dateArray[1].equals("Aug")) {
+	                month = "08";
+	            } else if(dateArray[1].equals("Sep")) {
+	                month = "09";
+	            } else if(dateArray[1].equals("Oct")) {
+	                month = "10";
+	            } else if(dateArray[1].equals("Nov")) {
+	                month = "11";
+	            } else if(dateArray[1].equals("Dec")) {
+	                month = "12";
+	            }
+				String day = dateArray[2];
+				
+				String startTime = (String) outputTable.getValueAt(0,6);
+				String amOrPm = startTime.substring(startTime.length()-2, startTime.length());
+				String time;
+				if(amOrPm.equals("pm")){
+					if(startTime.length() == 6){
+						int oldHour = Integer.parseInt(startTime.substring(0, 1));
+						int newHour = oldHour + 12;
+						String hour = String.valueOf(newHour);
+						String minutes = startTime.substring(2, 4);
+						String seconds = "00";
+						time = hour + ":" + minutes + ":" + seconds;
+					} else {
+						int oldHour = Integer.parseInt(startTime.substring(0, 2));
+						int newHour = oldHour + 12;
+						String hour = String.valueOf(newHour);
+						String minutes = startTime.substring(3, 5);
+						String seconds = "00";
+						time = hour + ":" + minutes + ":" + seconds;
+					}
+				} else {
+					if(startTime.length() == 6){
+						String hour = startTime.substring(0, 1);
+						String minutes = startTime.substring(2, 4);
+						String seconds = "00";
+						time = hour + ":" + minutes + ":" + seconds;
+					} else {
+						String hour = startTime.substring(0, 2);
+						String minutes = startTime.substring(3, 5);
+						String seconds = "00";
+						time = hour + ":" + minutes + ":" + seconds;
+					}
+				}
+                String fullDate = year + "-" + month + "-" + day + " " + time;
+                System.out.println(fullDate);
 			}
 		});
 		btnUpload.setBounds(1008, 269, 135, 63);
