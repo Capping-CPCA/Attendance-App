@@ -2,7 +2,8 @@
  * PEP Capping 2017 Algozzine's Class
  *
  * This class is the pop up that appears when you select to change the curriculum within
- * the upload frame. Once selecting the 
+ * the upload frame. Once selecting the curriculum, the JTable on the Upload Frame will populate 
+ * with the new curriculum
  *
  * @author Sami Ellougani, Carlie Maxwell
  * @copyright 2017 Marist College
