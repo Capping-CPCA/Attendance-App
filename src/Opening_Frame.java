@@ -1,3 +1,14 @@
+/**
+ * PEP Capping 2017 Algozzine's Class
+ *
+ * Utilizes an LDAP call to check if the application is currently on the server
+ *
+ * @author Carlie Maxwell
+ * @copyright 2017 Marist College
+ * @version 0.1.0
+ * @since 0.1.0
+ */
+
 package javaApplication;
 
 import org.apache.directory.api.ldap.model.exception.LdapException;
@@ -71,11 +82,13 @@ public class Opening_Frame extends JFrame {
         JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
         datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 
-        //TODO: FIX MINOR NULL POINTER EXCEPTIONS WITH THE TWO BUTTONS
+	 //If the application is connected to the in-house server, execute 
+	 //Opens up a File Finder directly where the attendance excel sheets are located
+	 //Once a file is chosen, the upload_frame is populated and displayed with the excel sheet information
+	 //If you are not connected to the server, it will display a message stating that you are not
         JButton btnUploadAttendanceSheet = new JButton("Upload Past Attendance");
         btnUploadAttendanceSheet.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                  //TODO: IF TRUE - OPEN FILE FINDER HERE
                 try {
 					if(Authenticator.authenticate() == true) {
 					    //Open file allowing only excel files
@@ -111,6 +124,7 @@ public class Opening_Frame extends JFrame {
         btnUploadAttendanceSheet.setBounds(12, 111, 201, 29);
         contentPane.add(btnUploadAttendanceSheet);
 
+	 //Takes you to the facilitator_frame, which allows the facilitator of the class to pre-set up universal variables about the class
         JButton btnTakeAttendanceNow = new JButton("Take Attendance Now");
         btnTakeAttendanceNow.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -122,6 +136,7 @@ public class Opening_Frame extends JFrame {
         btnTakeAttendanceNow.setBounds(239, 111, 181, 29);
         contentPane.add(btnTakeAttendanceNow);
         
+	//Closes the opening_frame
         JButton btnClose = new JButton("Close");
         btnClose.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
