@@ -1,3 +1,14 @@
+/**
+ * PEP Capping 2017 Algozzine's Class
+ *
+ * Utilizes an LDAP call to check if the application is currently on the server
+ *
+ * @author Sami Ellougani
+ * @copyright 2017 Marist College
+ * @version 0.1.0
+ * @since 0.1.0
+ */
+
 package javaApplication;
 
 import java.awt.BorderLayout;
@@ -44,6 +55,7 @@ public class Change_Time extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		//Closes the change_time popup
 		JButton btnCancel = new JButton("Close");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -63,7 +75,9 @@ public class Change_Time extends JFrame {
 		lblChangeTime.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblChangeTime.setBounds(151, 13, 149, 43);
 		contentPane.add(lblChangeTime);
-		
+					
+		//Changes the value on the upload frame to the newly selected item from the popup
+		//The popup open boolean is set to false, allowing the upload frame to open other popups
 		JButton btnChange = new JButton("Change");
 		btnChange.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
