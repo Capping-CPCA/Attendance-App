@@ -4,7 +4,7 @@
  * This class is the pop up that appears when you select to change the curriculum within
  * the upload frame. Once selecting the 
  *
- * @author Sami Ellougani
+ * @author Sami Ellougani, Carlie Maxwell
  * @copyright 2017 Marist College
  * @version 0.1.0
  * @since 0.1.0

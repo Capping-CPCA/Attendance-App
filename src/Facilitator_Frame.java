@@ -5,7 +5,7 @@
  * In this frame, the facilitator will choose from several fields which will then be sent
  * to the Attendance Application to store in the JTable.
  *
- * @author Sami Ellougani
+ * @author Sami Ellougani, Carlie Maxwell
  * @copyright 2017 Marist College
  * @version 0.1.0
  * @since 0.1.0
