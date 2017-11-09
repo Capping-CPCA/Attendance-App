@@ -80,7 +80,7 @@ public class Opening_Frame extends JFrame {
 					if(Authenticator.authenticate() == true) {
 					    //Open file allowing only excel files
 						//TODO: Install
-						JFileChooser chooser = new JFileChooser("C:/");
+						JFileChooser chooser = new JFileChooser();
 						FileNameExtensionFilter filter = new FileNameExtensionFilter(
 					            "Excel Files (.xlsx)", "xlsx");
 					    chooser.setFileFilter(filter);

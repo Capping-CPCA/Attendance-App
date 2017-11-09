@@ -199,7 +199,7 @@ public class Upload_Frame extends JFrame {
 		mntmOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TODO: Install
-				JFileChooser chooser = new JFileChooser("C:/");
+				JFileChooser chooser = new JFileChooser();
 				FileNameExtensionFilter filter = new FileNameExtensionFilter(
 			            "Excel Files (.xlsx)", "xlsx");
 			    chooser.setFileFilter(filter);
