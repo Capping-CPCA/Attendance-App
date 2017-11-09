@@ -1,7 +1,7 @@
 /**
  * PEP Capping 2017 Algozzine's Class
  *
- * Utilizes an LDAP call to check if the application is currently on the server
+ * Allows the participants to enter their information in order to record attendance for a specified class
  *
  * @author Carlie Maxwell and Sami Ellougani
  * @copyright 2017 Marist College

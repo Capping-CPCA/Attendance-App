@@ -1,7 +1,8 @@
 /**
  * PEP Capping 2017 Algozzine's Class
  *
- * Utilizes an LDAP call to check if the application is currently on the server
+ * This class is the popup that appears when you select to change the date within the upload frame. 
+ * Once the date is selected, the JTable on the upload frame will populate with the new date.
  *
  * @author Sami Ellougani
  * @copyright 2017 Marist College
