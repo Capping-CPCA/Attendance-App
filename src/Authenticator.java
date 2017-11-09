@@ -8,9 +8,9 @@ import javax.naming.NamingException;
 
 public class Authenticator {
 
+	public static LdapConnection connection = new LdapNetworkConnection( "10.11.12.27", 389 );
+	
     public static boolean authenticate() throws NamingException, LdapException {
-
-        LdapConnection connection = new LdapNetworkConnection( "10.11.12.27", 389 );
         try {
             connection.bind();
             return true;

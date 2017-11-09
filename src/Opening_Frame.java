@@ -57,7 +57,8 @@ public class Opening_Frame extends JFrame {
      * Create the frame.
      */
     public Opening_Frame() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	opening_frame = this;
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setBounds(100, 100, 450, 300);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -88,9 +89,10 @@ public class Opening_Frame extends JFrame {
 					    if (returnVal == JFileChooser.APPROVE_OPTION) {
 					    	//TODO: Open up new frame for just opening a file, sending the file path that you found
 					        String filePath = chooser.getSelectedFile().getAbsolutePath();
+					        opening_frame.dispose();
+					        Authenticator.connection.close();
 					        Upload_Frame uploadFrame = new Upload_Frame(filePath);
 					        uploadFrame.setVisible(true);
-					        opening_frame.dispose();
 					    }
 					} else {
 					    JOptionPane.showMessageDialog(null, "You are not connected to the server");
@@ -98,12 +100,15 @@ public class Opening_Frame extends JFrame {
 				} catch (HeadlessException | NamingException | LdapException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
             }
         });
 
 
-        btnUploadAttendanceSheet.setBounds(26, 111, 201, 29);
+        btnUploadAttendanceSheet.setBounds(12, 111, 201, 29);
         contentPane.add(btnUploadAttendanceSheet);
 
         JButton btnTakeAttendanceNow = new JButton("Take Attendance Now");
@@ -114,7 +119,16 @@ public class Opening_Frame extends JFrame {
                 opening_frame.dispose();
             }
         });
-        btnTakeAttendanceNow.setBounds(235, 111, 181, 29);
+        btnTakeAttendanceNow.setBounds(239, 111, 181, 29);
         contentPane.add(btnTakeAttendanceNow);
+        
+        JButton btnClose = new JButton("Close");
+        btnClose.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		opening_frame.dispose();
+        	}
+        });
+        btnClose.setBounds(176, 215, 97, 25);
+        contentPane.add(btnClose);
     }
 }

@@ -191,6 +191,7 @@ public class Upload_Frame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				//TODO: Ask if they want to save
 				frame.dispose();
+				System.exit(0);
 			}
 		});
 		
