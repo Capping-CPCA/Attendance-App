@@ -1,3 +1,16 @@
+/**
+ * PEP Capping 2017 Algozzine's Class
+ *
+ * This class is what allows the facilitator to edit and then upload the Attendance Sheet
+ * This frame calls the other change_* frames to change fields within the JTable
+ * The user can save, edit, reopen, and upload from this frame
+ *
+ * @author Sami Ellougani, Carlie Maxwell
+ * @copyright 2017 Marist College
+ * @version 0.1.0
+ * @since 0.1.0
+ */
+
 package javaApplication;
 
 import java.awt.BorderLayout;
@@ -58,7 +71,7 @@ public class Upload_Frame extends JFrame {
 	private DefaultTableModel defaultModel;
 	private MyTableModel model = new MyTableModel();
     
-    //Variables to hold changed values
+    //Variables to hold changed values from other frames here
     public String curriculumChange = "";
     public JDatePickerImpl dateChange = null;
     public String timeChange = "";
@@ -92,6 +105,7 @@ public class Upload_Frame extends JFrame {
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 		
+		//Saves the file into an excel sheet when the "Save" menu item is selected
 		JMenuItem mntmSave = new JMenuItem("Save");
 		mntmSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -186,6 +200,7 @@ public class Upload_Frame extends JFrame {
 		
 		mnFile.add(mntmSave);
 		
+		//Close the frame when the menu item "Exit" is selected
 		JMenuItem mntmExit = new JMenuItem("Exit");
 		mntmExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -195,6 +210,7 @@ public class Upload_Frame extends JFrame {
 			}
 		});
 		
+		//Open a new excel file when the menu item "Open" is selected
 		JMenuItem mntmOpen = new JMenuItem("Open");
 		mntmOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -234,7 +250,6 @@ public class Upload_Frame extends JFrame {
 				String year = dateArray[5];
 				//Logic to get month
 				String month = "";
-				System.out.println(dateArray[1]);
 				if(dateArray[1].equals("Jan")) {
 	                month = "01";
 	            } else if(dateArray[1].equals("Feb")) {
@@ -295,12 +310,12 @@ public class Upload_Frame extends JFrame {
 					}
 				}
                 String fullDate = year + "-" + month + "-" + day + " " + time;
-                System.out.println(fullDate);
 			}
 		});
 		btnUpload.setBounds(1008, 269, 135, 63);
 		contentPane.add(btnUpload);
 		
+		//Trigger the Change_Date frame
 		JButton btnChangeDate = new JButton("Change Date");
 		btnChangeDate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -315,6 +330,7 @@ public class Upload_Frame extends JFrame {
 		btnChangeDate.setBounds(12, 301, 141, 25);
 		contentPane.add(btnChangeDate);
 		
+		//Trigger the Change_Curriculum frame
 		JButton btnChangeCurriculum = new JButton("Change Curriculum");
 		btnChangeCurriculum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -330,6 +346,7 @@ public class Upload_Frame extends JFrame {
 		btnChangeCurriculum.setBounds(12, 263, 141, 25);
 		contentPane.add(btnChangeCurriculum);
 		
+		//Trigger the Change_Topic frame
 		JButton btnChangeTopic = new JButton("Change Topic");
 		btnChangeTopic.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -344,6 +361,7 @@ public class Upload_Frame extends JFrame {
 		btnChangeTopic.setBounds(165, 301, 141, 25);
 		contentPane.add(btnChangeTopic);
 		
+		//Trigger the Change_Time frame
 		JButton btnChangeTime = new JButton("Change Time");
 		btnChangeTime.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -358,6 +376,7 @@ public class Upload_Frame extends JFrame {
 		btnChangeTime.setBounds(165, 263, 141, 25);
 		contentPane.add(btnChangeTime);
 		
+		//Trigger the Change_Language frame
 		JButton btnChangeLanguage = new JButton("Change Language");
 		btnChangeLanguage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -372,6 +391,7 @@ public class Upload_Frame extends JFrame {
 		btnChangeLanguage.setBounds(318, 263, 141, 25);
 		contentPane.add(btnChangeLanguage);
 		
+		//Trigger the Change_Location frame
 		JButton btnChangeLocation = new JButton("Change Location");
 		btnChangeLocation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -386,6 +406,7 @@ public class Upload_Frame extends JFrame {
 		btnChangeLocation.setBounds(318, 301, 141, 25);
 		contentPane.add(btnChangeLocation);
 		
+		//Trigger the Change_Reset frame
 		JButton btnReset = new JButton("Reset");
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -403,6 +424,8 @@ public class Upload_Frame extends JFrame {
 		initialOpen(filePath);
 	}
 	
+	//This is the initial formatting of the JTable for this frame
+	//This takes in the filePath that was given from the Opening_Frame and populates the JTable from the excel sheet
 	public void initialOpen(String filePath){
     	//Opening file and populating to JTable
     	try {
@@ -479,6 +502,8 @@ public class Upload_Frame extends JFrame {
 	    }
 	}
 	
+	//This function changes the fields in the JTable if anything was selected from any of the Change Frames
+	//For example, if I change the date, there will be a date cached in the dateChange variable, which will trigger the conditional to change the columns to the new date
 	public void redoFields(){
 		int row = 0;
 		while(row < outputTable.getRowCount()){
@@ -506,6 +531,7 @@ public class Upload_Frame extends JFrame {
 		}
 	}
 	
+	//Sets up the sex column in the JTable to be a dropdown
 	public void setupSexColumn(JTable table, TableColumn sexColumn){
 		//Set up the editor for the sport cells.
 	    JComboBox comboBox = new JComboBox();
@@ -524,6 +550,7 @@ public class Upload_Frame extends JFrame {
 	    sexColumn.setCellRenderer(renderer);
 	}
 	
+	//Sets up the race column in the JTable to be a dropdown
 	public void setupRaceColumn(JTable table, TableColumn raceColumn){
 		//Set up the editor for the sport cells.
 	    JComboBox comboBox = new JComboBox();
@@ -549,6 +576,7 @@ public class Upload_Frame extends JFrame {
 	    raceColumn.setMinWidth(110);
 	}
 	
+	//Open source code to allow a combo box to be in a JTable cell
 	public class ComboBoxTableCellRenderer extends JComboBox implements TableCellRenderer {
 	    @Override
 	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -568,6 +596,7 @@ public class Upload_Frame extends JFrame {
 		return weekday;
 	}
 	
+	//Cleares the variables cached from previous change pop ups
 	public void clearStore(){
 		curriculumChange = "";
 	    dateChange = null;
