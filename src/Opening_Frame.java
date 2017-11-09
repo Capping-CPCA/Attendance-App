@@ -1,5 +1,6 @@
 package javaApplication;
 
+import org.apache.directory.api.ldap.model.exception.LdapException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -11,7 +12,9 @@ import org.jdatepicker.impl.UtilDateModel;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.HeadlessException;
 
+import javax.naming.NamingException;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -72,24 +75,30 @@ public class Opening_Frame extends JFrame {
         btnUploadAttendanceSheet.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                   //TODO: IF TRUE - OPEN FILE FINDER HERE
-//                if(Authenticator.authenticate() == true) {
-                    //Open file allowing only excel files
-                    JFileChooser chooser = new JFileChooser();
-                    FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                            "Excel Files (.xlsx)", "xlsx");
-                    chooser.setFileFilter(filter);
-                    int returnVal = chooser.showOpenDialog(getParent());
-                    //When the correct type of file is selected, then read the excel file and populate the table
-                    if (returnVal == JFileChooser.APPROVE_OPTION) {
-                    	//TODO: Open up new frame for just opening a file, sending the file path that you found
-                        String filePath = chooser.getSelectedFile().getAbsolutePath();
-                        Upload_Frame uploadFrame = new Upload_Frame(filePath);
-                        uploadFrame.setVisible(true);
-                        opening_frame.dispose();
-                    }
-//                } else {
-//                    JOptionPane.showMessageDialog(null, "You are not connected to the server");
-//                }
+                try {
+					if(Authenticator.authenticate() == true) {
+					    //Open file allowing only excel files
+						//TODO: Install
+						JFileChooser chooser = new JFileChooser("C:/");
+						FileNameExtensionFilter filter = new FileNameExtensionFilter(
+					            "Excel Files (.xlsx)", "xlsx");
+					    chooser.setFileFilter(filter);
+					    int returnVal = chooser.showOpenDialog(getParent());
+					    //When the correct type of file is selected, then read the excel file and populate the table
+					    if (returnVal == JFileChooser.APPROVE_OPTION) {
+					    	//TODO: Open up new frame for just opening a file, sending the file path that you found
+					        String filePath = chooser.getSelectedFile().getAbsolutePath();
+					        Upload_Frame uploadFrame = new Upload_Frame(filePath);
+					        uploadFrame.setVisible(true);
+					        opening_frame.dispose();
+					    }
+					} else {
+					    JOptionPane.showMessageDialog(null, "You are not connected to the server");
+					}
+				} catch (HeadlessException | NamingException | LdapException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
             }
         });
 

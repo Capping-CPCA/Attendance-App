@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -169,20 +170,13 @@ public class Upload_Frame extends JFrame {
 		        	tableRowCount++;
 		        	excelRowCount++;
 		        }
-		        
-		        JFileChooser fileChooser = new JFileChooser();
-		        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-				        "Excel Files (.xlsx)", "xlsx");
-				fileChooser.setFileFilter(filter);
-				int returnVal = fileChooser.showSaveDialog(getParent());
-		        if (returnVal == JFileChooser.APPROVE_OPTION) {
-		        	File file = fileChooser.getSelectedFile();
-			        try (FileOutputStream outputStream = new FileOutputStream(file.getAbsolutePath()+".xlsx")) {
-			            workbook.write(outputStream);
-			        } catch (IOException e1){
-			        	System.out.println("IOException: " + e1.getMessage());
-			        }
-		        }
+                
+                //TODO: Install
+                try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
+                    workbook.write(outputStream);
+                } catch (IOException e1){
+                    System.out.println("IOException: " + e1.getMessage());
+                }
 			}
 		});
 		
@@ -200,6 +194,20 @@ public class Upload_Frame extends JFrame {
 		JMenuItem mntmOpen = new JMenuItem("Open");
 		mntmOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//TODO: Install
+				JFileChooser chooser = new JFileChooser("C:/");
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			            "Excel Files (.xlsx)", "xlsx");
+			    chooser.setFileFilter(filter);
+			    int returnVal = chooser.showOpenDialog(getParent());
+			    //When the correct type of file is selected, then read the excel file and populate the table
+			    if (returnVal == JFileChooser.APPROVE_OPTION) {
+			    	//TODO: Open up new frame for just opening a file, sending the file path that you found
+			        String tempFilePath = chooser.getSelectedFile().getAbsolutePath();
+			        model.setRowCount(0);
+					clearStore();
+			        initialOpen(tempFilePath);
+			    }
 			}
 		});
 		mnFile.add(mntmOpen);
@@ -401,7 +409,6 @@ public class Upload_Frame extends JFrame {
 	}
 	
 	public void redoFields(){
-		//TODO: Iterate through each row and column and check if there are anything in the changed variables, if so change column
 		int row = 0;
 		while(row < outputTable.getRowCount()){
 			int column = 0;
