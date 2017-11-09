@@ -12,6 +12,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Vector;
@@ -21,6 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -169,20 +174,13 @@ public class Upload_Frame extends JFrame {
 		        	tableRowCount++;
 		        	excelRowCount++;
 		        }
-		        
-		        JFileChooser fileChooser = new JFileChooser();
-		        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-				        "Excel Files (.xlsx)", "xlsx");
-				fileChooser.setFileFilter(filter);
-				int returnVal = fileChooser.showSaveDialog(getParent());
-		        if (returnVal == JFileChooser.APPROVE_OPTION) {
-		        	File file = fileChooser.getSelectedFile();
-			        try (FileOutputStream outputStream = new FileOutputStream(file.getAbsolutePath()+".xlsx")) {
-			            workbook.write(outputStream);
-			        } catch (IOException e1){
-			        	System.out.println("IOException: " + e1.getMessage());
-			        }
-		        }
+                
+                //TODO: Install
+                try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
+                    workbook.write(outputStream);
+                } catch (IOException e1){
+                    System.out.println("IOException: " + e1.getMessage());
+                }
 			}
 		});
 		
@@ -193,13 +191,27 @@ public class Upload_Frame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				//TODO: Ask if they want to save
 				frame.dispose();
+				System.exit(0);
 			}
 		});
 		
-		//TODO: Not implemented yet, going to ask algozzine what I should do
 		JMenuItem mntmOpen = new JMenuItem("Open");
 		mntmOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//TODO: Install
+				JFileChooser chooser = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			            "Excel Files (.xlsx)", "xlsx");
+			    chooser.setFileFilter(filter);
+			    int returnVal = chooser.showOpenDialog(getParent());
+			    //When the correct type of file is selected, then read the excel file and populate the table
+			    if (returnVal == JFileChooser.APPROVE_OPTION) {
+			    	//TODO: Open up new frame for just opening a file, sending the file path that you found
+			        String tempFilePath = chooser.getSelectedFile().getAbsolutePath();
+			        model.setRowCount(0);
+					clearStore();
+			        initialOpen(tempFilePath);
+			    }
 			}
 		});
 		mnFile.add(mntmOpen);
@@ -217,6 +229,73 @@ public class Upload_Frame extends JFrame {
 		JButton btnUpload = new JButton("Upload");
 		btnUpload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String date = (String) outputTable.getValueAt(0, 2);
+				String[] dateArray = date.split(" ");
+				String year = dateArray[5];
+				//Logic to get month
+				String month = "";
+				System.out.println(dateArray[1]);
+				if(dateArray[1].equals("Jan")) {
+	                month = "01";
+	            } else if(dateArray[1].equals("Feb")) {
+	                month = "02";
+	            } else if(dateArray[1].equals("Mar")) {
+	                month = "03";
+	            } else if(dateArray[1].equals("Apr")) {
+	                month = "04";
+	            } else if(dateArray[1].equals("May")) {
+	                month = "05";
+	            } else if(dateArray[1].equals("Jun")) {
+	                month = "06";
+	            } else if(dateArray[1].equals("Jul")) {
+	                month = "07";
+	            } else if(dateArray[1].equals("Aug")) {
+	                month = "08";
+	            } else if(dateArray[1].equals("Sep")) {
+	                month = "09";
+	            } else if(dateArray[1].equals("Oct")) {
+	                month = "10";
+	            } else if(dateArray[1].equals("Nov")) {
+	                month = "11";
+	            } else if(dateArray[1].equals("Dec")) {
+	                month = "12";
+	            }
+				String day = dateArray[2];
+				
+				String startTime = (String) outputTable.getValueAt(0,6);
+				String amOrPm = startTime.substring(startTime.length()-2, startTime.length());
+				String time;
+				if(amOrPm.equals("pm")){
+					if(startTime.length() == 6){
+						int oldHour = Integer.parseInt(startTime.substring(0, 1));
+						int newHour = oldHour + 12;
+						String hour = String.valueOf(newHour);
+						String minutes = startTime.substring(2, 4);
+						String seconds = "00";
+						time = hour + ":" + minutes + ":" + seconds;
+					} else {
+						int oldHour = Integer.parseInt(startTime.substring(0, 2));
+						int newHour = oldHour + 12;
+						String hour = String.valueOf(newHour);
+						String minutes = startTime.substring(3, 5);
+						String seconds = "00";
+						time = hour + ":" + minutes + ":" + seconds;
+					}
+				} else {
+					if(startTime.length() == 6){
+						String hour = startTime.substring(0, 1);
+						String minutes = startTime.substring(2, 4);
+						String seconds = "00";
+						time = hour + ":" + minutes + ":" + seconds;
+					} else {
+						String hour = startTime.substring(0, 2);
+						String minutes = startTime.substring(3, 5);
+						String seconds = "00";
+						time = hour + ":" + minutes + ":" + seconds;
+					}
+				}
+                String fullDate = year + "-" + month + "-" + day + " " + time;
+                System.out.println(fullDate);
 			}
 		});
 		btnUpload.setBounds(1008, 269, 135, 63);
@@ -401,7 +480,6 @@ public class Upload_Frame extends JFrame {
 	}
 	
 	public void redoFields(){
-		//TODO: Iterate through each row and column and check if there are anything in the changed variables, if so change column
 		int row = 0;
 		while(row < outputTable.getRowCount()){
 			int column = 0;
