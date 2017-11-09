@@ -1,3 +1,15 @@
+/**
+ * PEP Capping 2017 Algozzine's Class
+ *
+ * This class is the pop up that appears when you select to change the curriculum within
+ * the upload frame. Once selecting the 
+ *
+ * @author Sami Ellougani
+ * @copyright 2017 Marist College
+ * @version 0.1.0
+ * @since 0.1.0
+ */
+
 package javaApplication;
 
 import java.awt.BorderLayout;
@@ -44,6 +56,7 @@ public class Change_Curriculum extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		//Cancel button triggers the pop up open boolean in the uploadFrame to false, allowing the upload frame to open other pop ups
 		JButton btnCancel = new JButton("Close");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -64,6 +77,8 @@ public class Change_Curriculum extends JFrame {
 		lblChangeCurriculum.setBounds(109, 13, 204, 43);
 		contentPane.add(lblChangeCurriculum);
 		
+		//Change button triggers data validation on click
+		//If successful, the pop up open boolean in the uploadFrame is set to false, allowing the upload frame to open other pop ups
 		JButton btnChange = new JButton("Change");
 		btnChange.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
