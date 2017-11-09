@@ -1,3 +1,15 @@
+/**
+ * PEP Capping 2017 Algozzine's Class
+ *
+ * This class is the popup that appears when you select to change the date within the upload frame. 
+ * Once the date is selected, the JTable on the upload frame will populate with the new date.
+ *
+ * @author Sami Ellougani
+ * @copyright 2017 Marist College
+ * @version 0.1.0
+ * @since 0.1.0
+ */
+
 package javaApplication;
 
 import java.awt.BorderLayout;
@@ -50,7 +62,8 @@ public class Change_Date extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
+		//Close the change_date popup
 		JButton btnCancel = new JButton("Close");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -81,6 +94,8 @@ public class Change_Date extends JFrame {
 		datePicker.setBounds(133, 108, 167, 32);
 		contentPane.add(datePicker);
 		
+		//Changes the value on the upload frame to the newly selected item from the popup
+		//The popup open boolean is set to false, allowing the upload frame to open other popups
 		JButton btnChange = new JButton("Change");
 		btnChange.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

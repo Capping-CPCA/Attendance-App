@@ -1,3 +1,16 @@
+/**
+ * PEP Capping 2017 Algozzine's Class
+ *
+ * This frame is the set up frame for our main Attendance Application.
+ * In this frame, the facilitator will choose from several fields which will then be sent
+ * to the Attendance Application to store in the JTable.
+ *
+ * @author Sami Ellougani, Carlie Maxwell
+ * @copyright 2017 Marist College
+ * @version 0.1.0
+ * @since 0.1.0
+ */
+
 package javaApplication;
 
 import java.awt.BorderLayout;
@@ -81,7 +94,7 @@ public class Facilitator_Frame extends JFrame {
 		topicComboBox.setBounds(182, 145, 211, 27);
 		contentPane.add(topicComboBox);
 		
-		//Calendar for date implementation
+		//Calendar for date implementation is created here
 		UtilDateModel model = new UtilDateModel();
 		Properties p = new Properties();
 		p.put("text.today", "Today");
@@ -106,6 +119,8 @@ public class Facilitator_Frame extends JFrame {
 		lblPepFacilitatorSetup.setBounds(165, 36, 258, 16);
 		contentPane.add(lblPepFacilitatorSetup);
 		
+		//Checks for validation, and then creates the Attendance Frame
+		//This frame is then deleted, but the fields in this frame are sent to the Attendance App
 		JButton btnProceed = new JButton("Proceed");
 		btnProceed.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -175,11 +190,11 @@ public class Facilitator_Frame extends JFrame {
 	
 	
 	//Returns a boolean indicating if any fields are not filled
+	//Also, changes the color of the label to red
 	public boolean validation() {
 		boolean flag = true;
 		clearColors();
-		
-		//Add additional specific formatted text fields here
+
 		if(instructorNameComboBox.getSelectedItem().equals("Choose")){
 			lblInstructorName.setForeground(Color.RED);
 			flag = false;
@@ -218,7 +233,8 @@ public class Facilitator_Frame extends JFrame {
 		return flag;
 	}
 	
-	//Clears all the colors of the labels in the form
+	//Clears all the colors of the labels in the form 
+	//This is to reset labels to black if they weren't filled out, but got filled out
 	public void clearColors(){
 		lblInstructorName.setForeground(Color.BLACK);
 		lblTopicOfClass.setForeground(Color.BLACK);

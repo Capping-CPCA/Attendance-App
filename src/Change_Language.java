@@ -1,3 +1,15 @@
+/**
+ * PEP Capping 2017 Algozzine's Class
+ *
+ * This class is the popup that appears when you select to change the language within the upload frame. 
+ * Once the language is selected, the JTable on the upload frame will populate with the new language.
+ *
+ * @author Sami Ellougani
+ * @copyright 2017 Marist College
+ * @version 0.1.0
+ * @since 0.1.0
+ */
+
 package javaApplication;
 
 import java.awt.BorderLayout;
@@ -44,6 +56,7 @@ public class Change_Language extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		//Closes the change_language popup
 		JButton btnCancel = new JButton("Close");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -63,7 +76,9 @@ public class Change_Language extends JFrame {
 		lblChangeLanguage.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblChangeLanguage.setBounds(121, 13, 201, 43);
 		contentPane.add(lblChangeLanguage);
-		
+			
+		//Changes the value on the upload frame to the newly selected item from the popup
+		//The popup open boolean is set to false, allowing the upload frame to open other popups
 		JButton btnChange = new JButton("Change");
 		btnChange.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

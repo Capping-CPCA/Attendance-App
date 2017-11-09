@@ -1,3 +1,14 @@
+/**
+ * PEP Capping 2017 Algozzine's Class
+ *
+ * Allows the participants to enter their information in order to record attendance for a specified class
+ *
+ * @author Carlie Maxwell and Sami Ellougani
+ * @copyright 2017 Marist College
+ * @version 0.1.0
+ * @since 0.1.0
+ */
+
 package javaApplication;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -193,6 +204,8 @@ public class Attendance_Frame extends JFrame {
         JMenuItem mntmSave = new JMenuItem("Save");
 
         //Save to excel file
+	//Takes the information from the JTable and populates an excel sheet
+	//The excel sheet is automatically named with extension “Date + startTime + Topic.xlsx”
         mntmSave.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
             	if(outputTable.getRowCount() > 0){
@@ -277,9 +290,7 @@ public class Attendance_Frame extends JFrame {
 	                } else {
 	                	startTimeSubStr = startTime.substring(0, 2) + startTime.substring(3, 7);
 	                }
-	                System.out.println(startTimeSubStr);
 	                String fileName = "Attendance_" + day + "_" + month + "_" + dayNum + "_" + year + "_" + startTimeSubStr + "_" + topic;
-	                System.out.println(fileName);
 	                
 	                //TODO: Install
 	                try (FileOutputStream outputStream = new FileOutputStream(fileName + ".xlsx")) {
@@ -295,6 +306,7 @@ public class Attendance_Frame extends JFrame {
 
         mnFile.add(mntmSave);
 
+	//Closes the attendance_frame - The x button is disabled
         JMenuItem mntmExit = new JMenuItem("Exit");
         mntmExit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -360,7 +372,8 @@ public class Attendance_Frame extends JFrame {
         lblNew.setBounds(10, 496, 56, 16);
         contentPane.add(lblNew);
 
-        //Add newly created strings/direct input as a new row in JTable
+        //Adds newly created strings/direct input as a new row in the JTable
+	//Now “Add Attendee” on interface
         btnSubmit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 clearColors();
@@ -540,6 +553,7 @@ public class Attendance_Frame extends JFrame {
         firstClassButtonGroup.clearSelection();
     }
 
+    //Allows you to get the actual month i.e.)Jan, Feb, Mar  
     public String getMonth(JDatePickerImpl datePicker){
         int day = datePicker.getModel().getDay();
         int month = datePicker.getModel().getMonth();
@@ -550,7 +564,7 @@ public class Attendance_Frame extends JFrame {
         return chosenMonth;
     }
 
-    //Get day from datePicker
+    //Allows you to get the day of the week i.e.)Mon, Tues, Wed
     public String getDayString(JDatePickerImpl datePicker){
         int day = datePicker.getModel().getDay();
         int month = datePicker.getModel().getMonth();
