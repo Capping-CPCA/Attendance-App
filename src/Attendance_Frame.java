@@ -190,7 +190,19 @@ public class Attendance_Frame extends JFrame {
                         "First", "Last", "Date", "Curriculum", "Topic", "Day", "Time",
                         "Location", "Language","Sex", "Race", "Age","New","18&Under", "Zipcode", "Instructor"
                 }
-        );
+        ){
+        	/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			//This causes all cells to be not editable
+            public boolean isCellEditable(int row, int column)
+            {
+              return false;
+            }
+          };
+          
         defaultModel.setRowCount(0);
         outputTable.setModel(defaultModel);
 
