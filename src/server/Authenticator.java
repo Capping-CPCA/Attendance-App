@@ -8,8 +8,7 @@
  * @version 0.1.0
  * @since 0.1.0
  */
-
-package javaApplication;
+package pep.attendance.server;
 
 import org.apache.directory.api.ldap.model.exception.LdapException;
 import org.apache.directory.ldap.client.api.LdapConnection;
@@ -20,8 +19,8 @@ import javax.naming.NamingException;
 public class Authenticator {
 
     //The IP in this LdapConnection corresponds to the IP on the network
-	public static LdapConnection connection = new LdapNetworkConnection( "10.11.12.27", 389 );
-	
+    public static LdapConnection connection = new LdapNetworkConnection( "10.11.12.27", 389 );
+
     //If the connection works, then a true value is returned, if not a false value is returned
     public static boolean authenticate() throws NamingException, LdapException {
         try {

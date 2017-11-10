@@ -9,7 +9,8 @@
  * @since 0.1.0
  */
 
-package javaApplication;
+package pep.attendance.client;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -74,7 +75,8 @@ import org.jdatepicker.impl.UtilDateModel;
 import com.alee.laf.WebLookAndFeel;
 
 
-public class Attendance_Frame extends JFrame {
+public class AttendanceFrame extends JFrame {
+
     private JPanel contentPane;
     //This hash map is used later on in data validation
     //The key is the text field, and the value is the label that corresponds to that field
@@ -95,7 +97,7 @@ public class Attendance_Frame extends JFrame {
     private JLabel lblAge;
     private JLabel lblNumberOfKids;
     private JLabel lblZip;
-    private static Attendance_Frame frame;
+    private static AttendanceFrame frame;
 
     private JRadioButton rdbtnAreYouNew;
     private JRadioButton rdbtnNotFirstClass;
@@ -104,6 +106,8 @@ public class Attendance_Frame extends JFrame {
     private final ButtonGroup firstClassButtonGroup = new ButtonGroup();
     private String instructorName;
     private JLabel lblNew;
+    
+    private Properties preDefinedFields = new Properties();
 
     /**
      * Use to create mask for date, zipcode, ect.
@@ -123,7 +127,16 @@ public class Attendance_Frame extends JFrame {
     /**
      * Create the frame.
      */
-    public Attendance_Frame(String instructor, String topic, JDatePickerImpl datePicker, String startTime, String location, String language, String curriculum) {
+    public AttendanceFrame(String instructor, String topic, JDatePickerImpl datePicker, String startTime, String location, String language, String curriculum) {
+        /*
+         * Load our predefined fields so that we don't have to query the CPCA network every time
+         */
+        try {
+            this.preDefinedFields.load(new FileInputStream("./resources/sync.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         getDayString(datePicker);
         instructorName = instructor;
         frame = this;
@@ -173,7 +186,11 @@ public class Attendance_Frame extends JFrame {
 
         JComboBox raceComboBox = new JComboBox();
         raceComboBox.setBounds(48, 366, 200, 27);
-        raceComboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose Race", "White", "African-American", "Hispanic", "Asian", "Other"}));
+        raceComboBox.setModel(
+                new DefaultComboBoxModel(
+                        this.preDefinedFields.getProperty("races").split(",")
+                )
+        );
         contentPane.add(raceComboBox);
 
         JScrollPane scrollPane = new JScrollPane();
@@ -191,18 +208,18 @@ public class Attendance_Frame extends JFrame {
                         "Location", "Language","Sex", "Race", "Age","New","18&Under", "Zipcode", "Instructor"
                 }
         ){
-        	/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
+            /**
+             *
+             */
+            private static final long serialVersionUID = 1L;
 
-			//This causes all cells to be not editable
+            //This causes all cells to be not editable
             public boolean isCellEditable(int row, int column)
             {
-              return false;
+                return false;
             }
-          };
-          
+        };
+
         defaultModel.setRowCount(0);
         outputTable.setModel(defaultModel);
 
@@ -220,108 +237,108 @@ public class Attendance_Frame extends JFrame {
         //The excel sheet is automatically named with extension â€œDate + startTime + Topic.xlsxâ€�
         mntmSave.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-            	if(outputTable.getRowCount() > 0){
-	                XSSFWorkbook workbook = new XSSFWorkbook();
-	                XSSFSheet sheet = workbook.createSheet("Attendance");
-	
-	                //Created header for excel sheet
-	                Row headerRow = sheet.createRow(0);
-	                //First Name
-	                Cell firstNameCell = headerRow.createCell(0);
-	                firstNameCell.setCellValue("First Name");
-	                //Last Name
-	                Cell lastNameCell = headerRow.createCell(1);
-	                lastNameCell.setCellValue("Last Name");
-	                //Date
-	                Cell dateCell = headerRow.createCell(2);
-	                dateCell.setCellValue("Date");
-	                //Curriculum
-	                Cell curriculumCell = headerRow.createCell(3);
-	                curriculumCell.setCellValue("Curriculum");
-	                //Topic
-	                Cell topicCell = headerRow.createCell(4);
-	                topicCell.setCellValue("Topic");
-	                //Day
-	                Cell dayCell = headerRow.createCell(5);
-	                dayCell.setCellValue("Day");
-	                //Time
-	                Cell timeCell = headerRow.createCell(6);
-	                timeCell.setCellValue("Time");
-	                //Location
-	                Cell locationCell = headerRow.createCell(7);
-	                locationCell.setCellValue("Location");
-	                //Language
-	                Cell languageCell = headerRow.createCell(8);
-	                languageCell.setCellValue("Language");
-	                //Sex
-	                Cell sexCell = headerRow.createCell(9);
-	                sexCell.setCellValue("Sex");
-	                //Race
-	                Cell raceCell = headerRow.createCell(10);
-	                raceCell.setCellValue("Race");
-	                //Age
-	                Cell ageCell = headerRow.createCell(11);
-	                ageCell.setCellValue("Age");
-	                //New
-	                Cell newCell = headerRow.createCell(12);
-	                newCell.setCellValue("New");
-	                //18&Under
-	                Cell ageUnderCell = headerRow.createCell(13);
-	                ageUnderCell.setCellValue("18 & Under");
-	                //Zip
-	                Cell zipCodeCell = headerRow.createCell(14);
-	                zipCodeCell.setCellValue("Zipcode");
-	                //Instructor Name
-	                Cell instructorCell = headerRow.createCell(15);
-	                instructorCell.setCellValue("Instructor");
-	
-	
-	                //Logic for writing to columns here under the header
-	                int excelRowCount = 1;
-	                int tableRowCount = 0;
-	                while(tableRowCount < outputTable.getRowCount()){
-	                    int tableColumnCount = 0;
-	                    int excelColumnCount = 0;
-	                    Row tempRow = sheet.createRow(excelRowCount);
-	                    while(tableColumnCount < outputTable.getColumnCount()){
-	                        Cell tempCell = tempRow.createCell(excelColumnCount);
-	                        if(outputTable.getValueAt(tableRowCount, tableColumnCount) != null){
-	                            tempCell.setCellValue(outputTable.getValueAt(tableRowCount, tableColumnCount).toString());
-	                        }
-	                        tableColumnCount++;
-	                        excelColumnCount++;
-	                    }
-	                    tableRowCount++;
-	                    excelRowCount++;
-	                }
-	
-	                String day = getDayString(datePicker);
-	                String dayNum = String.valueOf(datePicker.getModel().getDay());
-	                String month = getMonth(datePicker);
-	                String year = String.valueOf(datePicker.getModel().getYear());
-	                String startTimeSubStr;
-	                if (startTime.length() == 6){
-	                	startTimeSubStr = startTime.substring(0, 1) + startTime.substring(2, 6);
-	                } else {
-	                	startTimeSubStr = startTime.substring(0, 2) + startTime.substring(3, 7);
-	                }
-	                String fileName = "Attendance_" + day + "_" + month + "_" + dayNum + "_" + year + "_" + startTimeSubStr + "_" + topic;
-	                
-	                //TODO: Install
-	                try (FileOutputStream outputStream = new FileOutputStream(fileName + ".xlsx")) {
-	                    workbook.write(outputStream);
-	                } catch (IOException e){
-	                    System.out.println("IOException: " + e.getMessage());
-	                }
-            	} else {
-            		JOptionPane.showMessageDialog(null, "There are no rows in the table to save!");
-            	}
+                if(outputTable.getRowCount() > 0){
+                    XSSFWorkbook workbook = new XSSFWorkbook();
+                    XSSFSheet sheet = workbook.createSheet("Attendance");
+
+                    //Created header for excel sheet
+                    Row headerRow = sheet.createRow(0);
+                    //First Name
+                    Cell firstNameCell = headerRow.createCell(0);
+                    firstNameCell.setCellValue("First Name");
+                    //Last Name
+                    Cell lastNameCell = headerRow.createCell(1);
+                    lastNameCell.setCellValue("Last Name");
+                    //Date
+                    Cell dateCell = headerRow.createCell(2);
+                    dateCell.setCellValue("Date");
+                    //Curriculum
+                    Cell curriculumCell = headerRow.createCell(3);
+                    curriculumCell.setCellValue("Curriculum");
+                    //Topic
+                    Cell topicCell = headerRow.createCell(4);
+                    topicCell.setCellValue("Topic");
+                    //Day
+                    Cell dayCell = headerRow.createCell(5);
+                    dayCell.setCellValue("Day");
+                    //Time
+                    Cell timeCell = headerRow.createCell(6);
+                    timeCell.setCellValue("Time");
+                    //Location
+                    Cell locationCell = headerRow.createCell(7);
+                    locationCell.setCellValue("Location");
+                    //Language
+                    Cell languageCell = headerRow.createCell(8);
+                    languageCell.setCellValue("Language");
+                    //Sex
+                    Cell sexCell = headerRow.createCell(9);
+                    sexCell.setCellValue("Sex");
+                    //Race
+                    Cell raceCell = headerRow.createCell(10);
+                    raceCell.setCellValue("Race");
+                    //Age
+                    Cell ageCell = headerRow.createCell(11);
+                    ageCell.setCellValue("Age");
+                    //New
+                    Cell newCell = headerRow.createCell(12);
+                    newCell.setCellValue("New");
+                    //18&Under
+                    Cell ageUnderCell = headerRow.createCell(13);
+                    ageUnderCell.setCellValue("18 & Under");
+                    //Zip
+                    Cell zipCodeCell = headerRow.createCell(14);
+                    zipCodeCell.setCellValue("Zipcode");
+                    //Instructor Name
+                    Cell instructorCell = headerRow.createCell(15);
+                    instructorCell.setCellValue("Instructor");
+
+
+                    //Logic for writing to columns here under the header
+                    int excelRowCount = 1;
+                    int tableRowCount = 0;
+                    while(tableRowCount < outputTable.getRowCount()){
+                        int tableColumnCount = 0;
+                        int excelColumnCount = 0;
+                        Row tempRow = sheet.createRow(excelRowCount);
+                        while(tableColumnCount < outputTable.getColumnCount()){
+                            Cell tempCell = tempRow.createCell(excelColumnCount);
+                            if(outputTable.getValueAt(tableRowCount, tableColumnCount) != null){
+                                tempCell.setCellValue(outputTable.getValueAt(tableRowCount, tableColumnCount).toString());
+                            }
+                            tableColumnCount++;
+                            excelColumnCount++;
+                        }
+                        tableRowCount++;
+                        excelRowCount++;
+                    }
+
+                    String day = getDayString(datePicker);
+                    String dayNum = String.valueOf(datePicker.getModel().getDay());
+                    String month = getMonth(datePicker);
+                    String year = String.valueOf(datePicker.getModel().getYear());
+                    String startTimeSubStr;
+                    if (startTime.length() == 6){
+                        startTimeSubStr = startTime.substring(0, 1) + startTime.substring(2, 6);
+                    } else {
+                        startTimeSubStr = startTime.substring(0, 2) + startTime.substring(3, 7);
+                    }
+                    String fileName = "Attendance_" + day + "_" + month + "_" + dayNum + "_" + year + "_" + startTimeSubStr + "_" + topic;
+
+                    //TODO: Install
+                    try (FileOutputStream outputStream = new FileOutputStream(fileName + ".xlsx")) {
+                        workbook.write(outputStream);
+                    } catch (IOException e){
+                        System.out.println("IOException: " + e.getMessage());
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "There are no rows in the table to save!");
+                }
             }
         });
 
         mnFile.add(mntmSave);
 
-        //Closes the attendance_frame - The x button is disabled
+        //Closes the AttendanceFrame - The x button is disabled
         JMenuItem mntmExit = new JMenuItem("Exit");
         mntmExit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -336,7 +353,11 @@ public class Attendance_Frame extends JFrame {
         contentPane.add(lblSex);
 
         JComboBox sexComboBox = new JComboBox();
-        sexComboBox.setModel(new DefaultComboBoxModel(new String[] {"Choose Sex", "Male", "Female", "Other"}));
+        sexComboBox.setModel(
+                new DefaultComboBoxModel(
+                        this.preDefinedFields.getProperty("sexes").split(",")
+                )
+        );
         sexComboBox.setBounds(48, 333, 200, 27);
         contentPane.add(sexComboBox);
 
