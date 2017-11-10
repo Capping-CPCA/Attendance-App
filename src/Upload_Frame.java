@@ -87,7 +87,7 @@ public class Upload_Frame extends JFrame {
 		frame = this;
 		setResizable(false);
      	setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 1161, 374);
+		setBounds(100, 100, 1221, 374);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -99,7 +99,7 @@ public class Upload_Frame extends JFrame {
 		contentPane.add(lblCpcaAttendance);
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 1173, 22);
+		menuBar.setBounds(0, 0, 1215, 22);
 		contentPane.add(menuBar);
 		
 		JMenu mnFile = new JMenu("File");
@@ -159,6 +159,9 @@ public class Upload_Frame extends JFrame {
 		        //Zip
 		        Cell zipCodeCell = headerRow.createCell(14);
 		        zipCodeCell.setCellValue("Zipcode");
+		        //Instructor Name
+                Cell instructorCell = headerRow.createCell(15);
+                instructorCell.setCellValue("Instructor");
 		        
 		        
 		        //Logic for writing to columns here under the header
@@ -234,7 +237,7 @@ public class Upload_Frame extends JFrame {
 		mnFile.add(mntmExit);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 74, 1155, 182);
+		scrollPane.setBounds(0, 74, 1215, 182);
 		contentPane.add(scrollPane);
 		
 		outputTable = new JTable();
@@ -312,7 +315,7 @@ public class Upload_Frame extends JFrame {
                 String fullDate = year + "-" + month + "-" + day + " " + time;
 			}
 		});
-		btnUpload.setBounds(1008, 269, 135, 63);
+		btnUpload.setBounds(1068, 269, 135, 63);
 		contentPane.add(btnUpload);
 		
 		//Trigger the Change_Date frame
@@ -417,7 +420,7 @@ public class Upload_Frame extends JFrame {
 				}
 			}
 		});
-		btnReset.setBounds(861, 269, 135, 63);
+		btnReset.setBounds(921, 269, 135, 63);
 		contentPane.add(btnReset);
 		
 		//Populate screen with initial open of excel file
@@ -443,7 +446,7 @@ public class Upload_Frame extends JFrame {
 	    	boolean headerRow = false;
 	    	while(iterator.hasNext()){
 	    		//Array and count to hold string values in each cell
-	    		String[] row = new String[15];
+	    		String[] row = new String[16];
 	    		int cellCount = 0;
 	    		
 	    		//Get row in excel sheet
@@ -489,7 +492,8 @@ public class Upload_Frame extends JFrame {
 						row[11],
 						yesOrNo,
 						row[13],
-						row[14]
+						row[14],
+						row[15]
 				});
 	    	}
 	    	workbook.close();
