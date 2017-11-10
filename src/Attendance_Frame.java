@@ -259,6 +259,9 @@ public class Attendance_Frame extends JFrame {
 	                //Zip
 	                Cell zipCodeCell = headerRow.createCell(14);
 	                zipCodeCell.setCellValue("Zipcode");
+	                //Instructor Name
+	                Cell instructorCell = headerRow.createCell(15);
+	                instructorCell.setCellValue("Instructor");
 	
 	
 	                //Logic for writing to columns here under the header

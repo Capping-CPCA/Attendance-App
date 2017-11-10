@@ -22,7 +22,7 @@ public class MyTableModel extends DefaultTableModel {
     public MyTableModel() {
       super(new String[]{
 				"First", "Last", "Date", "Curriculum", "Topic", "Day", "Time", 
-				"Location", "Language","Sex", "Race", "Age","New","18&Under", "Zipcode"
+				"Location", "Language","Sex", "Race", "Age","New","18&Under", "Zipcode", "Instructor"
 			}, 0);
     }
 
