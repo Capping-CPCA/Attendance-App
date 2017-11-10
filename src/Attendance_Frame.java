@@ -130,7 +130,7 @@ public class Attendance_Frame extends JFrame {
         WebLookAndFeel.install ();
         setResizable(false);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        setBounds(100, 100, 1161, 574);
+        setBounds(100, 100, 1223, 574);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
@@ -141,7 +141,7 @@ public class Attendance_Frame extends JFrame {
 
 
         JLabel lblCpcaAttendance = new JLabel("PEP Attendance Sheet");
-        lblCpcaAttendance.setBounds(343, 25, 330, 38);
+        lblCpcaAttendance.setBounds(442, 23, 330, 38);
         lblCpcaAttendance.setFont(new Font("Cambria", Font.PLAIN, 30));
         contentPane.add(lblCpcaAttendance);
 
@@ -177,7 +177,7 @@ public class Attendance_Frame extends JFrame {
         contentPane.add(raceComboBox);
 
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(0, 74, 1155, 182);
+        scrollPane.setBounds(0, 74, 1217, 182);
         contentPane.add(scrollPane);
 
         outputTable = new JTable();
@@ -188,14 +188,14 @@ public class Attendance_Frame extends JFrame {
                 },
                 new String[] {
                         "First", "Last", "Date", "Curriculum", "Topic", "Day", "Time",
-                        "Location", "Language","Sex", "Race", "Age","New","18&Under", "Zipcode"
+                        "Location", "Language","Sex", "Race", "Age","New","18&Under", "Zipcode", "Instructor"
                 }
         );
         defaultModel.setRowCount(0);
         outputTable.setModel(defaultModel);
 
         JMenuBar menuBar = new JMenuBar();
-        menuBar.setBounds(0, 0, 1173, 22);
+        menuBar.setBounds(0, 0, 1227, 22);
         contentPane.add(menuBar);
 
         JMenu mnFile = new JMenu("File");
@@ -204,8 +204,8 @@ public class Attendance_Frame extends JFrame {
         JMenuItem mntmSave = new JMenuItem("Save");
 
         //Save to excel file
-	//Takes the information from the JTable and populates an excel sheet
-	//The excel sheet is automatically named with extension “Date + startTime + Topic.xlsx”
+        //Takes the information from the JTable and populates an excel sheet
+        //The excel sheet is automatically named with extension â€œDate + startTime + Topic.xlsxâ€�
         mntmSave.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
             	if(outputTable.getRowCount() > 0){
@@ -306,11 +306,12 @@ public class Attendance_Frame extends JFrame {
 
         mnFile.add(mntmSave);
 
-	//Closes the attendance_frame - The x button is disabled
+        //Closes the attendance_frame - The x button is disabled
         JMenuItem mntmExit = new JMenuItem("Exit");
         mntmExit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
+                System.exit(0);
             }
         });
         mnFile.add(mntmExit);
@@ -343,7 +344,7 @@ public class Attendance_Frame extends JFrame {
         numberOfKidsTF.setColumns(10);
 
         JButton btnSubmit = new JButton("Add Attendee");
-        btnSubmit.setBounds(1011, 489, 117, 29);
+        btnSubmit.setBounds(1088, 489, 117, 29);
         contentPane.add(btnSubmit);
 
         rdbtnAreYouNew = new JRadioButton("This is my first class.");
@@ -373,7 +374,7 @@ public class Attendance_Frame extends JFrame {
         contentPane.add(lblNew);
 
         //Adds newly created strings/direct input as a new row in the JTable
-	//Now “Add Attendee” on interface
+        //Now add Attendee
         btnSubmit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 clearColors();
@@ -413,26 +414,12 @@ public class Attendance_Frame extends JFrame {
                         ageTF.getText(),
                         yesOrNo,
                         numberOfKidsTF.getText(),
-                        zipCodeFTF.getText()
+                        zipCodeFTF.getText(),
+                        instructorName
                 });
 
                 //Clear all textFields submit for the next participant
                 clearFields();
-            }
-        });
-
-        //Make the JTable editable if in focus
-        scrollPane.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                for(int x = 0; x < outputTable.getRowCount() - 1; x++) {
-                    int z = outputTable.getColumnCount();
-                    outputTable.isCellEditable(x, z);
-                }
-            }
-            @Override
-            public void focusLost(FocusEvent e) {
-                outputTable.setEnabled(false);
             }
         });
     }
@@ -553,7 +540,7 @@ public class Attendance_Frame extends JFrame {
         firstClassButtonGroup.clearSelection();
     }
 
-    //Allows you to get the actual month i.e.)Jan, Feb, Mar  
+    //Allows you to get the actual month i.e.Jan, Feb, Mar  
     public String getMonth(JDatePickerImpl datePicker){
         int day = datePicker.getModel().getDay();
         int month = datePicker.getModel().getMonth();
@@ -564,7 +551,7 @@ public class Attendance_Frame extends JFrame {
         return chosenMonth;
     }
 
-    //Allows you to get the day of the week i.e.)Mon, Tues, Wed
+    //Allows you to get the day of the week i.e.Mon, Tues, Wed
     public String getDayString(JDatePickerImpl datePicker){
         int day = datePicker.getModel().getDay();
         int month = datePicker.getModel().getMonth();
