@@ -20,9 +20,9 @@ public class DatabaseManager {
     private boolean debugMode = false;
 
     public DatabaseManager() {
-        this.connUrl = "jdbc:postgresql://localhost:5432/PEP_DB_TEST";
-        this.connUsername = "marcos";
-        this.connPassword = "@AlphaGuitar96";
+    	this.connUrl = "jdbc:postgresql://10.11.12.34:5432/PEP_DB";
+        this.connUsername = "postgres";
+        this.connPassword = "@lgozzineIsTheBest";
         this.setConnection();
     }
 

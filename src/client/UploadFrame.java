@@ -198,7 +198,7 @@ public class UploadFrame extends JFrame {
                 }
 
                 //TODO: Install
-                try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
+                try (FileOutputStream outputStream = new FileOutputStream("./" + filePath)) {
                     workbook.write(outputStream);
                 } catch (IOException e1){
                     System.out.println("IOException: " + e1.getMessage());
@@ -223,7 +223,7 @@ public class UploadFrame extends JFrame {
         mntmOpen.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //TODO: Install
-                JFileChooser chooser = new JFileChooser();
+                JFileChooser chooser = new JFileChooser("./");
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(
                         "Excel Files (.xlsx)", "xlsx");
                 chooser.setFileFilter(filter);

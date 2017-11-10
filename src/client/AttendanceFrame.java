@@ -322,10 +322,10 @@ public class AttendanceFrame extends JFrame {
                     } else {
                         startTimeSubStr = startTime.substring(0, 2) + startTime.substring(3, 7);
                     }
-                    String fileName = "Attendance_" + day + "_" + month + "_" + dayNum + "_" + year + "_" + startTimeSubStr + "_" + topic;
+                    String fileName = "Attendance_" + day + "_" + month + "_" + dayNum + "_" + year + "_" + startTimeSubStr;
 
                     //TODO: Install
-                    try (FileOutputStream outputStream = new FileOutputStream(fileName + ".xlsx")) {
+                    try (FileOutputStream outputStream = new FileOutputStream("./" + fileName + ".xlsx")) {
                         workbook.write(outputStream);
                     } catch (IOException e){
                         System.out.println("IOException: " + e.getMessage());

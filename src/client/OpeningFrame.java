@@ -17,6 +17,7 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 import pep.attendance.server.Authenticator;
+import pep.attendance.server.DatabaseManager;
 
 import javax.naming.NamingException;
 import javax.swing.*;
@@ -57,6 +58,13 @@ public class OpeningFrame extends JFrame {
      * Create the frame.
      */
     public OpeningFrame() {
+    	try{
+    		DatabaseManager myManager = new DatabaseManager();
+    		myManager.updateProperties();
+    		System.out.println("Connected");
+    	} catch(Exception e){
+    		System.out.println("Not connected");
+    	}
         opening_frame = this;
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setBounds(100, 100, 450, 300);
@@ -82,7 +90,7 @@ public class OpeningFrame extends JFrame {
                     if(Authenticator.authenticate() == true) {
                         //Open file allowing only excel files
                         //TODO: Install
-                        JFileChooser chooser = new JFileChooser();
+                        JFileChooser chooser = new JFileChooser("./");
                         FileNameExtensionFilter filter = new FileNameExtensionFilter(
                                 "Excel Files (.xlsx)", "xlsx");
                         chooser.setFileFilter(filter);
