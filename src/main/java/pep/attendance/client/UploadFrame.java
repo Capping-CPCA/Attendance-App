@@ -315,7 +315,7 @@ public class UploadFrame extends JFrame {
                     // Lets go ahead and execute the queries
                     DatabaseManager myManager = new DatabaseManager();
 
-                    /*
+                    /* START OF ParticipantID CHECK
                     first we need to check that the person exists in the database
 
                     what we want to do is check for duplicates and open the "collision
@@ -354,7 +354,7 @@ public class UploadFrame extends JFrame {
                             CollisionFrame collisionFrame = new CollisionFrame();
                             collisionFrame.setVisible(true);
 
-                            // do some magic
+                            // empty while loop
                             while (collisionFrame.matchedParticipantID < 0) {}
 
                             personId = collisionFrame.matchedParticipantID;
@@ -371,7 +371,7 @@ public class UploadFrame extends JFrame {
                     }
                     /* END OF ParticipantID CHECK */
 
-                    /*
+                    /* START OF ClassName CHECK
                     now we need the class name
                      */
                     int classId = -1;
@@ -398,7 +398,9 @@ public class UploadFrame extends JFrame {
                     }
                     /* END OF ClassName CHECK */
 
-                    // get curriculum name
+                    /* START OF CurriculumName CHECK
+                    get curriculum name
+                     */
                     int curriculumId = -1;
                     PreparedStatement curriculumStmt = null;
                     try {
