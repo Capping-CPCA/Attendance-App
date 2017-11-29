@@ -9,3 +9,5 @@ out/*
 *.xml
 /javaApplication
 .*
+target/
+resources/credentials.properties
