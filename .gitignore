@@ -6,7 +6,6 @@ Attendance_App/bin
 */.idea/*
 out/*
 */out/*
-*.xml
 /javaApplication
 .*
 target/

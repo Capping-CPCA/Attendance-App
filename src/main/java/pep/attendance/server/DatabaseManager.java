@@ -39,11 +39,9 @@ public class DatabaseManager {
             // DEBUGGING MESSAGES
             if (this.debugMode) {
                 System.out.println("Using credentials:\n");
-                System.out.print(this.connUrl);
-                System.out.print(" ");
-                System.out.print(this.connUsername);
-                System.out.print(" ");
-                System.out.print(this.connPassword);
+                System.out.println(this.connUrl);
+                System.out.println(this.connUsername);
+                System.out.println(this.connPassword);
             }
         } catch (IOException e) {
             System.err.println("Credentials file not found. Please make sure to properly setup the Database username and password");
