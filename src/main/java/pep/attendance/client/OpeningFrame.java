@@ -32,7 +32,7 @@ import java.util.Properties;
 public class OpeningFrame extends JFrame {
 
     private JPanel contentPane;
-    private static AttendanceFrame attendance_frame;
+    private static pep.attendance.client.AttendanceFrame attendance_frame;
     private static FacilitatorFrame facilitator_frame;
     private static OpeningFrame opening_frame;
     private JDatePickerImpl datePicker;
