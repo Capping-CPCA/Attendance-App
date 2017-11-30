@@ -18,7 +18,7 @@ public class DatabaseManager {
     private String propertySyncFile = "./resources/sync.properties";
     private String propertyQueriesFile = "./resources/queries.properties";
 
-    private boolean debugMode = false;
+    private boolean debugMode = true;
 
     public DatabaseManager() {
         /*
@@ -35,6 +35,16 @@ public class DatabaseManager {
             this.connUsername = credentials.getProperty("connUsername");
             this.connPassword = credentials.getProperty("connPassword");
             this.setConnection();
+
+            // DEBUGGING MESSAGES
+            if (this.debugMode) {
+                System.out.println("Using credentials:\n");
+                System.out.print(this.connUrl);
+                System.out.print(" ");
+                System.out.print(this.connUsername);
+                System.out.print(" ");
+                System.out.print(this.connPassword);
+            }
         } catch (IOException e) {
             System.err.println("Credentials file not found. Please make sure to properly setup the Database username and password");
         }

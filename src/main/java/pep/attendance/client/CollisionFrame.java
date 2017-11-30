@@ -53,6 +53,6 @@ public class CollisionFrame extends JFrame {
         contentPane.add(newButton);
         collisionButtonGroup.add(newButton);
         System.out.println(y);
-        y+=30;
+        y += 30;
     }
 }

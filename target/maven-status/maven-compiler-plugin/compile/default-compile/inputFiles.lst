@@ -1,10 +1,11 @@
 /Volumes/Transcend/Projects/CMPT-475N/Attendance-App/src/main/java/pep/attendance/server/DatabaseManager.java
 /Volumes/Transcend/Projects/CMPT-475N/Attendance-App/src/main/java/pep/attendance/client/FacilitatorFrame.java
+/Volumes/Transcend/Projects/CMPT-475N/Attendance-App/src/main/java/pep/attendance/client/CollisionFrame.java
 /Volumes/Transcend/Projects/CMPT-475N/Attendance-App/src/main/java/pep/attendance/client/ChangeDate.java
 /Volumes/Transcend/Projects/CMPT-475N/Attendance-App/src/main/java/pep/attendance/client/ChangeCurriculum.java
 /Volumes/Transcend/Projects/CMPT-475N/Attendance-App/src/main/java/pep/attendance/client/DateLabelFormatter.java
-/Volumes/Transcend/Projects/CMPT-475N/Attendance-App/src/main/java/pep/attendance/client/ChangeTime.java
 /Volumes/Transcend/Projects/CMPT-475N/Attendance-App/src/main/java/pep/attendance/client/AttendanceFrame.java
+/Volumes/Transcend/Projects/CMPT-475N/Attendance-App/src/main/java/pep/attendance/client/ChangeTime.java
 /Volumes/Transcend/Projects/CMPT-475N/Attendance-App/src/main/java/pep/attendance/client/ChangeTopic.java
 /Volumes/Transcend/Projects/CMPT-475N/Attendance-App/src/main/java/pep/attendance/client/MyTableModel.java
 /Volumes/Transcend/Projects/CMPT-475N/Attendance-App/src/main/java/pep/attendance/client/OpeningFrame.java

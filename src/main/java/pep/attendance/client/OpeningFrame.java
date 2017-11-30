@@ -67,7 +67,7 @@ public class OpeningFrame extends JFrame {
     		DatabaseManager myManager = new DatabaseManager();
     		myManager.updateProperties();
     		System.out.println("Connected");
-    	} catch(Exception e){
+    	} catch(Exception e) {
     		System.out.println("Not connected");
     	}
 
@@ -78,7 +78,6 @@ public class OpeningFrame extends JFrame {
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
-
 
         UtilDateModel model = new UtilDateModel();
         Properties p = new Properties();
@@ -122,7 +121,6 @@ public class OpeningFrame extends JFrame {
                 }
             }
         });
-
 
         btnUploadAttendanceSheet.setBounds(12, 111, 201, 29);
         contentPane.add(btnUploadAttendanceSheet);
