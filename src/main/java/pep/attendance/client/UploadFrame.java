@@ -316,10 +316,16 @@ public class UploadFrame extends JFrame {
                         personStmt = myManager
                                 .getConnection()
                                 .prepareStatement(
-                                        "SELECT People.peopleID, People.firstName, People.lastName " +
-                                                "FROM People " +
-                                                "WHERE People.firstName = ? AND " +
-                                                "People.lastName = ?",
+                                        "SELECT participantID, " +
+                                                "firstName, " +
+                                                "lastName, " +
+                                                "dateOfBirth, " +
+                                                "curriculumName, " +
+                                                "siteName " +
+                                                "FROM ClassAttendanceDetails " +
+                                                "WHERE isNew IS TRUE AND " +
+                                                "firstName = ? AND " +
+                                                "lastName = ?",
                                 ResultSet.TYPE_SCROLL_SENSITIVE,
                                 ResultSet.CONCUR_UPDATABLE);
 
@@ -333,8 +339,11 @@ public class UploadFrame extends JFrame {
                         ArrayList<String> peopleMatch = new ArrayList<>();
                         while (results.next()) {
                             peopleMatch.add(results.getInt(1) + " " +
-                                    results.getString(2) + " " +
-                                    results.getString(3));
+                                    "Name: " + results.getString(2) + " " +
+                                    results.getString(3) + " " +
+                                    "DOB: " + results.getString(4) + " " +
+                                    "Curriculum: " + results.getString(5) + " " +
+                                    "Curriculum Start Date: " + results.getString(6));
                         }
 
                         // we do this here, because it is impossible given
@@ -344,7 +353,8 @@ public class UploadFrame extends JFrame {
                         if (peopleMatch.size() > 1) {
                             System.err.println("Resolving conflict...");
 
-
+                            // instead of creating an entire frame for this, just show an option
+                            // pane with a dropdown and let the user resolve the conflict
                             personId = Integer.parseInt(((String) JOptionPane.showInputDialog(frame,
                                     "Multiple participants found with the same name. Please specify...",
                                     "Multiple-Participants",

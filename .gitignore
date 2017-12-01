@@ -10,3 +10,4 @@ out/*
 .*
 target/
 resources/credentials.properties
+*.xlsx
