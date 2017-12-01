@@ -27,17 +27,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormatSymbols;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
@@ -52,12 +46,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jdatepicker.impl.JDatePickerImpl;
 import pep.attendance.server.DatabaseManager;
-
-import javax.swing.DefaultCellEditor;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 
 public class UploadFrame extends JFrame {
 
@@ -324,14 +312,17 @@ public class UploadFrame extends JFrame {
                     int personId = -1;
                     PreparedStatement personStmt = null;
                     try {
+                        System.out.println("");
                         personStmt = myManager
                                 .getConnection()
                                 .prepareStatement(
-                                        "SELECT People.peopleID " +
+                                        "SELECT People.peopleID, People.firstName, People.lastName " +
                                                 "FROM People " +
                                                 "WHERE People.firstName = ? AND " +
-                                                "People.lastName = ? LIMIT 1"
-                                );
+                                                "People.lastName = ?",
+                                ResultSet.TYPE_SCROLL_SENSITIVE,
+                                ResultSet.CONCUR_UPDATABLE);
+
                         personStmt.setString(1, (String) outputTable.getValueAt(i, 0));
                         personStmt.setString(2, (String) outputTable.getValueAt(i, 1));
 
@@ -339,31 +330,35 @@ public class UploadFrame extends JFrame {
 
                         // we need to let the user decide which participant is attending if there are multiple with
                         // the same name
-                        int rowCount = 0;
-                        if (results.last()) {
-                            rowCount = results.getRow();
-
-                            // not rs.first() because the rs.next() below will move on, missing the first element
-                            results.beforeFirst();
+                        ArrayList<String> peopleMatch = new ArrayList<>();
+                        while (results.next()) {
+                            peopleMatch.add(results.getInt(1) + " " +
+                                    results.getString(2) + " " +
+                                    results.getString(3));
                         }
 
                         // we do this here, because it is impossible given
                         // the current system to detect duplicates on its
                         // own
-                        if (rowCount > 1) {
-                            CollisionFrame collisionFrame = new CollisionFrame();
-                            collisionFrame.setVisible(true);
+                        System.out.println(peopleMatch.size());
+                        if (peopleMatch.size() > 1) {
+                            System.err.println("Resolving conflict...");
 
-                            // empty while loop
-                            while (collisionFrame.matchedParticipantID < 0) {}
 
-                            personId = collisionFrame.matchedParticipantID;
+                            personId = Integer.parseInt(((String) JOptionPane.showInputDialog(frame,
+                                    "Multiple participants found with the same name. Please specify...",
+                                    "Multiple-Participants",
+                                    JOptionPane.QUESTION_MESSAGE,
+                                    null,
+                                    peopleMatch.toArray(),
+                                    peopleMatch.toArray()[0])).split("")[0]);
                         } else {
+                            System.out.println("No conflict found.");
+
                             while (results.next()) {
                                 personId = results.getInt(1);
                             }
                         }
-
 
                         System.err.println("person ID: " + personId);
                     } catch (SQLException e1) {

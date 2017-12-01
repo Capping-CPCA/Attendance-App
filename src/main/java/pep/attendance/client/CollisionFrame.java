@@ -1,5 +1,7 @@
 package pep.attendance.client;
 
+import pep.attendance.server.DatabaseManager;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -13,13 +15,18 @@ import java.awt.Font;
 
 public class CollisionFrame extends JFrame {
 
-    public int matchedParticipantID = -1;
 
     private static JPanel contentPane;
     private static CollisionFrame frame;
     private static JRadioButton newButton;
-    private static int x=24, y=60, width=500, height=23;
+    private static int x=24,
+            y=60,
+            width=500,
+            height=23;
     private final static ButtonGroup collisionButtonGroup = new ButtonGroup();
+
+    private DatabaseManager dbMgr;
+    public int matchedParticipantID = -1;
 
     /**
      * Create the frame.
