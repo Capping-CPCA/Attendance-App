@@ -13,7 +13,7 @@
 target/
 
 # WE DON'T WANT TO PUSH CREDENTIALS TO REPO
-resources/credentials.properties
+src/main/resources/credentials.properties
 
 ##############
 # USER FILES #

@@ -14,9 +14,9 @@ public class DatabaseManager {
     private String connUsername;
     private String connPassword;
     private Connection conn;
-    private String propertyCredentialFile = "./resources/credentials.properties";
-    private String propertySyncFile = "./resources/sync.properties";
-    private String propertyQueriesFile = "./resources/queries.properties";
+    private String propertyCredentialFile = "./properties/credentials.properties";
+    private String propertySyncFile = "./properties/sync.properties";
+    private String propertyQueriesFile = "./properties/queries.properties";
 
     private boolean debugMode = true;
 
