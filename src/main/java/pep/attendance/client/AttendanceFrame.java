@@ -306,6 +306,11 @@ public class AttendanceFrame extends JFrame {
                     //TODO: Install
                     try (FileOutputStream outputStream = new FileOutputStream("./" + fileName + ".xlsx")) {
                         workbook.write(outputStream);
+
+                        // we want to tell the user that everything worked out
+                        // correctly to improve the UX
+                        JOptionPane.showMessageDialog (null,
+                                "Successfully saved attendance.");
                     } catch (IOException e){
                         System.out.println("IOException: " + e.getMessage());
                     }

@@ -321,7 +321,7 @@ public class UploadFrame extends JFrame {
                                                 "lastName, " +
                                                 "dateOfBirth, " +
                                                 "curriculumName, " +
-                                                "siteName " +
+                                                "date " +
                                                 "FROM ClassAttendanceDetails " +
                                                 "WHERE isNew IS TRUE AND " +
                                                 "firstName = ? AND " +
@@ -338,11 +338,11 @@ public class UploadFrame extends JFrame {
                         // the same name
                         ArrayList<String> peopleMatch = new ArrayList<>();
                         while (results.next()) {
-                            peopleMatch.add(results.getInt(1) + " " +
+                            peopleMatch.add(results.getInt(1) + " | " +
                                     "Name: " + results.getString(2) + " " +
-                                    results.getString(3) + " " +
-                                    "DOB: " + results.getString(4) + " " +
-                                    "Curriculum: " + results.getString(5) + " " +
+                                    results.getString(3) + " | " +
+                                    "DOB: " + results.getString(4) + " | " +
+                                    "Curriculum: " + results.getString(5) + " | " +
                                     "Curriculum Start Date: " + results.getString(6));
                         }
 
@@ -528,6 +528,12 @@ public class UploadFrame extends JFrame {
 
                         boolean isExec = procStmt.execute();
                         procStmt.close();
+
+                        // after everything is said and done we should notify
+                        // and close the frame just so the user doesn't screw anything up
+                        JOptionPane.showMessageDialog (null,
+                                "Successfully uploaded attendance.");
+                        frame.dispose();
                     } catch (SQLException err) {
                         err.printStackTrace();
                     }
