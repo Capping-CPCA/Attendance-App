@@ -1,13 +1,23 @@
+#############
+# IDE FILES #
+#############
 .metadata
-Attendance_App/.*
-Attendance_App/bin
 *.iml
-.idea/*
-*/.idea/*
-out/*
-*/out/*
-/javaApplication
-.*
+.idea/
+
+###################
+# DEVELOPER FILES #
+###################
+# COMPILED OUTPUT
+#out/
 target/
+
+# WE DON'T WANT TO PUSH CREDENTIALS TO REPO
 resources/credentials.properties
+
+##############
+# USER FILES #
+##############
+
+# ATTENDANCE SHEETS
 *.xlsx
