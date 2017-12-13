@@ -13,9 +13,7 @@
 
 package pep.attendance.client;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,23 +27,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormatSymbols;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
-import java.util.Vector;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
@@ -60,13 +46,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jdatepicker.impl.JDatePickerImpl;
 import pep.attendance.server.DatabaseManager;
-
-import javax.swing.DefaultCellEditor;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 
 public class UploadFrame extends JFrame {
 
@@ -321,36 +300,85 @@ public class UploadFrame extends JFrame {
 
                 for (int i = 0; i < outputTable.getRowCount(); i++) {
 
-                    /*
-                    Lets go ahead and execute the queries
-                     */
+                    // Lets go ahead and execute the queries
                     DatabaseManager myManager = new DatabaseManager();
 
-                    // first we need to check that the person exists in the database
+                    /* START OF ParticipantID CHECK
+                    first we need to check that the person exists in the database
+
+                    what we want to do is check for duplicates and open the "collision
+                    frame" for the user to resolve the conflict if there are duplicates
+                     */
                     int personId = -1;
                     PreparedStatement personStmt = null;
                     try {
+                        System.out.println("");
                         personStmt = myManager
                                 .getConnection()
                                 .prepareStatement(
-                                        "SELECT People.peopleID " +
-                                                "FROM People " +
-                                                "WHERE People.firstName = ? AND " +
-                                                "People.lastName = ? LIMIT 1"
-                                );
+                                        "SELECT participantID, " +
+                                                "firstName, " +
+                                                "lastName, " +
+                                                "dateOfBirth, " +
+                                                "curriculumName, " +
+                                                "date " +
+                                                "FROM ClassAttendanceDetails " +
+                                                "WHERE isNew IS TRUE AND " +
+                                                "firstName = ? AND " +
+                                                "lastName = ?",
+                                ResultSet.TYPE_SCROLL_SENSITIVE,
+                                ResultSet.CONCUR_UPDATABLE);
+
                         personStmt.setString(1, (String) outputTable.getValueAt(i, 0));
                         personStmt.setString(2, (String) outputTable.getValueAt(i, 1));
 
                         ResultSet results = personStmt.executeQuery();
 
-                        if (results.next())
-                            personId = results.getInt(1);
+                        // we need to let the user decide which participant is attending if there are multiple with
+                        // the same name
+                        ArrayList<String> peopleMatch = new ArrayList<>();
+                        while (results.next()) {
+                            peopleMatch.add(results.getInt(1) + " | " +
+                                    "Name: " + results.getString(2) + " " +
+                                    results.getString(3) + " | " +
+                                    "DOB: " + results.getString(4) + " | " +
+                                    "Curriculum: " + results.getString(5) + " | " +
+                                    "Curriculum Start Date: " + results.getString(6));
+                        }
+
+                        // we do this here, because it is impossible given
+                        // the current system to detect duplicates on its
+                        // own
+                        System.out.println(peopleMatch.size());
+                        if (peopleMatch.size() > 1) {
+                            System.err.println("Resolving conflict...");
+
+                            // instead of creating an entire frame for this, just show an option
+                            // pane with a dropdown and let the user resolve the conflict
+                            personId = Integer.parseInt(((String) JOptionPane.showInputDialog(frame,
+                                    "Multiple participants found with the same name. Please specify...",
+                                    "Multiple-Participants",
+                                    JOptionPane.QUESTION_MESSAGE,
+                                    null,
+                                    peopleMatch.toArray(),
+                                    peopleMatch.toArray()[0])).split("")[0]);
+                        } else {
+                            System.out.println("No conflict found.");
+
+                            while (results.next()) {
+                                personId = results.getInt(1);
+                            }
+                        }
+
                         System.err.println("person ID: " + personId);
                     } catch (SQLException e1) {
                         e1.printStackTrace();
                     }
+                    /* END OF ParticipantID CHECK */
 
-                    // now we need the class name
+                    /* START OF ClassName CHECK
+                    now we need the class name
+                     */
                     int classId = -1;
                     PreparedStatement classStmt = null;
                     try {
@@ -373,8 +401,11 @@ public class UploadFrame extends JFrame {
                     } catch (SQLException e1) {
                         e1.printStackTrace();
                     }
+                    /* END OF ClassName CHECK */
 
-                    // get curriculum name
+                    /* START OF CurriculumName CHECK
+                    get curriculum name
+                     */
                     int curriculumId = -1;
                     PreparedStatement curriculumStmt = null;
                     try {
@@ -397,6 +428,7 @@ public class UploadFrame extends JFrame {
                     } catch (SQLException e1) {
                         e1.printStackTrace();
                     }
+                    /* END OF CurriculumName CHECK */
 
                     // now we need to get the facilitator ID
                     int instructorId = -1;
@@ -424,6 +456,7 @@ public class UploadFrame extends JFrame {
                     } catch (SQLException e1) {
                         e1.printStackTrace();
                     }
+                    /* END OF FacilitatorID CHECK */
 
                     // now lets call the stored procedure
                     try {
@@ -495,6 +528,12 @@ public class UploadFrame extends JFrame {
 
                         boolean isExec = procStmt.execute();
                         procStmt.close();
+
+                        // after everything is said and done we should notify
+                        // and close the frame just so the user doesn't screw anything up
+                        JOptionPane.showMessageDialog (null,
+                                "Successfully uploaded attendance.");
+                        frame.dispose();
                     } catch (SQLException err) {
                         err.printStackTrace();
                     }

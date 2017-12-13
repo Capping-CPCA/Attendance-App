@@ -1,3 +1,14 @@
+/**
+ * PEP Capping 2017 Algozzine's Class
+ *
+ * Database connection utilities
+ *
+ * @author Marcos Barbieri
+ * @copyright 2017 Marist College
+ * @version 0.1.0
+ * @since 0.1.0
+ */
+
 package pep.attendance.server;
 
 import java.io.FileInputStream;
@@ -14,16 +25,38 @@ public class DatabaseManager {
     private String connUsername;
     private String connPassword;
     private Connection conn;
-    private String propertySyncFile = "./resources/sync.properties";
-    private String propertyQueriesFile = "./resources/queries.properties";
+    private String propertyCredentialFile = "./properties/credentials.properties";
+    private String propertySyncFile = "./properties/sync.properties";
+    private String propertyQueriesFile = "./properties/queries.properties";
 
-    private boolean debugMode = false;
+    private boolean debugMode = true;
 
     public DatabaseManager() {
-    	this.connUrl = "jdbc:postgresql://10.11.12.34:5432/PEP_DB";
-        this.connUsername = "postgres";
-        this.connPassword = "@lgozzineIsTheBest";
-        this.setConnection();
+        /*
+        we don't want to keep the credentials on GitHub for security reasons,
+        so lets make a temporary .properties file, that is excluded from each
+        `git push`, that contains said credentials
+         */
+        Properties credentials = new Properties();
+        try {
+            credentials.load(new FileInputStream(this.propertyCredentialFile));
+
+            // we use the property names to match the variable names to avoid confusion
+            this.connUrl = credentials.getProperty("connUrl");
+            this.connUsername = credentials.getProperty("connUsername");
+            this.connPassword = credentials.getProperty("connPassword");
+            this.setConnection();
+
+            // DEBUGGING MESSAGES
+            if (this.debugMode) {
+                System.out.println("Using credentials:\n");
+                System.out.println(this.connUrl);
+                System.out.println(this.connUsername);
+                System.out.println(this.connPassword);
+            }
+        } catch (IOException e) {
+            System.err.println("Credentials file not found. Please make sure to properly setup the Database username and password");
+        }
     }
 
     /**
@@ -113,11 +146,5 @@ public class DatabaseManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        DatabaseManager myManager = new DatabaseManager();
-        myManager.updateProperties();
-
     }
 }

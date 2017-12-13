@@ -32,7 +32,7 @@ import java.util.Properties;
 public class OpeningFrame extends JFrame {
 
     private JPanel contentPane;
-    private static AttendanceFrame attendance_frame;
+    private static pep.attendance.client.AttendanceFrame attendance_frame;
     private static FacilitatorFrame facilitator_frame;
     private static OpeningFrame opening_frame;
     private JDatePickerImpl datePicker;
@@ -58,13 +58,19 @@ public class OpeningFrame extends JFrame {
      * Create the frame.
      */
     public OpeningFrame() {
+        /*
+        We must initialize the DatabaseManager here because we want
+        to not only update the `.properties` files, but have the DB
+        manager as a "global"
+         */
     	try{
     		DatabaseManager myManager = new DatabaseManager();
     		myManager.updateProperties();
     		System.out.println("Connected");
-    	} catch(Exception e){
+    	} catch(Exception e) {
     		System.out.println("Not connected");
     	}
+
         opening_frame = this;
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setBounds(100, 100, 450, 300);
@@ -73,16 +79,15 @@ public class OpeningFrame extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-
         UtilDateModel model = new UtilDateModel();
         Properties p = new Properties();
         JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
         datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 
-        //If the application is connected to the in-house server, execute 
+        //If the application is connected to the in-house pep.attendance.server, execute
         //Opens up a File Finder directly where the attendance excel sheets are located
         //Once a file is chosen, the upload_frame is populated and displayed with the excel sheet information
-        //If you are not connected to the server, it will display a message stating that you are not
+        //If you are not connected to the pep.attendance.server, it will display a message stating that you are not
         JButton btnUploadAttendanceSheet = new JButton("Upload Past Attendance");
         btnUploadAttendanceSheet.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -105,7 +110,7 @@ public class OpeningFrame extends JFrame {
                             uploadFrame.setVisible(true);
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, "You are not connected to the server");
+                        JOptionPane.showMessageDialog(null, "You are not connected to the pep.attendance.server");
                     }
                 } catch (HeadlessException | NamingException | LdapException e1) {
                     // TODO Auto-generated catch block
@@ -116,7 +121,6 @@ public class OpeningFrame extends JFrame {
                 }
             }
         });
-
 
         btnUploadAttendanceSheet.setBounds(12, 111, 201, 29);
         contentPane.add(btnUploadAttendanceSheet);

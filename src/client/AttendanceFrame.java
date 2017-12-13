@@ -11,14 +11,10 @@
 
 package pep.attendance.client;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import javax.swing.JButton;
@@ -26,21 +22,12 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
-import javax.swing.UIManager;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
 import java.text.DateFormatSymbols;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Properties;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
@@ -51,26 +38,18 @@ import javax.swing.JMenu;
 import javax.swing.ButtonGroup;
 import javax.swing.text.MaskFormatter;
 import javax.swing.JFormattedTextField;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 //You need to add external Jars to your build path for these excel packages
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 //JDatePicker Jar
-import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
 
 import com.alee.laf.WebLookAndFeel;
 
@@ -132,7 +111,7 @@ public class AttendanceFrame extends JFrame {
          * Load our predefined fields so that we don't have to query the CPCA network every time
          */
         try {
-            this.preDefinedFields.load(new FileInputStream("./resources/sync.properties"));
+            this.preDefinedFields.load(new FileInputStream("./properties/sync.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -234,7 +213,7 @@ public class AttendanceFrame extends JFrame {
 
         //Save to excel file
         //Takes the information from the JTable and populates an excel sheet
-        //The excel sheet is automatically named with extension â€œDate + startTime + Topic.xlsxâ€�
+        //The excel sheet is automatically named with extension Date + startTime + Topic.xlsx
         mntmSave.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 if(outputTable.getRowCount() > 0){
@@ -327,6 +306,11 @@ public class AttendanceFrame extends JFrame {
                     //TODO: Install
                     try (FileOutputStream outputStream = new FileOutputStream("./" + fileName + ".xlsx")) {
                         workbook.write(outputStream);
+
+                        // we want to tell the user that everything worked out
+                        // correctly to improve the UX
+                        JOptionPane.showMessageDialog (null,
+                                "Successfully saved attendance.");
                     } catch (IOException e){
                         System.out.println("IOException: " + e.getMessage());
                     }

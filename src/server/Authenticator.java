@@ -1,7 +1,7 @@
 /**
  * PEP Capping 2017 Algozzine's Class
  *
- * Utilizes an LDAP call to check if the application is currently on the server
+ * Utilizes an LDAP call to check if the application is currently on the pep.attendance.server
  *
  * @author Sami Ellougani, Carlie Maxwell
  * @copyright 2017 Marist College

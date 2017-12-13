@@ -56,7 +56,7 @@ public class FacilitatorFrame extends JFrame {
          * Load our predefined fields so that we don't have to query the CPCA network every time
          */
         try {
-            this.preDefinedFields.load(new FileInputStream("./resources/sync.properties"));
+            this.preDefinedFields.load(new FileInputStream("./properties/sync.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
